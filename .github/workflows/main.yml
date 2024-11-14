@@ -4,7 +4,7 @@ jobs:
   trigger-gocd-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger GoCD Job
+      - name: Trigger GoCD Job 
         run: |
           curl -X POST ${{ secrets.LOCAL_DEV_URL }}/go/api/admin/materials/git/notify \
           -H 'Accept: application/vnd.go.cd.v2+json' \
