@@ -1,10 +1,10 @@
-name: trigger local development goCD job
+name: trigger AWS goCD job
 on: [push]
 jobs:
   trigger-gocd-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger GoCD Job 
+      - name: Trigger AWS Job 
         run: |
           curl -X POST http://${{ secrets.AWS_IP }}:${{ secrets.AWS_PORT }}/go/api/admin/materials/git/notify \
           -H 'Accept: application/vnd.go.cd.v2+json' \
