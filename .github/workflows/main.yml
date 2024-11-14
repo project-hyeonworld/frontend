@@ -1,8 +1,12 @@
 name: trigger local development goCD job
 on: [push]
 jobs:
-  trigger-a-jenkins-job:
+  trigger-gocd-job:
     runs-on: ubuntu-latest
     steps:
-      - id: TriggerLocalDevGoCDJob
-        run: curl -X POST ${{ secrets.LOCAL_DEV_URL }}/go/api/admin/materials/git/notify \ -H 'Accept: application/vnd.go.cd.v2+json' \ -H 'Content-Type: application/json' \ -d '{"repository_url": "https://github.com/project-hyeonworld/frontend"}'
+      - name: Trigger GoCD Job
+        run: |
+          curl -X POST ${{ secrets.LOCAL_DEV_URL }}/go/api/admin/materials/git/notify \
+          -H 'Accept: application/vnd.go.cd.v2+json' \
+          -H 'Content-Type: application/json' \
+          -d '{"repository_url": "https://github.com/project-hyeonworld/frontend"}'
