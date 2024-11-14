@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Trigger GoCD Job 
         run: |
-          curl -X POST http://${{ secrets.LOCAL_DEV_URL }}/go/api/admin/materials/git/notify \
+          curl -X POST http://${{ secrets.AWS_IP }}:${{ secrets.AWS_PORT }}/go/api/admin/materials/git/notify \
           -H 'Accept: application/vnd.go.cd.v2+json' \
           -H 'Content-Type: application/json' \
           -d '{"repository_url": "https://github.com/project-hyeonworld/frontend"}'
