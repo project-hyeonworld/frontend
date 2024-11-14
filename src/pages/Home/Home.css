@@ -1,0 +1,248 @@
+
+
+
+
+:root {
+    --orange: #40d0f8;
+    --identity: #31abcd;
+    --white: #fff;
+}
+
+
+
+.cards {
+    display: flex;
+    grid-auto-columns: 100%;
+    grid-column-gap: 10px;
+    grid-auto-flow: column;
+    padding: 25px 10px;
+    list-style: none;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+}
+
+.card0 {
+    flex: 0 0 70%;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+    scroll-snap-align: start;
+    transition: all 0.2s;
+    background:
+    linear-gradient(
+    to bottom,
+    hsl(0, 100%, 45.1%) 0%,
+    hsl(0, 92.16%, 46.85%) 8.1%,
+    hsl(0, 85.16%, 48.36%) 15.5%,
+    hsl(0, 78.86%, 49.65%) 22.5%,
+    hsl(0, 75.29%, 50.73%) 29%,
+    hsl(0, 72.44%, 51.62%) 35.3%,
+    hsl(0, 69.3%, 52.34%) 41.2%,
+    hsl(0, 65.98%, 52.91%) 47.1%,
+    hsl(0, 62.57%, 53.34%) 52.9%,
+    hsl(0, 59.21%, 53.65%) 58.8%,
+    hsl(0, 56.01%, 53.86%) 64.7%,
+    hsl(0, 53.11%, 53.99%) 71%,
+    hsl(0, 50.63%, 54.07%) 77.5%,
+    hsl(0, 48.7%, 54.1%) 84.5%,
+    hsl(0, 47.45%, 54.11%) 91.9%,
+    hsl(0, 47.01%, 54.12%) 100%
+    );
+
+}
+.card1 {
+    flex: 0 0 70%;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+    scroll-snap-align: start;
+    transition: all 0.2s;
+    background:
+    linear-gradient(
+    to bottom,
+    hsl(43.83, 100%, 45.1%) 0%,
+    hsl(43.1, 92.16%, 46.85%) 8.1%,
+    hsl(42.28, 85.16%, 48.36%) 15.5%,
+    hsl(41.35, 78.86%, 49.65%) 22.5%,
+    hsl(40.3, 75.29%, 50.73%) 29%,
+    hsl(39.12, 72.44%, 51.62%) 35.3%,
+    hsl(37.81, 69.3%, 52.34%) 41.2%,
+    hsl(36.35, 65.98%, 52.91%) 47.1%,
+    hsl(34.77, 62.57%, 53.34%) 52.9%,
+    hsl(33.06, 59.21%, 53.65%) 58.8%,
+    hsl(31.28, 56.01%, 53.86%) 64.7%,
+    hsl(29.5, 53.11%, 53.99%) 71%,
+    hsl(27.83, 50.63%, 54.07%) 77.5%,
+    hsl(26.42, 48.7%, 54.1%) 84.5%,
+    hsl(25.45, 47.45%, 54.11%) 91.9%,
+    hsl(25.09, 47.01%, 54.12%) 100%
+    );
+}
+
+.card2 {
+    flex: 0 0 70%;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 30px;
+    color:rgb(2, 2, 2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+    scroll-snap-align: start;
+    transition: all 0.2s;
+    background: linear-gradient(
+            to bottom,
+            hsl(64.17, 100%, 45.1%) 0%,
+            hsl(64.25, 92.15%, 46.8%) 8.1%,
+            hsl(64.11, 85.1%, 48.16%) 15.5%,
+            hsl(63.76, 78.68%, 49.22%) 22.5%,
+            hsl(63.17, 72.75%, 50%) 29%,
+            hsl(62.32, 68.64%, 50.53%) 35.3%,
+            hsl(61.17, 64.1%, 50.83%) 41.2%,
+            hsl(59.7, 59.77%, 51.08%) 47.1%,
+            hsl(57.93, 57.45%, 51.82%) 52.9%,
+            hsl(55.93, 55.18%, 52.44%) 58.8%,
+            hsl(53.75, 53.03%, 52.96%) 64.7%,
+            hsl(51.51, 51.09%, 53.38%) 71%,
+            hsl(49.37, 49.43%, 53.7%) 77.5%,
+            hsl(47.55, 48.14%, 53.93%) 84.5%,
+            hsl(46.28, 47.31%, 54.07%) 91.9%,
+            hsl(45.82, 47.01%, 54.12%) 100%
+    );
+}
+
+.card3 {
+    flex: 0 0 70%;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+    scroll-snap-align: start;
+    transition: all 0.2s;
+    background: linear-gradient(
+            to bottom,
+            hsl(111.13, 100%, 45.1%) 0%,
+            hsl(114.42, 87.64%, 47.98%) 8.1%,
+            hsl(117.48, 78.85%, 50.56%) 15.5%,
+            hsl(120.44, 76.36%, 52.61%) 22.5%,
+            hsl(123.26, 74.08%, 53.03%) 29%,
+            hsl(125.95, 71.38%, 53.41%) 35.3%,
+            hsl(128.61, 68.38%, 53.73%) 41.2%,
+            hsl(131.28, 65.19%, 53.97%) 47.1%,
+            hsl(133.97, 61.91%, 54.14%) 52.9%,
+            hsl(136.68, 58.69%, 54.23%) 58.8%,
+            hsl(139.34, 55.62%, 54.26%) 64.7%,
+            hsl(141.89, 52.84%, 54.25%) 71%,
+            hsl(144.19, 50.47%, 54.22%) 77.5%,
+            hsl(146.08, 48.63%, 54.17%) 84.5%,
+            hsl(147.35, 47.43%, 54.13%) 91.9%,
+            hsl(147.82, 47.01%, 54.12%) 100%
+    );
+}
+
+.card4 {
+    flex: 0 0 70%;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+    scroll-snap-align: start;
+    transition: all 0.2s;
+    background: linear-gradient(
+            276deg,
+            hsl(200.94, 94.38%, 48.82%) 0%,
+            hsl(200.74, 93.95%, 48.91%) 8.1%,
+            hsl(200.16, 92.88%, 49.12%) 15.5%,
+            hsl(199.25, 91.51%, 49.39%) 22.5%,
+            hsl(198.04, 90.04%, 49.65%) 29%,
+            hsl(196.62, 88.57%, 49.9%) 35.3%,
+            hsl(195.04, 87.59%, 50.12%) 41.2%,
+            hsl(193.37, 86.92%, 50.32%) 47.1%,
+            hsl(191.67, 86.25%, 50.49%) 52.9%,
+            hsl(190, 85.58%, 50.62%) 58.8%,
+            hsl(188.43, 84.95%, 50.74%) 64.7%,
+            hsl(187.01, 84.39%, 50.83%) 71%,
+            hsl(185.8, 83.9%, 50.89%) 77.5%,
+            hsl(184.86, 83.53%, 50.94%) 84.5%,
+            hsl(184.25, 83.29%, 50.97%) 91.9%,
+            hsl(184.04, 83.2%, 50.98%) 100%
+    );
+}
+
+.card5 {
+    flex: 0 0 70%;
+    flex-direction: column;
+    padding: 20px;
+    background: var(--white);
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+    scroll-snap-align: start;
+    transition: all 0.2s;
+    background: linear-gradient(
+            to bottom,
+            hsl(258, 100%, 45.1%) 0%,
+            hsl(255.6, 89.38%, 47.54%) 8.1%,
+            hsl(253.17, 80.17%, 49.7%) 15.5%,
+            hsl(250.7, 76.85%, 51.61%) 22.5%,
+            hsl(248.14, 73.94%, 53.27%) 29%,
+            hsl(245.46, 70.56%, 54.72%) 35.3%,
+            hsl(242.64, 66.79%, 55.95%) 41.2%,
+            hsl(239.63, 62.89%, 56.82%) 47.1%,
+            hsl(236.62, 59.97%, 56.37%) 52.9%,
+            hsl(233.73, 57.11%, 55.91%) 58.8%,
+            hsl(231.02, 54.43%, 55.46%) 64.7%,
+            hsl(228.53, 52.01%, 55.04%) 71%,
+            hsl(226.36, 49.97%, 54.67%) 77.5%,
+            hsl(224.64, 48.39%, 54.38%) 84.5%,
+            hsl(223.5, 47.37%, 54.19%) 91.9%,
+            hsl(223.09, 47.01%, 54.12%) 100%
+    );
+}
+
+.card6{
+    flex: 0 0 70%;
+    flex-direction: column;
+    padding: 20px;
+    background: var(--white);
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+    scroll-snap-align: start;
+    transition: all 0.2s;
+    background: linear-gradient(
+            to bottom,
+            hsl(278.87, 100%, 45.1%) 0%,
+            hsl(278.13, 92.16%, 46.85%) 8.1%,
+            hsl(277.66, 85.16%, 48.36%) 15.5%,
+            hsl(277.46, 78.86%, 49.65%) 22.5%,
+            hsl(277.53, 75.29%, 50.73%) 29%,
+            hsl(277.85, 72.44%, 51.62%) 35.3%,
+            hsl(278.42, 69.3%, 52.34%) 41.2%,
+            hsl(279.23, 65.98%, 52.91%) 47.1%,
+            hsl(280.26, 62.57%, 53.34%) 52.9%,
+            hsl(281.49, 59.21%, 53.65%) 58.8%,
+            hsl(282.86, 56.01%, 53.86%) 64.7%,
+            hsl(284.29, 53.11%, 53.99%) 71%,
+            hsl(285.67, 50.63%, 54.07%) 77.5%,
+            hsl(286.86, 48.7%, 54.1%) 84.5%,
+            hsl(287.69, 47.45%, 54.11%) 91.9%,
+            hsl(288, 47.01%, 54.12%) 100%
+    );
+}
+
+.cards::-webkit-scrollbar {
+    height: 12px;
+}
+
+.cards::-webkit-scrollbar-thumb,
+.cards::-webkit-scrollbar-track {
+    border-radius: 92px;
+}
+
+.cards::-webkit-scrollbar-thumb {
+    background: var(--identity);
+}
+
+.cards::-webkit-scrollbar-track {
+    background: var(--thumb);
+}
+

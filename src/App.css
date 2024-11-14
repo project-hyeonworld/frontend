@@ -1,0 +1,24 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.App {
+  text-align: center;
+  font-size: x-large;
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.container > * {
+  width: 100%;
+  height: 100%;
+}
+
+
