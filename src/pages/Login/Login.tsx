@@ -18,13 +18,14 @@ function Login (props : LoginProps){
 
     const onClickLogin = (event : React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        function checkSuccess(id : number) {
-            console.log("dsdsdsd"+id);
-            switch (id){
-                case -1:
+        function checkSuccess(status : number) {
+            let id = status;
+
+            switch (status){
+                case 404:
                     console.log("There is no member called" + inputName);
                     break;
-                case -2:
+                case 409:
                     console.log("IS already Logged in");
                     break;
                 default :
