@@ -8,7 +8,7 @@ export default customAxios = function customAxios(url: string, callback: (data: 
     axios({
         url: '/api' + url,
         method: 'post',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
     }).then(function (response) {
         callback(response.data);

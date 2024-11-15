@@ -8,7 +8,7 @@ export function ShowAPI(getSubmission: (submission: Submission) => void) {
     axios({
         url: "party/target",
         method: 'get',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
     }).then(function (response) {
         const dataList = response.data;

@@ -7,7 +7,7 @@ export function AdminMenuAxios(stage : number) {
     axios({
         url: "/api/game-stage",
         method: 'put',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         params: {
             currentStage: stage
@@ -21,7 +21,7 @@ export function AdminDoneAxios() {
     axios({
         url: "/member/init",
         method: 'put',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
     });
 };

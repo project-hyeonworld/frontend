@@ -9,7 +9,7 @@ export function MemberAxios(name : string, partyType : number, relation : number
     axios({
         url: "member",
         method: 'post',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data: {
             name: name,

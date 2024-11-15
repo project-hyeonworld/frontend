@@ -6,7 +6,7 @@ export default function LoginAxios(loginName : string ,callback: (data: any) => 
     axios({
         url: "member/" + "login-confirm",
         method: 'post',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data: loginName
     }).then(function (response) {

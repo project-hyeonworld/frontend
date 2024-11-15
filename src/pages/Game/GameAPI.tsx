@@ -8,7 +8,7 @@ export function GameAPI(setStage: (stage: number) => void, getList: (stage: stri
     axios({
         url: "api/game-stage/" + "init",
         method: 'get',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
     }).then(function (response) {
         setStage(response.data);
@@ -17,7 +17,7 @@ export function GameAPI(setStage: (stage: number) => void, getList: (stage: stri
     axios({
         url: "member/" + "waiting-list/init",
         method: 'get',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         params: {
             memberId: memberId,
@@ -29,7 +29,7 @@ export function GameAPI(setStage: (stage: number) => void, getList: (stage: stri
 
     let eventSource : EventSource;
 
-    eventSource = new EventSource('http://'+my.ipAddress+":"+my.backEndPort+`/api/game-stage?memberId=${memberId}`);
+    eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/api/game-stage?memberId=${memberId}`);
 
     eventSource.addEventListener('connect', (e)=>{
         const {data: receivedConnectData} = e;
@@ -77,7 +77,7 @@ export function WaitingAPI(getList: (stage: string[]) => void, removeWaitingList
 
     let eventSource : EventSource;
 
-    eventSource = new EventSource('http://'+my.ipAddress+":"+my.backEndPort+`/member/waiting-list/additional?memberId=${memberId}`);
+    eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/member/waiting-list/additional?memberId=${memberId}`);
     eventSource.addEventListener('connect', (e)=>{
         const {data: receivedConnectData} = e;
         console.log('connect event data101 : ',receivedConnectData);

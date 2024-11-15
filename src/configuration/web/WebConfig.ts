@@ -1,8 +1,8 @@
 export class My {
-    ipAddress : string;
+    backendIpAddress : string;
     backEndPort : string;
     constructor() {
-        this.ipAddress = "{MY_IP_ADDRESS}";
+        this.backendIpAddress = "{MY_BACKEND_IP_ADDRESS}";
         this.backEndPort = "{MY_BACKEND_PORT}";
     }
 }

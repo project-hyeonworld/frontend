@@ -9,7 +9,7 @@ export function RankingAPI(getList : any) {
     axios({
         url: "member/ranking",
         method: 'get',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
     }).then(function (response) {
         console.log(response);

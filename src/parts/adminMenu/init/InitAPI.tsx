@@ -7,7 +7,7 @@ export function InitAxios(partyType : number, persons : number) {
     axios({
         url: "party/" + "init",
         method: 'post',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data: {
             partyType : partyType,

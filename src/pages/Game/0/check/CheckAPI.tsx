@@ -10,7 +10,7 @@ export function CheckTargetAPI(getResponse: ()=> void, memberName: string) {
     axios({
         url: "round/0",
         method: 'post',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data : {
             memberName: memberName
@@ -20,7 +20,7 @@ export function CheckTargetAPI(getResponse: ()=> void, memberName: string) {
     axios({
         url: "party/target",
         method: 'put',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data : {
             memberName: memberName
@@ -41,7 +41,7 @@ export function CheckAPI(getPlayer: (submissions: SubmissionAdmin[]) => void) {
     axios({
         url: "submission/0",
         method: 'get',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         params : {
             memberId: special.adminId

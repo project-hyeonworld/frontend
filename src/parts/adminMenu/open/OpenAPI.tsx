@@ -8,7 +8,7 @@ export function OpenGameAxios(game : number) {
     axios({
         url: "party/" + "current-game",
         method: 'put',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data: {
             game : game,

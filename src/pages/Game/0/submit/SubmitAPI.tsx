@@ -7,7 +7,7 @@ export function SubmitAPI(memberId : number, onSend: (val: boolean) => void, inp
     axios({
         url: "submission/0",
         method: 'post',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data: {
             memberId: memberId,

@@ -7,7 +7,7 @@ export function PlayAPI(memberId: number, answer: number | undefined) {
     axios({
         url: "member/play/0",
         method: 'put',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data: {
             memberId: memberId,

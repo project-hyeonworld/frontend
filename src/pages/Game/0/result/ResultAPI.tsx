@@ -9,7 +9,7 @@ export function ResultAPI(getNameList: (nameList: string[]) => void) {
     axios({
         url: "round/0",
         method: 'get',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
     }).then(function (response) {
         console.log(response);
@@ -37,7 +37,7 @@ export function SetScoreAxios(memberId : number, correct : number, wrong : numbe
         axios({
             url: "round/0",
             method: 'put',
-            baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+            baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
             withCredentials: true,
         });
     }
@@ -45,7 +45,7 @@ export function SetScoreAxios(memberId : number, correct : number, wrong : numbe
     axios({
         url: "member/score/0",
         method: 'put',
-        baseURL: `http://${my.ipAddress}:${my.backEndPort}`,
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data : {
             correct,
