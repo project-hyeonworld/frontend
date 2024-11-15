@@ -1,26 +1,35 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import LoginAxios from './LoginAPI';
 import Copyright from "../../parts/copyright/Copyright";
-
 // @ts-ignore
 import styles from './Login.css';
+import {PartyContext} from "../../context/party/PartyContext";
 
 interface LoginProps{
-    rootCall: (data : boolean, loginId: number, loginName :string) => void;
+    rootCall: (login : boolean,
+               loginId: number,
+               loginName: string,
+    ) => void;
 }
 
 function Login (props : LoginProps){
+    const partyContext = useContext(PartyContext);
     const [inputName, setInputName] = useState('');
 
     const handleInputName = (event : React.ChangeEvent<HTMLInputElement>) =>{
         setInputName(event.target.value)
     }
 
+    if (!partyContext) {
+        throw new Error('Counter must be used within a LoginProvider');
+    }
+    const {partyId, setPartyId} = partyContext;
+
     const onClickLogin = (event : React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         function checkSuccess(status : number) {
-            let id = status;
-
+            let userId = status;
+            let partyId = 2;
             switch (status){
                 case 404:
                     console.log("There is no member called" + inputName);
@@ -29,7 +38,8 @@ function Login (props : LoginProps){
                     console.log("IS already Logged in");
                     break;
                 default :
-                    props.rootCall(true, id, inputName);
+                    setPartyId(partyId);
+                    props.rootCall(true, userId, inputName);
                     break;
             }
         }
