@@ -4,7 +4,7 @@ jobs:
   trigger-gocd-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger AWS goCD Pipeline 
+      - name: Trigger AWS goCD Pipeline
         run: |
           curl -X POST http://${{ secrets.AWS_IP }}:${{ secrets.AWS_PORT }}/go/api/admin/materials/git/notify \
           -H 'Accept: application/vnd.go.cd.v2+json' \
