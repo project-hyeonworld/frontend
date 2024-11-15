@@ -15,25 +15,36 @@ interface HomeProps{
     name: string;
 }
 
-interface Game{
-    id : number;
+interface Game {
     name: string;
     description: string;
 }
 
+interface GameWithId extends Game {
+    id : number;
+}
+
 function Home (props : HomeProps){
 
-    const [gameList, setGameList] = useState <Game[]>([]);
+    const [gameList, setGameList] = useState <GameWithId[]>([]);
     const [enterGameId, setEnterGame] = useState <number> (-1);
     const [currentGameId, setCurrentGame] = useState <number> (-2);
     const special = new Special();
 
     useEffect(()=>{
 
-        function getGameList (data : Game[]){
-            setGameList(data);
+        function getGameList (games : Game[]){
+            function mapGameToGameWithId(game: Game, id: number) {
+                return {
+                    id: id,
+                    name: game.name,
+                    description: game.description
+                }
+            }
+
+            setGameList(games.map((game, index) => mapGameToGameWithId(game, index)));
         }
-        console.log("FFFF")
+        console.log(props.memberId)
         DisplayGameAxios (getGameList);
 
 
@@ -80,7 +91,7 @@ function Home (props : HomeProps){
                     <Game memberId={props.memberId} memberName={props.name} gameId={currentGameId} stage={0}/>
                     </>)
                 : <ul className="cards">
-                    {gameList.map((game: Game, i: number) => {
+                    {gameList.map((game: GameWithId, i: number) => {
                         return <li id={i.toString()} className={"card"+i%7} key={i} onClick={onClickGame}>
                             <h3 className="card-title">{game.name}</h3>
                             <ul className="p-2 space-y-1"/>
@@ -89,7 +100,7 @@ function Home (props : HomeProps){
                 </ul>}
 
             </div>
-            {special.adminId === props.memberId &&  <AdminMenu gameList={gameList}/>}
+            {special.adminId === props.memberId && <AdminMenu gameList={gameList}/>}
         </div>
     );
 }

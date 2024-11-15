@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {My} from '../../configuration/web/WebConfig';
-import {list} from "postcss";
 
 const my = new My();
 
@@ -48,14 +47,15 @@ export function CurrentGameAxios(callback: (data: any) => void) {
 
 export function DisplayGameAxios(callback: (data: any) => void) {
     console.log("Display");
+
     axios({
-        url: "game/" + "playable",
+        url: "/api/v2/games/" + "playable",
         method: 'get',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
     }).then(function (response) {
-        console.log("THEN")
-        callback (response.data);
+        console.log(response)
+        callback (response.data.games);
     });
 };
 
