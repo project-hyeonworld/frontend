@@ -21,9 +21,3 @@ node_modules/*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-/src/configuration/special/SpecialConfig.ts
-
-!/src/configuration/web/WebConfig.ts
-
-!tsconfig.json
