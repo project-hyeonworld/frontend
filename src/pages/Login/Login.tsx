@@ -21,7 +21,7 @@ function Login (props : LoginProps){
     }
 
     if (!partyContext) {
-        throw new Error('Counter must be used within a LoginProvider');
+        throw new Error('Party must be used within a PartyProvider');
     }
     const {partyId, setPartyId} = partyContext;
 

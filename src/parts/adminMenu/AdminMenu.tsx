@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 import InitModal from "./init/InitModal";
 import OpenModal from "./open/OpenModal";
 import MemberModal from "./member/MemberModal";
 import {AdminMenuAxios, AdminDoneAxios} from "../adminMenu/AdminMenuAPI";
-import {type} from "@testing-library/user-event/dist/type";
+import {PartyContext} from "../../context/party/PartyContext";
 
 interface Game{
     id: number;
@@ -32,7 +32,7 @@ export const AdminMenuList = {
 
 
 function AdminMenu (props: AdminMenuProps){
-
+    const partyContext = useContext(PartyContext);
     const [initModal, setInit] = useState<boolean>(false);
     const [openModal, setOpen] = useState<boolean>(false);
     const [memberModal, setMember] = useState<boolean>(false);
@@ -53,17 +53,20 @@ function AdminMenu (props: AdminMenuProps){
     const onMember = () => {
         setMember(!memberModal);
     }
+    if (!partyContext) {
+        throw new Error('AdminMenu must be used within an PartyProvider');
+    }
 
-
+    const {partyId, setPartyId} = partyContext;
 
 
     const onClickButton = (event : React.MouseEvent<HTMLButtonElement>) => {
         const target = event.target as HTMLLIElement;
         const value : any = target.getAttribute("id");
         const parsedValue : number = parseInt(value);
+        console.log("fdffff"+partyId);
         console.log("fdffff"+parsedValue);
-
-        AdminMenuAxios(parsedValue);
+        AdminMenuAxios(partyId, -1, parsedValue);
         switch (parsedValue) {
             case AdminMenuList["Init"]:
                 onInit();

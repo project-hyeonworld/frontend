@@ -5,12 +5,12 @@ import axios from "axios";
 export function InitAxios(partyType : number, persons : number) {
     const my = new My();
     axios({
-        url: "party/" + "init",
+        url: "/api/v2/parties",
         method: 'post',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data: {
-            partyType : partyType,
+            relationType : partyType,
             persons : persons,
         }
     }).then(function (response) {

@@ -2,16 +2,20 @@ import {My} from "../../configuration/web/WebConfig";
 
 import axios from "axios";
 
-export function AdminMenuAxios(stage : number) {
+export function AdminMenuAxios(partyId : number, game : number, stage : number) {
     const my = new My();
+
+    const changeDashboardData = {
+        gameId: game,
+        gameStage: stage
+    };
+
     axios({
-        url: "/api/game-stage",
-        method: 'put',
+        url: "/api/v2/parties/" + partyId + "/dashboard",
+        method: 'patch',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
-        params: {
-            currentStage: stage
-        }
+        data: changeDashboardData
     }).then(function (response) {
     });
 };
