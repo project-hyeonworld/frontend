@@ -32,7 +32,7 @@ export default function Check (props : GameStageProps) {
     return (
         <div className="Game0">
 
-            {special.adminId === props.memberId ? <Check_Admin/> : <Player/> }
+            {special.adminId === props.userId ? <Check_Admin/> : <Player/> }
 
         </div>
     );

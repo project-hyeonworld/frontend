@@ -29,7 +29,7 @@ export default function  Result(props : GameStageProps) {
     }
 
     const onSetCorrect = () =>{
-        SetScoreAxios(props.memberId, correct, wrong);
+        SetScoreAxios(props.userId, correct, wrong);
         oninit();
     }
 
@@ -38,7 +38,7 @@ export default function  Result(props : GameStageProps) {
     }
 
     const onSetWrong = () =>{
-        SetScoreAxios(props.memberId, correct, wrong);
+        SetScoreAxios(props.userId, correct, wrong);
         oninit();
     }
 
@@ -46,7 +46,7 @@ export default function  Result(props : GameStageProps) {
         <div className="Game0">
             <div className={"grid grid-cols-3"}>
                 <div className={"ScoreSetting"}>
-                    {props.memberId == special.adminId && <div>
+                    {props.userId == special.adminId && <div>
                         <input className={"text-center w-40"} type={"text"} value={correct} onChange={handleCorrect}></input>
                         <input id="default-range" type="range" min="1" max="100" step={"1"} onChange={handleCorrect} value={correct}
                                className="w-70 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
@@ -69,7 +69,7 @@ export default function  Result(props : GameStageProps) {
                     })}
                 </div>
                 <div className={"Wrong"}>
-                    {props.memberId == special.adminId && <div>
+                    {props.userId == special.adminId && <div>
                         <input className={"text-center w-40"} type={"text"} value={wrong} onChange={handleWrong}></input>
                         <input id="default-range" type="range" min="-45" max="100" step={"1"} onChange={handleWrong} value={wrong}
                                className="w-70 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"

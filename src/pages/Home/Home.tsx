@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {DisplayGameAxios, CurrentGameAxios, EnterGameAxios, ExitGameAxios} from "./HomeAPI";
+import {DisplayGameAxios, CurrentGameAxios} from "./HomeAPI";
 import './Home.css';
 
 
@@ -9,6 +9,7 @@ import Game from "../Game/Game";
 import AdminMenu from "../../parts/adminMenu/AdminMenu";
 import {Special} from "../../configuration/special/SpecialConfig";
 import {PartyContext} from "../../context/party/PartyContext";
+import {ExitGameAxios} from "../Game/GameAPI";
 
 interface HomeProps{
     rootCall: (data : boolean, loginId: number, loginName :string) => void;
@@ -78,9 +79,7 @@ function Home (props : HomeProps){
         setEnterGame(-1);
     }
 
-    const onEnterGame = () => {
-        EnterGameAxios(props.userId);
-    }
+
 
     // @ts-ignore
     return (
@@ -90,10 +89,7 @@ function Home (props : HomeProps){
             <ul className="p-2 space-y-1"/>
             <div className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
                 {enterGameId == currentGameId ?(
-                    <>
-                    {onEnterGame()}
-                    <Game memberId={props.userId} memberName={props.name} gameId={currentGameId} stage={0}/>
-                    </>)
+                    <Game userId={props.userId} memberName={props.name} gameId={currentGameId} stage={0}/>)
                 : <ul className="cards">
                     {gameList.map((game: GameWithId, i: number) => {
                         return <li id={i.toString()} className={"card"+i%7} key={i} onClick={onClickGame}>

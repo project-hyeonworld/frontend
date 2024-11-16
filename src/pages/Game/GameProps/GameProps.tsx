@@ -1,14 +1,14 @@
 import {Submission} from "../0/Submission";
 
 export interface GameProps {
-    memberId: number;
+    userId: number;
     memberName: string;
     gameId: number;
     stage: number;
 }
 
 export interface GameStageProps {
-    memberId: number;
+    userId: number;
     callback : any;
     target : Submission | undefined;
 }

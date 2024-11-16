@@ -31,7 +31,7 @@ export default function Submit(props : GameStageProps){
     const onConfirm = (val : boolean)=>{
         if (val) {
             console.log("FFF");
-            SubmitAPI(props.memberId, onSend, input, inputFalse);
+            SubmitAPI(props.userId, onSend, input, inputFalse);
         }
 
         setConfirm(!modalConfirm);

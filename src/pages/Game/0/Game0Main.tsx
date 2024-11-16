@@ -44,7 +44,7 @@ export default function Game0(props : GameProps) {
                     // @ts-ignore
                     return (
                         <div key={index}>
-                            <Component memberId={props.memberId} callback={submissionCallBack} target={target}/>
+                            <Component userId={props.userId} callback={submissionCallBack} target={target}/>
                         </div>
                     );
                 }

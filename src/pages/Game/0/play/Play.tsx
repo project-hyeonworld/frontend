@@ -13,7 +13,7 @@ export default function Play(props : GameStageProps) {
     const onConfirm = (val : boolean)=>{
         if (val) {
             console.log("FFF");
-            PlayAPI(props.memberId, button);
+            PlayAPI(props.userId, button);
             setCompleted("선택을 완료하셨습니다.")
         }
         setConfirm(!playConfirm);

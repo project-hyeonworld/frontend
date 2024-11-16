@@ -9,7 +9,7 @@ import Game2 from "./2/Game2Main";
 import Game3 from "./3/Game3Main";
 import Game4 from "./4/Game4Main";
 import Game5 from "./5/Game5Main";
-import {GameAPI} from "./GameAPI";
+import {GameAPI, EnterGameAxios, ExitGameAxios} from "./GameAPI";
 
 export const Games = {
     "진실 혹은 거짓": Game0,
@@ -28,9 +28,13 @@ type stateData = {
 
 function Game(props : GameProps) {
     // IP주소 변수 선언
-    const [game, setGame] = useState<number>(props.gameId);
+    const game = props.gameId;
     const [stage, setStage] = useState<number> (1);
     const [waitingList, setList] = useState <string[]> ([]);
+
+    const onEnterGame = () => {
+        EnterGameAxios(props.userId);
+    }
 
     const removeWaitingList = (memberName : string) => {
         console.log("리무브 : " +memberName);
@@ -52,11 +56,7 @@ function Game(props : GameProps) {
     }
 
     useEffect(()=>{
-        setGame (props.gameId);
-
-
-
-
+        console.log("UPDATE")
 
         function changeStage (stage :number){
             console.log("CHANGE STAGE : "+stage);
@@ -66,7 +66,7 @@ function Game(props : GameProps) {
         // const waitingApi = WaitingAPI (setList, removeWaitingList, addWaitingList, props.memberId);
         // const stageApi = StageAPI (changeStage, props.memberId);
 
-        const GameApi = GameAPI (changeStage, setList, removeWaitingList, addWaitingList, props.memberId);
+        const GameApi = GameAPI (changeStage, setList, removeWaitingList, addWaitingList, props.userId);
 
         return () => {
             GameApi.closeConnection();
@@ -74,6 +74,8 @@ function Game(props : GameProps) {
             // waitingApi.closeConnection();
         }
     },[])
+
+    onEnterGame();
 
     return (
         <div className="Game">
@@ -86,7 +88,7 @@ function Game(props : GameProps) {
                     return (
                         <div key={index}>
                             <p>{gameName}</p>
-                            <Component memberId={props.memberId} memberName={props.memberName} gameId={props.gameId} stage={stage} key={index}/>
+                            <Component userId={props.userId} memberName={props.memberName} gameId={props.gameId} stage={stage} key={index}/>
                         </div>
                     );
                 }
