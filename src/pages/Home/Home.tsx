@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {DisplayGameAxios, CurrentGameAxios, EnterGameAxios, ExitGameAxios} from "./HomeAPI";
 import './Home.css';
 
@@ -8,6 +8,7 @@ import MenuBar from "../../parts/menuBar/MenuBar";
 import Game from "../Game/Game";
 import AdminMenu from "../../parts/adminMenu/AdminMenu";
 import {Special} from "../../configuration/special/SpecialConfig";
+import {PartyContext} from "../../context/party/PartyContext";
 
 interface HomeProps{
     rootCall: (data : boolean, loginId: number, loginName :string) => void;
@@ -25,7 +26,7 @@ interface GameWithId extends Game {
 }
 
 function Home (props : HomeProps){
-
+    const partyContext = useContext(PartyContext);
     const [gameList, setGameList] = useState <GameWithId[]>([]);
     const [enterGameId, setEnterGame] = useState <number> (-1);
     const [currentGameId, setCurrentGame] = useState <number> (-2);
@@ -51,6 +52,10 @@ function Home (props : HomeProps){
 
     },[])
 
+    if (!partyContext) {
+        throw new Error('Home must be used within a PartyProvider');
+    }
+    const {partyId, setPartyId} = partyContext;
 
     const openGame = (id : number) => {
         setEnterGame(id);
@@ -61,7 +66,7 @@ function Home (props : HomeProps){
         const target = event.target as HTMLLIElement;
         const value : any = target.getAttribute("id");
 
-        CurrentGameAxios(setCurrentGame);
+        CurrentGameAxios(partyId, setCurrentGame);
         console.log("커렌"+currentGameId);
         console.log("선택"+enterGameId);
         openGame(value);

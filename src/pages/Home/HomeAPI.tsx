@@ -34,9 +34,9 @@ export function ExitGameAxios(memberId: number) {
 
 
 
-export function CurrentGameAxios(callback: (data: any) => void) {
+export function CurrentGameAxios(partyId : number, callback: (data: any) => void) {
     axios({
-        url: "party/" + "current-game",
+        url: "/api/v2/parties/" + partyId + "/dashboard/game",
         method: 'get',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
