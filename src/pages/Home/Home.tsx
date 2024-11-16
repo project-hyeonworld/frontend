@@ -12,7 +12,7 @@ import {PartyContext} from "../../context/party/PartyContext";
 
 interface HomeProps{
     rootCall: (data : boolean, loginId: number, loginName :string) => void;
-    memberId: number;
+    userId: number;
     name: string;
 }
 
@@ -45,7 +45,7 @@ function Home (props : HomeProps){
 
             setGameList(games.map((game, index) => mapGameToGameWithId(game, index)));
         }
-        console.log(props.memberId)
+        console.log(props.userId)
         DisplayGameAxios (getGameList);
 
 
@@ -59,7 +59,6 @@ function Home (props : HomeProps){
 
     const openGame = (id : number) => {
         setEnterGame(id);
-
     }
 
     const onClickGame = (event : React.MouseEvent<HTMLLIElement>) => {
@@ -75,25 +74,25 @@ function Home (props : HomeProps){
     const onClickBack = () => {
 
         if (enterGameId != -1)
-            ExitGameAxios(props.memberId);
+            ExitGameAxios(props.userId);
         setEnterGame(-1);
     }
 
     const onEnterGame = () => {
-        EnterGameAxios(props.memberId);
+        EnterGameAxios(props.userId);
     }
 
     // @ts-ignore
     return (
         <div className="Home">
             <p>{props.name}</p>
-            <MenuBar moveBack={onClickBack} rootCall={props.rootCall} memberId={props.memberId} loginName={props.name}/>
+            <MenuBar moveBack={onClickBack} rootCall={props.rootCall} memberId={props.userId} loginName={props.name}/>
             <ul className="p-2 space-y-1"/>
             <div className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
                 {enterGameId == currentGameId ?(
                     <>
                     {onEnterGame()}
-                    <Game memberId={props.memberId} memberName={props.name} gameId={currentGameId} stage={0}/>
+                    <Game memberId={props.userId} memberName={props.name} gameId={currentGameId} stage={0}/>
                     </>)
                 : <ul className="cards">
                     {gameList.map((game: GameWithId, i: number) => {
@@ -105,7 +104,7 @@ function Home (props : HomeProps){
                 </ul>}
 
             </div>
-            {special.adminId === props.memberId && <AdminMenu gameList={gameList}/>}
+            {special.adminId === props.userId && <AdminMenu gameList={gameList}/>}
         </div>
     );
 }

@@ -23,7 +23,7 @@ function Root(){
         <div className="Root">
             <div className="h-screen from-sky-100 via-sky-300 to-blue-200 bg-gradient-to-br">
                 <PartyProvider>
-                    {isLogin? <Home rootCall={handleLogin} memberId={memberId} name={memberName} />:
+                    {isLogin? <Home rootCall={handleLogin} userId={memberId} name={memberName} />:
                         <Login rootCall={handleLogin}/>}
                 </PartyProvider>
             </div>

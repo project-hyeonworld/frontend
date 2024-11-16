@@ -3,36 +3,33 @@ import {My} from '../../configuration/web/WebConfig';
 
 const my = new My();
 
-export function EnterGameAxios(memberId: number) {
+export function EnterGameAxios(userId: number) {
     console.log("SEND ENTER GAME AXIOS")
     axios({
-        url: "member/" + "enter-game",
+        url: "/api/v2/auth/session" + "/game",
         method: 'post',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data : {
-            memberId : memberId,
+            userId : userId,
         }
     });
 };
 
-export function ExitGameAxios(memberId: number) {
+export function ExitGameAxios(userId: number) {
     axios({
-        url: "member/" + "exit-game",
-        method: 'post',
+        url: "/api/v2/auth/session" + "/game",
+        method: 'delete',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data : {
-            memberId : memberId,
+            userId : userId,
         }
     }).then(function (response) {
         console.log("결과");
         console.log("EXIt :"+response.data);
     });
 };
-
-
-
 
 export function CurrentGameAxios(partyId : number, callback: (data: any) => void) {
     axios({
