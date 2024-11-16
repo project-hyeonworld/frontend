@@ -57,16 +57,14 @@ function AdminMenu (props: AdminMenuProps){
         throw new Error('AdminMenu must be used within an PartyProvider');
     }
 
-    const {partyId, setPartyId} = partyContext;
+
 
 
     const onClickButton = (event : React.MouseEvent<HTMLButtonElement>) => {
         const target = event.target as HTMLLIElement;
         const value : any = target.getAttribute("id");
         const parsedValue : number = parseInt(value);
-        console.log("fdffff"+partyId);
-        console.log("fdffff"+parsedValue);
-        AdminMenuAxios(partyId, -1, parsedValue);
+
         switch (parsedValue) {
             case AdminMenuList["Init"]:
                 onInit();

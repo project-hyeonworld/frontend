@@ -2,17 +2,20 @@ import {My} from "../../../configuration/web/WebConfig";
 
 import axios from "axios";
 
-export function OpenGameAxios(game : number) {
-    console.log("FGGGG"+game);
+export function OpenGameAxios(partyId : number, gameId : number) {
     const my = new My();
+
+    const changeDashboardData = {
+        gameId: gameId,
+        gameStage: 1
+    };
+
     axios({
-        url: "party/" + "current-game",
-        method: 'put',
+        url: "/api/v2/parties/" + partyId + "/dashboard",
+        method: 'patch',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
-        data: {
-            game : game,
-        }
+        data: changeDashboardData
     }).then(function (response) {
     });
 };

@@ -1,6 +1,8 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useContext, useState} from "react";
 import {OpenGameAxios} from "../open/OpenAPI";
 import {type} from "@testing-library/user-event/dist/type";
+import {PartyContext} from "../../../context/party/PartyContext";
+
 
 interface Game{
     id: number;
@@ -13,22 +15,21 @@ interface OpenModalProps{
 }
 
 const OpenModal = ( props: OpenModalProps) => {
-
+    const partyContext = useContext(PartyContext);
     const [openGame, setGame] = useState<number>(0);
     const [gameName, setName] = useState<string>("선택해주세요");
 
-    const familySlider = document.getElementById("family-slider");
-    const personsSlider = document.getElementById('persons-slider');
+    const gameSlider = document.getElementById("game-slider");
 
-    if (familySlider){
-        familySlider.addEventListener('input', function(event) {
+    if (gameSlider){
+        gameSlider.addEventListener('input', function(event) {
         });
     }
-    if (personsSlider){
-        personsSlider.addEventListener('input', function(event) {
-            const value = (event.target as HTMLInputElement).value;
-        });
+    if (!partyContext) {
+        throw new Error('OpenModal must be used within a PartyProvider');
     }
+
+    const {partyId, setPartyId} = partyContext;
 
     const onOpenGame = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value =parseInt(event.target.value);
@@ -36,9 +37,9 @@ const OpenModal = ( props: OpenModalProps) => {
         setName(props.gameList[value].name);
     }
 
-    const commitOpen = (event : React.MouseEvent<HTMLButtonElement>) => {
+    const commitOpen = () => {
         console.log(gameName);
-        OpenGameAxios(props.gameList[openGame].id);
+        OpenGameAxios(partyId, props.gameList[openGame].id);
         props.onOpen();
     }
 
@@ -50,13 +51,10 @@ const OpenModal = ( props: OpenModalProps) => {
                     <h3 className={"font-extrabold"}>Open</h3>
                 </div>
 
-                <label htmlFor="family-slider"
+                <label htmlFor="game-slider"
                        className="block mb-2 text-sm font-medium text-gray-900">
-                    {/*{Object.values(PartyList).map((party) =>{*/}
-                    {/*    return <p key={party}>{party}</p>*/}
-                    {/*})}*/}
                 </label>
-                <input className={"text-center"} type={"text"} value={gameName} onChange={onOpenGame}></input>
+                <input className={"text-center"} type={"text"} value={gameName}></input>
                 <input id="default-range" type="range" min={0} max={props.gameList.length-1}  onChange={onOpenGame} value={openGame}
                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                 />
