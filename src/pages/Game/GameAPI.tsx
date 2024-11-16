@@ -32,7 +32,7 @@ export function ExitGameAxios(userId: number) {
 };
 
 
-export function GameAPI(setStage: (stage: number) => void, getList: (stage: string[]) => void, removeWaitingList: ( memberName: string) =>void, addWaitingList: ( memberName: string) =>void, memberId : number) {
+export function GameAPI(setStage: (stage: number) => void, getList: (stage: string[]) => void, removeWaitingList: ( memberName: string) =>void, addWaitingList: ( memberName: string) =>void, userId : number) {
     axios({
         url: "api/game-stage/" + "init",
         method: 'get',
@@ -48,7 +48,7 @@ export function GameAPI(setStage: (stage: number) => void, getList: (stage: stri
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         params: {
-            memberId: memberId,
+            memberId: userId,
         }
     }).then(function (response) {
         console.log(response.data);
@@ -57,7 +57,7 @@ export function GameAPI(setStage: (stage: number) => void, getList: (stage: stri
 
     let eventSource : EventSource;
 
-    eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/api/game-stage?memberId=${memberId}`);
+    eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/api/game-stage?memberId=${userId}`);
 
     eventSource.addEventListener('connect', (e)=>{
         const {data: receivedConnectData} = e;
@@ -97,11 +97,11 @@ export function GameAPI(setStage: (stage: number) => void, getList: (stage: stri
 
 };
 
-export function WaitingAPI(getList: (stage: string[]) => void, removeWaitingList: ( memberName: string) =>void, addWaitingList: ( memberName: string) =>void, memberId : number) {
+export function WaitingAPI(partyId: number, removeWaitingList: ( memberName: string) =>void, addWaitingList: ( memberName: string) =>void) {
 
     let eventSource : EventSource;
 
-    eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/member/waiting-list/additional?memberId=${memberId}`);
+    eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/api/v2/sse/${partyId}/waiting-list`);
     eventSource.addEventListener('connect', (e)=>{
         const {data: receivedConnectData} = e;
         console.log('connect event data101 : ',receivedConnectData);

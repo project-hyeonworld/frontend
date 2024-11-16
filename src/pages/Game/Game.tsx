@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useLocation} from "react-router-dom";
 
 import {GameProps} from "./GameProps/GameProps";
@@ -9,7 +9,8 @@ import Game2 from "./2/Game2Main";
 import Game3 from "./3/Game3Main";
 import Game4 from "./4/Game4Main";
 import Game5 from "./5/Game5Main";
-import {GameAPI, EnterGameAxios, ExitGameAxios} from "./GameAPI";
+import {GameAPI, EnterGameAxios, WaitingAPI} from "./GameAPI";
+import {PartyContext} from "../../context/party/PartyContext";
 
 export const Games = {
     "진실 혹은 거짓": Game0,
@@ -27,10 +28,16 @@ type stateData = {
 }
 
 function Game(props : GameProps) {
-    // IP주소 변수 선언
+    const partyContext = useContext(PartyContext);
     const game = props.gameId;
     const [stage, setStage] = useState<number> (1);
     const [waitingList, setList] = useState <string[]> ([]);
+
+    if (!partyContext) {
+        throw new Error('Game must be used within an PartyProvider');
+    }
+
+    const {partyId, setPartyId} = partyContext;
 
     const onEnterGame = () => {
         EnterGameAxios(props.userId);
@@ -55,21 +62,22 @@ function Game(props : GameProps) {
         });
     }
 
+    function changeStage (stage :number){
+        console.log("CHANGE STAGE : "+stage);
+        setStage(stage);
+    }
+
     useEffect(()=>{
         console.log("UPDATE")
-
-        function changeStage (stage :number){
-            console.log("CHANGE STAGE : "+stage);
-            setStage(stage);
-        }
-
-        // const waitingApi = WaitingAPI (setList, removeWaitingList, addWaitingList, props.memberId);
+        const waitingApi = WaitingAPI(partyId, removeWaitingList, addWaitingList);
+        //
         // const stageApi = StageAPI (changeStage, props.memberId);
 
-        const GameApi = GameAPI (changeStage, setList, removeWaitingList, addWaitingList, props.userId);
+
 
         return () => {
-            GameApi.closeConnection();
+            waitingApi.closeConnection();
+            //gameApi.closeConnection();
             // stageApi.closeConnection();
             // waitingApi.closeConnection();
         }
