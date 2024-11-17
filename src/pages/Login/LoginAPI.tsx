@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {My} from '../../configuration/web/WebConfig';
 
-export default function LoginAxios(loginName : string ,callback: (data: any) => void) {
+export default function LoginAxios(loginName : string ,callback: (data: any) => void, callbackError: (data:any) => void) {
     const my = new My();
 
     const loginData = {
@@ -18,8 +18,8 @@ export default function LoginAxios(loginName : string ,callback: (data: any) => 
         },
         data: loginData
     }).then(function (response) {
-        callback(response.data.userId);
+        callback(response.data);
     }).catch(function (error) {
-        callback(error.response.status);
+        callbackError(error.response.status);
     });
 };

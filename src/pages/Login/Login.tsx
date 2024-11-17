@@ -24,9 +24,13 @@ function Login (props : LoginProps){
 
     const onClickLogin = (event : React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        function checkSuccess(status : number) {
-            let userId = status;
-            let partyId = 2;
+        function checkSuccess(data : any) {
+            let userId = data.userId;
+            let partyId = data.partyId;
+            props.rootCall(true, partyId, userId, inputName);
+        }
+
+        function checkError(status : number) {
             switch (status){
                 case 404:
                     console.log("There is no member called" + inputName);
@@ -34,20 +38,9 @@ function Login (props : LoginProps){
                 case 409:
                     console.log("IS already Logged in");
                     break;
-                default :
-                    props.rootCall(true, partyId, userId, inputName);
-                    break;
             }
         }
-
-        LoginAxios (inputName, checkSuccess);
-        // fetch('/onLogin')
-        //     .then((res) => res.json())
-        //     .then (data=>{setData(data); console.log("THIS : ",data.last)}, ()=>{console.log ("THAT : ",data)})
-        //     .catch(err => console.log("fcc",err))
-        //postLogin()
-
-
+        LoginAxios (inputName, checkSuccess, checkError);
     }
 
     return (

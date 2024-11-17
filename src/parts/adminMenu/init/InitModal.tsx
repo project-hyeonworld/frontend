@@ -1,6 +1,7 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useContext, useState} from 'react';
 
 import {InitAxios} from "./InitAPI"
+import {PartyContext} from "../../../context/party/PartyContext";
 
 export const PartyList: {[key: number] : string} = {
     0:"외가",
@@ -8,12 +9,18 @@ export const PartyList: {[key: number] : string} = {
 }
 
 const InitModal = ({onInit}: any) => {
-
+    const partyContext = useContext(PartyContext);
     const [persons, setPerson] = useState<number>(1);
     const [partyType, setPartyType] = useState<number> (0);
 
     const familySlider = document.getElementById("family-slider");
     const personsSlider = document.getElementById('persons-slider');
+
+    if (!partyContext) {
+        throw new Error('InitModal must be used within an PartyProvider');
+    }
+
+    const {setPartyId} = partyContext;
 
     if (familySlider){
         familySlider.addEventListener('input', function(event) {
@@ -34,7 +41,11 @@ const InitModal = ({onInit}: any) => {
     };
 
     const commitInit = (event : React.MouseEvent<HTMLButtonElement>) => {
-        InitAxios(partyType, persons);
+        function setPartyIdFunc(partyId : number) {
+            console.log("qkRna" + partyId);
+            setPartyId(partyId);
+        }
+        InitAxios(partyType, persons, setPartyIdFunc);
         onInit();
     }
 

@@ -33,6 +33,14 @@ function Home (props : HomeProps){
     const [enterGameId, setEnterGame] = useState <number> (-1);
     const [currentGameId, setCurrentGame] = useState <number> (-2);
     const special = new Special();
+    if (!partyContext) {
+        throw new Error('Home must be used within a PartyProvider');
+    }
+    const {partyId, setPartyId} = partyContext;
+
+    useEffect(() => {
+        setPartyId(props.partyId);
+    }, [props.partyId]);
 
     useEffect(()=>{
 
@@ -47,17 +55,12 @@ function Home (props : HomeProps){
 
             setGameList(games.map((game, index) => mapGameToGameWithId(game, index)));
         }
-        console.log(props.userId)
         DisplayGameAxios (getGameList);
 
-
-
     },[])
-    if (!partyContext) {
-        throw new Error('Home must be used within a PartyProvider');
-    }
-    const {partyId, setPartyId} = partyContext;
-    setPartyId(props.partyId);
+
+    useEffect(() => {
+    }, [partyId]);
 
     const openGame = (id : number) => {
         setEnterGame(id);
