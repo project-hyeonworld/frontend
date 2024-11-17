@@ -7,25 +7,34 @@ import PartyProvider from "../../context/party/PartyContext";
 function Root(){
 
     const [isLogin, setIsLogin] = useState(false);
+    const [partyId, setPartyId] = useState(-1);
     const [memberName, setMemberName] = useState("");
-    const [memberId, setMemberId] = useState(-1);
+    const [userId, setUserId] = useState(-1);
 
     useEffect(()=>{
     },[]);
 
-    const handleLogin = useCallback ((data : boolean, loginId: number, loginName :string)=>{
+    const handleLogin = useCallback ((data : boolean, partyId: number, loginId: number, loginName :string)=> {
         setIsLogin(data);
+        setPartyId(partyId);
         setMemberName(loginName);
-        setMemberId(loginId);
+        setUserId(loginId);
     },[isLogin]);
+
+    const handleLogout = useCallback (()=> {
+        setIsLogin(false);
+    }, [isLogin])
 
     return (
         <div className="Root">
             <div className="h-screen from-sky-100 via-sky-300 to-blue-200 bg-gradient-to-br">
-                <PartyProvider>
-                    {isLogin? <Home rootCall={handleLogin} userId={memberId} name={memberName} />:
+                    {isLogin?
+                        <PartyProvider>
+                        <Home logOut={handleLogout} partyId={partyId} userId={userId} name={memberName} />
+                        </PartyProvider>
+                        :
                         <Login rootCall={handleLogin}/>}
-                </PartyProvider>
+
             </div>
         </div>
     );

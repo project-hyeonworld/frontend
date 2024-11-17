@@ -76,7 +76,7 @@ function Game(props : GameProps) {
 
 
         return () => {
-            waitingApi.closeConnection();
+            //waitingApi.closeConnection();
             //gameApi.closeConnection();
             // stageApi.closeConnection();
             // waitingApi.closeConnection();

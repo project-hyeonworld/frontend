@@ -7,23 +7,20 @@ import {PartyContext} from "../../context/party/PartyContext";
 
 interface LoginProps{
     rootCall: (login : boolean,
+               partyId: number,
                loginId: number,
                loginName: string,
     ) => void;
 }
 
 function Login (props : LoginProps){
-    const partyContext = useContext(PartyContext);
     const [inputName, setInputName] = useState('');
 
     const handleInputName = (event : React.ChangeEvent<HTMLInputElement>) =>{
         setInputName(event.target.value)
     }
 
-    if (!partyContext) {
-        throw new Error('Party must be used within a PartyProvider');
-    }
-    const {partyId, setPartyId} = partyContext;
+
 
     const onClickLogin = (event : React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -38,8 +35,7 @@ function Login (props : LoginProps){
                     console.log("IS already Logged in");
                     break;
                 default :
-                    setPartyId(partyId);
-                    props.rootCall(true, userId, inputName);
+                    props.rootCall(true, partyId, userId, inputName);
                     break;
             }
         }

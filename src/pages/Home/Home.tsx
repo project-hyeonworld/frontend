@@ -12,7 +12,8 @@ import {PartyContext} from "../../context/party/PartyContext";
 import {ExitGameAxios} from "../Game/GameAPI";
 
 interface HomeProps{
-    rootCall: (data : boolean, loginId: number, loginName :string) => void;
+    logOut: () => void;
+    partyId: number;
     userId: number;
     name: string;
 }
@@ -52,11 +53,11 @@ function Home (props : HomeProps){
 
 
     },[])
-
     if (!partyContext) {
         throw new Error('Home must be used within a PartyProvider');
     }
     const {partyId, setPartyId} = partyContext;
+    setPartyId(props.partyId);
 
     const openGame = (id : number) => {
         setEnterGame(id);
@@ -85,7 +86,7 @@ function Home (props : HomeProps){
     return (
         <div className="Home">
             <p>{props.name}</p>
-            <MenuBar moveBack={onClickBack} rootCall={props.rootCall} memberId={props.userId} loginName={props.name}/>
+            <MenuBar moveBack={onClickBack} logOut={props.logOut} memberId={props.userId} loginName={props.name}/>
             <ul className="p-2 space-y-1"/>
             <div className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
                 {enterGameId == currentGameId ?(

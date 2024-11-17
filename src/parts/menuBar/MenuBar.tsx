@@ -4,7 +4,7 @@ import ScoreModal from "./scoreModal/ScoreModal";
 
 interface MenuBarProps{
     moveBack: ()=> void;
-    rootCall: (data : boolean, loginId: number, loginName :string) => void;
+    logOut: () => void;
     memberId: number;
     loginName: string;
 }
@@ -22,7 +22,7 @@ function MenuBar (props : MenuBarProps){
         function checkName(name: string) {
 
             // document.location.href = '/';
-            props.rootCall(false, props.memberId, props.loginName);
+            props.logOut();
         }
 
         LogoutAxios(checkName, props.memberId);
