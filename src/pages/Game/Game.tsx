@@ -37,10 +37,10 @@ function Game(props : GameProps) {
         throw new Error('Game must be used within an PartyProvider');
     }
 
-    const {partyId, setPartyId} = partyContext;
+    const {partyId, setPartyId, userId} = partyContext;
 
     const onEnterGame = () => {
-        EnterGameAxios(props.userId);
+        EnterGameAxios(userId);
     }
 
     const removeWaitingList = (memberName : string) => {
@@ -96,7 +96,7 @@ function Game(props : GameProps) {
                     return (
                         <div key={index}>
                             <p>{gameName}</p>
-                            <Component userId={props.userId} memberName={props.memberName} gameId={props.gameId} stage={stage} key={index}/>
+                            <Component gameId={props.gameId} stage={stage} key={index}/>
                         </div>
                     );
                 }

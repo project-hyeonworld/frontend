@@ -1,10 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {GameStageProps} from "../../GameProps/GameProps";
 import ConfirmModal from "./confirm/ConfirmModal";
 import {PlayAPI} from "./PlayAPI";
+import {PartyContext} from "../../../../context/party/PartyContext";
 
 
 export default function Play(props : GameStageProps) {
+
+    const partyContext = useContext(PartyContext);
+    if(!partyContext) {
+        throw new Error()
+    }
+    const {userId} = partyContext;
 
     const [playConfirm, setConfirm] = useState (false);
     const [button, setButton] = useState<number>(-1);
@@ -13,7 +20,7 @@ export default function Play(props : GameStageProps) {
     const onConfirm = (val : boolean)=>{
         if (val) {
             console.log("FFF");
-            PlayAPI(props.userId, button);
+            PlayAPI(userId, button);
             setCompleted("선택을 완료하셨습니다.")
         }
         setConfirm(!playConfirm);

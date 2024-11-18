@@ -1,10 +1,16 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useContext, useEffect, useState} from "react";
 import {GameProps, GameStageProps} from "../../GameProps/GameProps";
 import {ResultAPI, SetScoreAxios} from "./ResultAPI";
 import {ShowAPI} from "../show/ShowAPI";
 import {Special} from "../../../../configuration/special/SpecialConfig";
+import {PartyContext} from "../../../../context/party/PartyContext";
 
 export default function  Result(props : GameStageProps) {
+    const partyContext = useContext(PartyContext);
+    if(!partyContext) {
+        throw new Error()
+    }
+    const {userId} = partyContext;
     const [correct, setCorrect] = useState<number>(2);
     const [wrong, setWrong] = useState<number>(0);
     const [correctName, setCorrectName] = useState<string[]>();
@@ -29,7 +35,7 @@ export default function  Result(props : GameStageProps) {
     }
 
     const onSetCorrect = () =>{
-        SetScoreAxios(props.userId, correct, wrong);
+        SetScoreAxios(userId, correct, wrong);
         oninit();
     }
 
@@ -38,7 +44,7 @@ export default function  Result(props : GameStageProps) {
     }
 
     const onSetWrong = () =>{
-        SetScoreAxios(props.userId, correct, wrong);
+        SetScoreAxios(userId, correct, wrong);
         oninit();
     }
 
@@ -46,7 +52,7 @@ export default function  Result(props : GameStageProps) {
         <div className="Game0">
             <div className={"grid grid-cols-3"}>
                 <div className={"ScoreSetting"}>
-                    {props.userId == special.adminId && <div>
+                    {userId == special.adminId && <div>
                         <input className={"text-center w-40"} type={"text"} value={correct} onChange={handleCorrect}></input>
                         <input id="default-range" type="range" min="1" max="100" step={"1"} onChange={handleCorrect} value={correct}
                                className="w-70 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
@@ -69,7 +75,7 @@ export default function  Result(props : GameStageProps) {
                     })}
                 </div>
                 <div className={"Wrong"}>
-                    {props.userId == special.adminId && <div>
+                    {userId == special.adminId && <div>
                         <input className={"text-center w-40"} type={"text"} value={wrong} onChange={handleWrong}></input>
                         <input id="default-range" type="range" min="-45" max="100" step={"1"} onChange={handleWrong} value={wrong}
                                className="w-70 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"

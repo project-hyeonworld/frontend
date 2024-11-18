@@ -1,11 +1,16 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 
 import ConfirmModal from "./confirm/ConfirmModal";
 import {SubmitAPI} from "./SubmitAPI";
 import {GameStageProps} from "../../GameProps/GameProps";
+import {PartyContext} from "../../../../context/party/PartyContext";
 
 export default function Submit(props : GameStageProps){
-
+    const partyContext = useContext(PartyContext);
+    if(!partyContext) {
+        throw new Error()
+    }
+    const {userId} = partyContext;
     const [inputFalse, setFalse] = useState<number>(-1);
 
     const [input, setInput] = useState<string[]> (["", "", ""]);
@@ -31,7 +36,7 @@ export default function Submit(props : GameStageProps){
     const onConfirm = (val : boolean)=>{
         if (val) {
             console.log("FFF");
-            SubmitAPI(props.userId, onSend, input, inputFalse);
+            SubmitAPI(userId, onSend, input, inputFalse);
         }
 
         setConfirm(!modalConfirm);

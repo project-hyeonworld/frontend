@@ -29,8 +29,8 @@ interface GameWithId extends Game {
 function Home (props : HomeProps){
     const partyContext = useContext(PartyContext);
     const [gameList, setGameList] = useState <GameWithId[]>([]);
-    const [enterGameId, setEnterGame] = useState <number> (-1);
-    const [currentGameId, setCurrentGame] = useState <number> (-2);
+    const [enterGameId, setEnterGameId] = useState <number> (-1);
+    const [currentGameId, setCurrentGameId] = useState <number> (-2);
     const special = new Special();
     if (!partyContext) {
         throw new Error('Home must be used within a PartyProvider');
@@ -53,21 +53,21 @@ function Home (props : HomeProps){
             setGameList(games.map((game, index) => mapGameToGameWithId(game, index)));
         }
         DisplayGameAxios (getGameList);
-
     },[])
 
     useEffect(() => {
     }, [partyId]);
 
     const openGame = (id : number) => {
-        setEnterGame(id);
+        setEnterGameId(id);
     }
 
     const onClickGame = (event : React.MouseEvent<HTMLLIElement>) => {
         const target = event.target as HTMLLIElement;
         const value : any = target.getAttribute("id");
-
-        CurrentGameAxios(partyId, setCurrentGame);
+        if (partyId != -1) {
+            CurrentGameAxios(partyId, setCurrentGameId);
+        }
         console.log("커렌"+currentGameId);
         console.log("선택"+enterGameId);
         openGame(value);
@@ -76,7 +76,8 @@ function Home (props : HomeProps){
     const onClickBack = () => {
         if (enterGameId != -1)
             ExitGameAxios(props.userId);
-        setEnterGame(-1);
+        setEnterGameId(-1);
+        CurrentGameAxios(partyId, setCurrentGameId);
     }
 
     // @ts-ignore
@@ -87,7 +88,7 @@ function Home (props : HomeProps){
             <ul className="p-2 space-y-1"/>
             <div className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
                 {enterGameId == currentGameId ?(
-                    <Game userId={props.userId} memberName={props.userName} gameId={currentGameId} stage={0}/>)
+                    <Game gameId={currentGameId} stage={0}/>)
                 : <ul className="cards">
                     {gameList.map((game: GameWithId, i: number) => {
                         return <li id={i.toString()} className={"card"+i%7} key={i} onClick={onClickGame}>

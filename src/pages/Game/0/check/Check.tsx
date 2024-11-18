@@ -1,14 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {GameStageProps} from "../../GameProps/GameProps";
 import {Special} from "../../../../configuration/special/SpecialConfig";
 import Check_Admin from "./Check_Admin" ;
 
 import {CheckAPI} from "./CheckAPI";
+import partyContext, {PartyContext} from "../../../../context/party/PartyContext";
 
 
 export default function Check (props : GameStageProps) {
-
+    const partyContext = useContext(PartyContext);
     const special = new Special();
+
+    if (!partyContext) {
+      throw new Error("Game0Check has to be in PartyProvider")
+    }
+
+    const {userId} = partyContext;
 
     const Player = () =>{
         return (
@@ -32,7 +39,7 @@ export default function Check (props : GameStageProps) {
     return (
         <div className="Game0">
 
-            {special.adminId === props.userId ? <Check_Admin/> : <Player/> }
+            {special.adminId === userId ? <Check_Admin/> : <Player/> }
 
         </div>
     );

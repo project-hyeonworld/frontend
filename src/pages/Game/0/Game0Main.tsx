@@ -25,26 +25,24 @@ export const Stages = {
 }
 
 export default function Game0(props : GameProps) {
-
+    const stage = 1;
     const [target, setTarget] = useState<Submission>();
 
     const submissionCallBack = ((submission : Submission)=>{
         setTarget(submission);
     })
-
-    console.log("GAME 0 Stage : "+props.stage);
     useEffect( ()=>{
 
     },[])
     return (
         <div className="Game0">
             {Object.entries(Stages).map(([index, stageComponent]) =>{
-                if (props.stage == Number(index) && stageComponent != null){
+                if (stage == Number(index) && stageComponent != null){
                     const Component = stageComponent;
                     // @ts-ignore
                     return (
                         <div key={index}>
-                            <Component userId={props.userId} callback={submissionCallBack} target={target}/>
+                            <Component callback={submissionCallBack} target={target}/>
                         </div>
                     );
                 }

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useState} from "react";
+import React, {ChangeEvent, useContext, useEffect, useState} from "react";
 import {OpenGameAxios} from "../open/OpenAPI";
 import {type} from "@testing-library/user-event/dist/type";
 import {PartyContext} from "../../../context/party/PartyContext";
@@ -28,7 +28,7 @@ const OpenModal = ( props: OpenModalProps) => {
     if (!partyContext) {
         throw new Error('OpenModal must be used within a PartyProvider');
     }
-
+    
     const {partyId, setPartyId} = partyContext;
 
     const onOpenGame = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +54,7 @@ const OpenModal = ( props: OpenModalProps) => {
                 <label htmlFor="game-slider"
                        className="block mb-2 text-sm font-medium text-gray-900">
                 </label>
-                <input className={"text-center"} type={"text"} value={gameName}></input>
+                <input className={"text-center"} type={"text"} value={gameName} onChange={onOpenGame}></input>
                 <input id="default-range" type="range" min={0} max={props.gameList.length-1}  onChange={onOpenGame} value={openGame}
                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                 />
