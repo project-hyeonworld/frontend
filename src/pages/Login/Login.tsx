@@ -3,7 +3,6 @@ import LoginAxios from './LoginAPI';
 import Copyright from "../../parts/copyright/Copyright";
 // @ts-ignore
 import styles from './Login.css';
-import {PartyContext} from "../../context/party/PartyContext";
 
 interface LoginProps{
     rootCall: (login : boolean,

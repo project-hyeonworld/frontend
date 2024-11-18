@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Home from '../Home/Home';
 import Login from '../Login/Login';
-import PartyProvider from "../../context/party/PartyContext";
+import LoginProvider from "../../context/login/LoginContext";
 
 
 function Root(){
@@ -29,9 +29,9 @@ function Root(){
         <div className="Root">
             <div className="h-screen from-sky-100 via-sky-300 to-blue-200 bg-gradient-to-br">
                     {isLogin?
-                        <PartyProvider>
-                        <Home logOut={handleLogout} partyId={partyId} userId={userId} name={memberName} />
-                        </PartyProvider>
+                        <LoginProvider>
+                        <Home logOut={handleLogout} partyId={partyId} userId={userId} userName={memberName} />
+                        </LoginProvider>
                         :
                         <Login rootCall={handleLogin}/>}
 

@@ -8,14 +8,14 @@ import MenuBar from "../../parts/menuBar/MenuBar";
 import Game from "../Game/Game";
 import AdminMenu from "../../parts/adminMenu/AdminMenu";
 import {Special} from "../../configuration/special/SpecialConfig";
-import {PartyContext} from "../../context/party/PartyContext";
+import {LoginContext} from "../../context/login/LoginContext";
 import {ExitGameAxios} from "../Game/GameAPI";
 
 interface HomeProps{
     logOut: () => void;
     partyId: number;
     userId: number;
-    name: string;
+    userName: string;
 }
 
 interface Game {
@@ -28,22 +28,23 @@ interface GameWithId extends Game {
 }
 
 function Home (props : HomeProps){
-    const partyContext = useContext(PartyContext);
+    const loginContext = useContext(LoginContext);
     const [gameList, setGameList] = useState <GameWithId[]>([]);
     const [enterGameId, setEnterGame] = useState <number> (-1);
     const [currentGameId, setCurrentGame] = useState <number> (-2);
     const special = new Special();
-    if (!partyContext) {
+    if (!loginContext) {
         throw new Error('Home must be used within a PartyProvider');
     }
-    const {partyId, setPartyId} = partyContext;
+    const {partyId, setPartyId, userId, setUserId, userName, setUserName} = loginContext;
 
     useEffect(() => {
         setPartyId(props.partyId);
     }, [props.partyId]);
 
     useEffect(()=>{
-
+        setUserId(props.userId);
+        setUserName(props.userName);
         function getGameList (games : Game[]){
             function mapGameToGameWithId(game: Game, id: number) {
                 return {
@@ -88,12 +89,12 @@ function Home (props : HomeProps){
     // @ts-ignore
     return (
         <div className="Home">
-            <p>{props.name}</p>
-            <MenuBar moveBack={onClickBack} logOut={props.logOut} memberId={props.userId} loginName={props.name}/>
+            <p>{userName}+{partyId}</p>
+            <MenuBar moveBack={onClickBack} logOut={props.logOut} memberId={props.userId} loginName={props.userName}/>
             <ul className="p-2 space-y-1"/>
             <div className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
                 {enterGameId == currentGameId ?(
-                    <Game userId={props.userId} memberName={props.name} gameId={currentGameId} stage={0}/>)
+                    <Game userId={props.userId} memberName={props.userName} gameId={currentGameId} stage={0}/>)
                 : <ul className="cards">
                     {gameList.map((game: GameWithId, i: number) => {
                         return <li id={i.toString()} className={"card"+i%7} key={i} onClick={onClickGame}>
