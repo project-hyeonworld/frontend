@@ -10,6 +10,7 @@ import AdminMenu from "../../parts/adminMenu/AdminMenu";
 import {Special} from "../../configuration/special/SpecialConfig";
 import {PartyContext} from "../../context/party/PartyContext";
 import {ExitGameAxios} from "../Game/GameAPI";
+import GameProvider from "../../context/game/GameContext";
 
 interface HomeProps{
     partyId: number;
@@ -35,7 +36,7 @@ function Home (props : HomeProps){
     if (!partyContext) {
         throw new Error('Home must be used within a PartyProvider');
     }
-    const {partyId, setPartyId, setUserId, userName, setUserName} = partyContext;
+    const {partyId, setPartyId, userId, setUserId, userName, setUserName} = partyContext;
 
     useEffect(()=>{
         setPartyId(props.partyId);
@@ -75,7 +76,7 @@ function Home (props : HomeProps){
 
     const onClickBack = () => {
         if (enterGameId != -1)
-            ExitGameAxios(props.userId);
+            ExitGameAxios(userId);
         setEnterGameId(-1);
         CurrentGameAxios(partyId, setCurrentGameId);
     }
@@ -88,7 +89,10 @@ function Home (props : HomeProps){
             <ul className="p-2 space-y-1"/>
             <div className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
                 {enterGameId == currentGameId ?(
-                    <Game gameId={currentGameId} stage={0}/>)
+                    <GameProvider>
+                        <Game gameId={currentGameId} stage={0}/>
+                    </GameProvider>
+                    )
                 : <ul className="cards">
                     {gameList.map((game: GameWithId, i: number) => {
                         return <li id={i.toString()} className={"card"+i%7} key={i} onClick={onClickGame}>
@@ -99,7 +103,7 @@ function Home (props : HomeProps){
                 </ul>}
 
             </div>
-            {special.adminId === props.userId && <AdminMenu gameList={gameList}/>}
+            {special.adminId === userId && <AdminMenu gameList={gameList}/>}
         </div>
     );
 }

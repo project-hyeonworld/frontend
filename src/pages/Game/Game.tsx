@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {useLocation} from "react-router-dom";
 
 import {GameProps} from "./GameProps/GameProps";
 
@@ -9,8 +8,9 @@ import Game2 from "./2/Game2Main";
 import Game3 from "./3/Game3Main";
 import Game4 from "./4/Game4Main";
 import Game5 from "./5/Game5Main";
-import {GameAPI, EnterGameAxios, WaitingAPI} from "./GameAPI";
+import {EnterGameAxios, GetGameStageListenerAxios, WaitingAPI} from "./GameAPI";
 import {PartyContext} from "../../context/party/PartyContext";
+import {GameContext} from "../../context/game/GameContext";
 
 export const Games = {
     "진실 혹은 거짓": Game0,
@@ -29,6 +29,7 @@ type stateData = {
 
 function Game(props : GameProps) {
     const partyContext = useContext(PartyContext);
+    const gameContext = useContext(GameContext);
     const game = props.gameId;
     const [stage, setStage] = useState<number> (1);
     const [waitingList, setList] = useState <string[]> ([]);
@@ -36,12 +37,32 @@ function Game(props : GameProps) {
     if (!partyContext) {
         throw new Error('Game must be used within an PartyProvider');
     }
+    if (!gameContext) {
+        throw new Error('Game must be used within an GameProvider');
+    }
 
     const {partyId, setPartyId, userId} = partyContext;
+    const {gameStage, setGameStage, dashboardListener, setDashboardListener} = gameContext;
 
-    const onEnterGame = () => {
-        EnterGameAxios(userId);
+
+    const getGameStageListener = (eventSource : EventSource) => {
+        setDashboardListener(eventSource);
     }
+
+    useEffect(()=>{
+        console.log("UPDATE")
+        const fetchGameStageListener = async () => {
+            await EnterGameAxios(partyId, userId, getGameStageListener, setGameStage);
+        }
+        fetchGameStageListener();
+
+        return () => {
+            //waitingApi.closeConnection();-
+            //gameApi.closeConnection();
+            // stageApi.closeConnection();
+            // waitingApi.closeConnection();
+        }
+    },[])
 
     const removeWaitingList = (memberName : string) => {
         console.log("리무브 : " +memberName);
@@ -67,23 +88,9 @@ function Game(props : GameProps) {
         setStage(stage);
     }
 
-    useEffect(()=>{
-        console.log("UPDATE")
-        const waitingApi = WaitingAPI(partyId, removeWaitingList, addWaitingList);
-        //
-        // const stageApi = StageAPI (changeStage, props.memberId);
 
 
 
-        return () => {
-            //waitingApi.closeConnection();
-            //gameApi.closeConnection();
-            // stageApi.closeConnection();
-            // waitingApi.closeConnection();
-        }
-    },[])
-
-    onEnterGame();
 
     return (
         <div className="Game">
@@ -96,7 +103,7 @@ function Game(props : GameProps) {
                     return (
                         <div key={index}>
                             <p>{gameName}</p>
-                            <Component gameId={props.gameId} stage={stage} key={index}/>
+                            <Component gameId={props.gameId} stage={gameStage} key={index}/>
                         </div>
                     );
                 }

@@ -1,9 +1,10 @@
 import {My} from "../../configuration/web/WebConfig";
 import axios from "axios"
+import React from "react";
 
 const my = new My();
 
-export function EnterGameAxios(userId: number) {
+export function EnterGameAxios(partyId: number, userId: number, getGameStageListener : (eventSource : EventSource) => void, setGameStage : React.Dispatch<React.SetStateAction<number>>) {
     console.log("SEND ENTER GAME AXIOS")
     axios({
         url: "/api/v2/auth/session" + "/game",
@@ -13,8 +14,10 @@ export function EnterGameAxios(userId: number) {
         data : {
             userId : userId,
         }
+    }).then(function (response) {
+        GetGameStageListenerAxios(partyId, userId, getGameStageListener, setGameStage);
     });
-};
+}
 
 export function ExitGameAxios(userId: number) {
     axios({
@@ -118,4 +121,48 @@ export function WaitingAPI(partyId: number, removeWaitingList: ( memberName: str
         closeConnection,
     }
 };
+
+export function GetGameStageListenerAxios(partyId: number, userId: number, getGameStageListener : (eventSource : EventSource) => void, setGameStage : React.Dispatch<React.SetStateAction<number>>) {
+
+    let eventSource : EventSource;
+    console.log("RRRRR");
+
+    function createEventSource() {
+
+        eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/api/v2/sse/${partyId}/game-stage?userId=${userId}`);
+        eventSource.addEventListener('connect', (e)=>{
+            const {data: receivedConnectData} = e;
+            console.log('connect event data101 : ',receivedConnectData);
+            //getStage(receivedConnectData);
+        });
+
+        eventSource.addEventListener('open', () => {
+            console.log('Connection established.');
+        });
+
+        eventSource.addEventListener('ChangeCurrentStage', async (e)=>{
+            console.log("currentGameStage : LISTENER");
+            console.log(e);
+            const {data: receivedData} = e;
+            setGameStage(receivedData.gameStage);
+            eventSource.close();
+            setTimeout(createEventSource, 1000);
+        });
+
+        eventSource.addEventListener('error', (e) => {
+            console.error('EventSource failed:', e);
+            if (eventSource.readyState === EventSource.CLOSED) {
+                console.log('Connection closed.');
+            }
+            eventSource.close();
+            setTimeout(createEventSource, 1000);
+        });
+
+        getGameStageListener(eventSource);
+
+    }
+
+    createEventSource();
+
+}
 

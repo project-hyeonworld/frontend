@@ -28,7 +28,7 @@ const OpenModal = ( props: OpenModalProps) => {
     if (!partyContext) {
         throw new Error('OpenModal must be used within a PartyProvider');
     }
-    
+
     const {partyId, setPartyId} = partyContext;
 
     const onOpenGame = (event: React.ChangeEvent<HTMLInputElement>) => {
