@@ -144,7 +144,8 @@ export function GetGameStageListenerAxios(partyId: number, userId: number, getGa
             console.log("currentGameStage : LISTENER");
             console.log(e);
             const {data: receivedData} = e;
-            setGameStage(receivedData.gameStage);
+            const gameStage = +receivedData;
+            setGameStage(gameStage);
             eventSource.close();
             setTimeout(createEventSource, 1000);
         });
