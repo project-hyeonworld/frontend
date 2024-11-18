@@ -4,7 +4,7 @@ import InitModal from "./init/InitModal";
 import OpenModal from "./open/OpenModal";
 import MemberModal from "./member/MemberModal";
 import {AdminMenuAxios, AdminDoneAxios} from "../adminMenu/AdminMenuAPI";
-import {LoginContext} from "../../context/login/LoginContext";
+import {PartyContext} from "../../context/party/PartyContext";
 
 interface Game{
     id: number;
@@ -32,7 +32,7 @@ export const AdminMenuList = {
 
 
 function AdminMenu (props: AdminMenuProps){
-    const partyContext = useContext(LoginContext);
+    const partyContext = useContext(PartyContext);
     const [initModal, setInit] = useState<boolean>(false);
     const [openModal, setOpen] = useState<boolean>(false);
     const [memberModal, setMember] = useState<boolean>(false);

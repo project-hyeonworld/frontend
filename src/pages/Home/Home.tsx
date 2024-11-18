@@ -8,11 +8,10 @@ import MenuBar from "../../parts/menuBar/MenuBar";
 import Game from "../Game/Game";
 import AdminMenu from "../../parts/adminMenu/AdminMenu";
 import {Special} from "../../configuration/special/SpecialConfig";
-import {LoginContext} from "../../context/login/LoginContext";
+import {PartyContext} from "../../context/party/PartyContext";
 import {ExitGameAxios} from "../Game/GameAPI";
 
 interface HomeProps{
-    logOut: () => void;
     partyId: number;
     userId: number;
     userName: string;
@@ -28,21 +27,18 @@ interface GameWithId extends Game {
 }
 
 function Home (props : HomeProps){
-    const loginContext = useContext(LoginContext);
+    const partyContext = useContext(PartyContext);
     const [gameList, setGameList] = useState <GameWithId[]>([]);
     const [enterGameId, setEnterGame] = useState <number> (-1);
     const [currentGameId, setCurrentGame] = useState <number> (-2);
     const special = new Special();
-    if (!loginContext) {
+    if (!partyContext) {
         throw new Error('Home must be used within a PartyProvider');
     }
-    const {partyId, setPartyId, userId, setUserId, userName, setUserName} = loginContext;
-
-    useEffect(() => {
-        setPartyId(props.partyId);
-    }, [props.partyId]);
+    const {partyId, setPartyId, setUserId, userName, setUserName} = partyContext;
 
     useEffect(()=>{
+        setPartyId(props.partyId);
         setUserId(props.userId);
         setUserName(props.userName);
         function getGameList (games : Game[]){
@@ -78,19 +74,16 @@ function Home (props : HomeProps){
     }
 
     const onClickBack = () => {
-
         if (enterGameId != -1)
             ExitGameAxios(props.userId);
         setEnterGame(-1);
     }
 
-
-
     // @ts-ignore
     return (
         <div className="Home">
             <p>{userName}+{partyId}</p>
-            <MenuBar moveBack={onClickBack} logOut={props.logOut} memberId={props.userId} loginName={props.userName}/>
+            <MenuBar moveBack={onClickBack}/>
             <ul className="p-2 space-y-1"/>
             <div className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
                 {enterGameId == currentGameId ?(

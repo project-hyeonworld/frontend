@@ -5,10 +5,9 @@ import Copyright from "../../parts/copyright/Copyright";
 import styles from './Login.css';
 
 interface LoginProps{
-    rootCall: (login : boolean,
+    rootCall: (loginName: string,
                partyId: number,
                loginId: number,
-               loginName: string,
     ) => void;
 }
 
@@ -24,12 +23,10 @@ function Login (props : LoginProps){
     const onClickLogin = (event : React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         function checkSuccess(data : any) {
-            let userId = data.userId;
-            let partyId = data.partyId;
-            props.rootCall(true, partyId, userId, inputName);
+            props.rootCall(inputName, data.partyId, data.userId);
         }
 
-        function checkError(status : number) {
+        function checkFail(status : number) {
             switch (status){
                 case 404:
                     console.log("There is no member called" + inputName);
@@ -39,7 +36,7 @@ function Login (props : LoginProps){
                     break;
             }
         }
-        LoginAxios (inputName, checkSuccess, checkError);
+        LoginAxios (inputName, checkSuccess, checkFail);
     }
 
     return (

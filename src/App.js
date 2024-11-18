@@ -5,6 +5,7 @@ import customAxios from './customAxios';
 
 import Root from './pages/Root/Root';
 import Game from './pages/Game/Game';
+import LoginProvider from "./context/login/LoginContext";
 
 function App() {
   // IP주소 변수 선언
@@ -27,12 +28,14 @@ function App() {
 
       <div className="App">
         <div className={"container"}>
+          <LoginProvider>
             <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Root />}/>
-                    <Route path="/game" element={<Game />}/>
-                </Routes>
+              <Routes>
+                <Route path="/" element={<Root />}/>
+                <Route path="/game" element={<Game />}/>
+              </Routes>
             </BrowserRouter>
+          </LoginProvider>
         </div>
         {/*</header>*/}
 

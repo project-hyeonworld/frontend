@@ -10,7 +10,7 @@ import Game3 from "./3/Game3Main";
 import Game4 from "./4/Game4Main";
 import Game5 from "./5/Game5Main";
 import {GameAPI, EnterGameAxios, WaitingAPI} from "./GameAPI";
-import {LoginContext} from "../../context/login/LoginContext";
+import {PartyContext} from "../../context/party/PartyContext";
 
 export const Games = {
     "진실 혹은 거짓": Game0,
@@ -28,7 +28,7 @@ type stateData = {
 }
 
 function Game(props : GameProps) {
-    const partyContext = useContext(LoginContext);
+    const partyContext = useContext(PartyContext);
     const game = props.gameId;
     const [stage, setStage] = useState<number> (1);
     const [waitingList, setList] = useState <string[]> ([]);

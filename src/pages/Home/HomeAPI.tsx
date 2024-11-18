@@ -32,12 +32,12 @@ export function DisplayGameAxios(callback: (data: any) => void) {
 
 export function LogoutAxios(callback: (data: any) => void, logoutId : number) {
     axios({
-        url: "member/" + "logout-confirm",
-        method: 'post',
+        url: "/api/v2/auth/session",
+        method: 'delete',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
-        params: {
-            logoutId : logoutId
+        data: {
+            userId : logoutId
         }
     }).then(function (response) {
             callback (response.data);

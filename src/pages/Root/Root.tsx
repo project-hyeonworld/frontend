@@ -1,40 +1,41 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import Home from '../Home/Home';
 import Login from '../Login/Login';
-import LoginProvider from "../../context/login/LoginContext";
+import PartyProvider from "../../context/party/PartyContext";
+import {LoginContext} from "../../context/login/LoginContext";
+
 
 
 function Root(){
+    const loginContext = useContext(LoginContext);
 
-    const [isLogin, setIsLogin] = useState(false);
+    if (!loginContext) {
+        throw new Error ("Root has to be in LoginContext");
+    }
+    const {login, setLogin} = loginContext;
     const [partyId, setPartyId] = useState(-1);
     const [memberName, setMemberName] = useState("");
     const [userId, setUserId] = useState(-1);
 
-    useEffect(()=>{
-    },[]);
-
-    const handleLogin = useCallback ((data : boolean, partyId: number, loginId: number, loginName :string)=> {
-        setIsLogin(data);
+    const handleLogin = useCallback ((loginName :string, partyId: number, loginId: number, )=> {
         setPartyId(partyId);
         setMemberName(loginName);
         setUserId(loginId);
-    },[isLogin]);
+        setLogin(true);
+    },[setLogin]);
 
-    const handleLogout = useCallback (()=> {
-        setIsLogin(false);
-    }, [isLogin])
+    useEffect(() => {
+    }, [login]);
 
     return (
         <div className="Root">
             <div className="h-screen from-sky-100 via-sky-300 to-blue-200 bg-gradient-to-br">
-                    {isLogin?
-                        <LoginProvider>
-                        <Home logOut={handleLogout} partyId={partyId} userId={userId} userName={memberName} />
-                        </LoginProvider>
+                    {login?
+                        <PartyProvider>
+                            <Home partyId={partyId} userId={userId} userName={memberName} />
+                        </PartyProvider>
                         :
                         <Login rootCall={handleLogin}/>}
-
             </div>
         </div>
     );
