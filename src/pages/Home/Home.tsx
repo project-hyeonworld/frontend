@@ -27,6 +27,7 @@ interface GameWithId extends Game {
     id : number;
 }
 
+
 function Home (props : HomeProps){
     const partyContext = useContext(PartyContext);
     const [gameList, setGameList] = useState <GameWithId[]>([]);
@@ -98,7 +99,7 @@ function Home (props : HomeProps){
             <div className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
                 {enterGameId !== null && currentGameId !== null ?(
                     <GameProvider>
-                        <Game gameId={currentGameId} stage={0}/>
+                        <Game gameId={currentGameId}/>
                     </GameProvider>
                     )
                 : <ul className="cards">

@@ -31,7 +31,6 @@ function Game(props : GameProps) {
     const partyContext = useContext(PartyContext);
     const gameContext = useContext(GameContext);
     const game = props.gameId;
-    const [stage, setStage] = useState<number> (1);
     const [waitingList, setList] = useState <string[]> ([]);
 
     if (!partyContext) {
@@ -42,58 +41,27 @@ function Game(props : GameProps) {
     }
 
     const {partyId, setPartyId, userId} = partyContext;
-    const {gameStage, setGameStage, dashboardListener, setDashboardListener} = gameContext;
-
-
-    const getGameStageListener = (eventSource : EventSource) => {
-        setDashboardListener(eventSource);
-    }
+    const {gameStage, setGameStage} = gameContext;
 
     useEffect(()=>{
         console.log("UPDATE")
-        let closeGameStageListener: { closeConnection: () => void };
+        let gameStageListener : EventSource;
         const fetchGameStageListener = () => {
-            EnterGameAxios(partyId, userId, getGameStageListener, setGameStage);
+            EnterGameAxios(partyId, userId);
                 setTimeout (()=> {
-                    closeGameStageListener = GetGameStageListenerAxios(partyId, userId, getGameStageListener, setGameStage)
+                    gameStageListener = GetGameStageListenerAxios(partyId, userId, handleChangeCurrentStage)
                 }, 1000);
         }
         fetchGameStageListener();
 
         return () => {
-            if (closeGameStageListener) {
-                closeGameStageListener.closeConnection();
-            }
+            gameStageListener.close();
         }
     },[])
 
-    const removeWaitingList = (memberName : string) => {
-        console.log("리무브 : " +memberName);
-        console.log ("STAGE : "+stage);
-
-        setList((prevList) => prevList.filter((item) => item !== memberName));
-
+    const handleChangeCurrentStage = (stage : number) => {
+        setGameStage(stage);
     }
-
-    const addWaitingList = (memberName : string ) => {
-        setList((prevList) => {
-            if (!prevList.includes(memberName)) {
-                console.log("함포");
-                return [...prevList, memberName];
-            }
-            console.log("미포");
-            return prevList;
-        });
-    }
-
-    function changeStage (stage :number){
-        console.log("CHANGE STAGE : "+stage);
-        setStage(stage);
-    }
-
-
-
-
 
     return (
         <div className="Game">
@@ -106,14 +74,14 @@ function Game(props : GameProps) {
                     return (
                         <div key={index}>
                             <p>{gameName} + {gameStage}</p>
-                            <Component gameId={props.gameId} stage={gameStage} key={index}/>
+                            <Component gameId={props.gameId} key={index}/>
                         </div>
                     );
                 }
             })}
 
             </div>
-            {stage == 1 && <div className={"waitngList"}>
+            {gameStage == 1 && <div className={"waitngList"}>
                 <svg aria-hidden="true"
                      className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-black-300 fill-red-600"
                      viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">

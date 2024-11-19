@@ -4,7 +4,7 @@ import React from "react";
 
 const my = new My();
 
-export function EnterGameAxios(partyId: number, userId: number, getGameStageListener : (eventSource : EventSource) => void, setGameStage : React.Dispatch<React.SetStateAction<number>>) {
+export function EnterGameAxios(partyId: number, userId: number) {
     console.log("SEND ENTER GAME AXIOS")
     axios({
         url: "/api/v2/auth/session" + "/game",
@@ -120,48 +120,34 @@ export function WaitingAPI(partyId: number, removeWaitingList: ( memberName: str
     }
 };
 
-export function GetGameStageListenerAxios(partyId: number, userId: number, getGameStageListener : (eventSource : EventSource) => void, setGameStage : React.Dispatch<React.SetStateAction<number>>) {
+export function GetGameStageListenerAxios(partyId: number, userId: number, handleChangeCurrentStage : (gameStage : number) => void) {
 
-    function createEventSource() {
-        let eventSource : EventSource;
-        eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/api/v2/sse/${partyId}/game-stage?userId=${userId}`);
+    let eventSource : EventSource;
+    eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/api/v2/sse/${partyId}/game-stage?userId=${userId}`);
 
-        eventSource.addEventListener('connect', (e)=>{
-            const {data: receivedConnectData} = e;
-            console.log('connect event data101 : ',receivedConnectData);
-        });
-        eventSource.addEventListener('open', () => {
-            console.log('Connection established.');
-        });
-        eventSource.addEventListener('ChangeCurrentStage', async (e)=>{
-            console.log(e);
-            const {data: receivedData} = e;
-            const gameStage = +receivedData;
-            setGameStage(gameStage);
-        });
-        eventSource.addEventListener('error', (e) => {
-            console.error('EventSource failed:', e);
-            console.log(eventSource.readyState);
-            if (eventSource.readyState === EventSource.CLOSED) {
-                console.log('Connection closed.');
-            }
-            if (eventSource.readyState === EventSource.CONNECTING) {
-                console.log('Attempting to reconnect...');
-            }
-        });
-        return eventSource;
-    }
-
-    function closeConnection(){
-        console.log("클로즈");
-        originalEventSource.close();
-    }
-
-    let originalEventSource : EventSource;
-    originalEventSource = createEventSource();
-    getGameStageListener(originalEventSource);
-    return {
-        closeConnection
-    }
+    eventSource.addEventListener('connect', (e)=>{
+        const {data: receivedConnectData} = e;
+        console.log('connect event data101 : ',receivedConnectData);
+    });
+    eventSource.addEventListener('open', () => {
+        console.log('Connection established.');
+    });
+    eventSource.addEventListener('ChangeCurrentStage', async (e)=>{
+        console.log(e);
+        const {data: receivedData} = e;
+        const gameStage = +receivedData;
+        handleChangeCurrentStage(gameStage);
+    });
+    eventSource.addEventListener('error', (e) => {
+        console.error('EventSource failed:', e);
+        console.log(eventSource.readyState);
+        if (eventSource.readyState === EventSource.CLOSED) {
+            console.log('Connection closed.');
+        }
+        if (eventSource.readyState === EventSource.CONNECTING) {
+            console.log('Attempting to reconnect...');
+        }
+    });
+    return eventSource;
 }
 
