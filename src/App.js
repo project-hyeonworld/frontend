@@ -3,8 +3,8 @@ import {Routes, Route, BrowserRouter} from 'react-router-dom'
 import './App.css';
 import customAxios from './customAxios';
 
-import Root from './pages/Root/Root';
-import Game from './pages/Game/Game';
+import Root from './view/pages/Root/Root';
+import Game from './view/pages/Game/Game';
 import LoginProvider from "./context/login/LoginContext";
 
 function App() {
