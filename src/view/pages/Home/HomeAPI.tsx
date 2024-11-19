@@ -16,7 +16,7 @@ export function CurrentGameAxios(partyId: number, callback: (data: any) => void)
   });
 };
 
-export function DisplayGameAxios(callback: (data: any) => void) {
+export function DisplayGameAxios(getGameCollection: (data: any) => void) {
 
   axios({
     url: "/api/v2/games/" + "playable",
@@ -24,7 +24,7 @@ export function DisplayGameAxios(callback: (data: any) => void) {
     baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
     withCredentials: true,
   }).then(function (response) {
-    callback(response.data.games);
+    getGameCollection(response.data.games);
   });
 };
 

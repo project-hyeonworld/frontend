@@ -11,7 +11,8 @@ import {Special} from "configuration/special/SpecialConfig";
 import {PartyContext} from "context/party/PartyContext";
 import {ExitGameAxios} from "../Game/GameAPI";
 import GameProvider from "context/game/GameContext";
-import {GameModel, GameWithId, mapGameToGameWithId} from "model/Game";
+import {GameModel} from "model/Game";
+import GameCard from 'view/parts/gameCard/GameCard';
 
 interface HomeProps{
     partyId: number | null;
@@ -19,11 +20,8 @@ interface HomeProps{
     userName: string;
 }
 
-
-
 function Home (props : HomeProps){
     const partyContext = useContext(PartyContext);
-    const [gameList, setGameList] = useState <GameWithId[]>([]);
     const [enterGameId, setEnterGameId] = useState <number|null> (null);
     const [currentGameId, setCurrentGameId] = useState <number|null> (null);
     const special = new Special();
@@ -39,18 +37,17 @@ function Home (props : HomeProps){
         }
         setUserId(props.userId);
         setUserName(props.userName);
-        function getGameList (games : GameModel[]){
-
+        function getGameCollection (games : GameModel[]){
             handleGameCollection(games);
         }
-        DisplayGameAxios (getGameList);
+        DisplayGameAxios (getGameCollection);
     },[])
 
     useEffect(() => {
     }, [partyId]);
 
     const handleGameCollection = (games: GameModel[]) => {
-        setGameCollection(games.map((game, index) => mapGameToGameWithId(game, index)));
+        setGameCollection(games);
     };
 
     const openGame = (id : number) => {
@@ -94,14 +91,7 @@ function Home (props : HomeProps){
                         <Game gameId={currentGameId}/>
                     </GameProvider>
                     )
-                : <ul className="cards">
-                    {gameCollection.map((game: GameWithId, i: number) => {
-                        return <li id={i.toString()} className={"card"+i%7} key={i} onClick={onClickGame}>
-                            <h3 className="card-title">{game.name}</h3>
-                            <ul className="p-2 space-y-1"/>
-                            {game.description}</li>
-                    })}
-                </ul>}
+                : <GameCard onClickGame={onClickGame}></GameCard>}
 
             </div>
             {special.adminId === userId && <AdminMenu/>}

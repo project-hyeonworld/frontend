@@ -6,12 +6,9 @@ import Game4 from "view/pages/Game/4/Game4Main";
 import Game5 from "view/pages/Game/5/Game5Main";
 
 export interface GameModel {
+  id : number;
   name: string;
   description: string;
-}
-
-export interface GameWithId extends GameModel {
-  id : number;
 }
 
 export const GameComponent = {
@@ -21,12 +18,4 @@ export const GameComponent = {
   "퀴즈퀴즈": Game3,
   "떡 먹은 현우 찾기": Game4,
   "선택지 게임": Game5,
-}
-
-export function mapGameToGameWithId(game: GameModel, id: number) {
-  return {
-    id: id,
-    name: game.name,
-    description: game.description
-  }
 }

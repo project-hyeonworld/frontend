@@ -1,4 +1,4 @@
-import { GameWithId } from "model/Game";
+import { GameModel} from "model/Game";
 import React, {createContext, ReactNode, useState,} from "react";
 
 interface PartyContextProps {
@@ -8,8 +8,8 @@ interface PartyContextProps {
   setUserId: React.Dispatch<React.SetStateAction<number>>;
   userName: string;
   setUserName: React.Dispatch<React.SetStateAction<string>>;
-  gameCollection: GameWithId[]
-  setGameCollection: React.Dispatch<React.SetStateAction<GameWithId[]>>
+  gameCollection: GameModel[]
+  setGameCollection: React.Dispatch<React.SetStateAction<GameModel[]>>
 }
 
 export const PartyContext = createContext<PartyContextProps | undefined> (undefined);
@@ -19,7 +19,7 @@ const PartyProvider: React.FC<{children: ReactNode}> = ({children}) => {
   const [partyId, setPartyId] = useState<number>(-1);
   const [userId, setUserId] = useState<number>(-2);
   const [userName, setUserName] = useState<string>('');
-  const [gameCollection, setGameCollection] = useState<GameWithId[]>([]);
+  const [gameCollection, setGameCollection] = useState<GameModel[]>([]);
   return (
       <PartyContext.Provider value = {{partyId, setPartyId, userId, setUserId, userName, setUserName, gameCollection, setGameCollection}}>
         {children}
