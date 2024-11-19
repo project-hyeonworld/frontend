@@ -4,7 +4,7 @@ import {EnterGameAxios, GetGameStageListenerAxios, WaitingAPI} from "./GameAPI";
 import {PartyContext} from "../../../context/party/PartyContext";
 import {GameContext} from "../../../context/game/GameContext";
 
-import GameStrategy from "./interface/GameMain";
+import GameStrategy from "./interface/GameStrategy";
 
 interface GameProps {
     gameId: number;
