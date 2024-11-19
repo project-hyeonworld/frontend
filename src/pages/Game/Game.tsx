@@ -51,16 +51,19 @@ function Game(props : GameProps) {
 
     useEffect(()=>{
         console.log("UPDATE")
-        const fetchGameStageListener = async () => {
-            await EnterGameAxios(partyId, userId, getGameStageListener, setGameStage);
+        let closeGameStageListener: { closeConnection: () => void };
+        const fetchGameStageListener = () => {
+            EnterGameAxios(partyId, userId, getGameStageListener, setGameStage);
+                setTimeout (()=> {
+                    closeGameStageListener = GetGameStageListenerAxios(partyId, userId, getGameStageListener, setGameStage)
+                }, 1000);
         }
         fetchGameStageListener();
 
         return () => {
-            //waitingApi.closeConnection();-
-            //gameApi.closeConnection();
-            // stageApi.closeConnection();
-            // waitingApi.closeConnection();
+            if (closeGameStageListener) {
+                closeGameStageListener.closeConnection();
+            }
         }
     },[])
 
@@ -102,7 +105,7 @@ function Game(props : GameProps) {
                     const Component = gameComponent;
                     return (
                         <div key={index}>
-                            <p>{gameName}</p>
+                            <p>{gameName} + {gameStage}</p>
                             <Component gameId={props.gameId} stage={gameStage} key={index}/>
                         </div>
                     );
