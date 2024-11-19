@@ -13,19 +13,16 @@ function Root(){
         throw new Error ("Root has to be in LoginContext");
     }
     const {login, setLogin} = loginContext;
-    const [partyId, setPartyId] = useState(-1);
+    const [partyId, setPartyId] = useState<number|null>(null);
     const [memberName, setMemberName] = useState("");
     const [userId, setUserId] = useState(-1);
 
-    const handleLogin = useCallback ((loginName :string, partyId: number, loginId: number, )=> {
+    const handleLogin = useCallback ((loginName :string, partyId: number|null, loginId: number, )=> {
         setPartyId(partyId);
         setMemberName(loginName);
         setUserId(loginId);
         setLogin(true);
-    },[setLogin]);
-
-    useEffect(() => {
-    }, [login]);
+    },[]);
 
     return (
         <div className="Root">
