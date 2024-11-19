@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from "react";
-import {GameStageProps} from "view/pages/Game/GameProps/GameProps";
 import {Special} from "configuration/special/SpecialConfig";
 import Check_Admin from "./Check_Admin" ;
 
@@ -7,7 +6,7 @@ import {CheckAPI} from "./CheckAPI";
 import partyContext, {PartyContext} from "../../../../../context/party/PartyContext";
 
 
-export default function Check (props : GameStageProps) {
+export default function Check () {
     const partyContext = useContext(PartyContext);
     const special = new Special();
 

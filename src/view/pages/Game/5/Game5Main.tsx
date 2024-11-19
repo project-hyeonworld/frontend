@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 
-import {GameProps} from "../GameProps/GameProps";
 
 
 
 
-function Game6(props : GameProps) {
+function Game6() {
     // IP주소 변수 선언
 
 

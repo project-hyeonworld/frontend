@@ -1,6 +1,5 @@
 import React from "react";
-import {GameProps} from "../GameProps/GameProps";
-export default function Game1(props : GameProps) {
+export default function Game1() {
     return (
         <div className="Game1">
 

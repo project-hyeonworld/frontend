@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
-import {GameStageProps} from "../../GameProps/GameProps";
 import ConfirmModal from "./confirm/ConfirmModal";
 import {PlayAPI} from "./PlayAPI";
 import {PartyContext} from "context/party/PartyContext";
+import {GameStageProps} from "view/pages/Game/GameProps/GameProps";
 
 
 export default function Play(props : GameStageProps) {

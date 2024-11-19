@@ -1,24 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
 
-import {GameProps} from "./GameProps/GameProps";
-
-import Game0 from './0/Game0Main';
-import Game1 from "./1/Game1Main";
-import Game2 from "./2/Game2Main";
-import Game3 from "./3/Game3Main";
-import Game4 from "./4/Game4Main";
-import Game5 from "./5/Game5Main";
 import {EnterGameAxios, GetGameStageListenerAxios, WaitingAPI} from "./GameAPI";
 import {PartyContext} from "../../../context/party/PartyContext";
 import {GameContext} from "../../../context/game/GameContext";
-import {GameComponent} from "../../../model/Game";
 
+import GameStrategy from "./interface/GameMain";
 
+interface GameProps {
+    gameId: number;
+}
 
 function Game(props : GameProps) {
     const partyContext = useContext(PartyContext);
     const gameContext = useContext(GameContext);
-    const game = props.gameId;
+    const gameId = props.gameId;
     const [waitingList, setList] = useState <string[]> ([]);
 
     if (!partyContext) {
@@ -55,19 +50,7 @@ function Game(props : GameProps) {
         <div className="Game">
             <ul className="p-2 space-y-1"/>
             <div className="flex mx-2 items-center justify-center rounded-xl group sm:flex space-x-2">
-
-                {Object.entries(GameComponent).map(([gameName, gameComponent], index) =>{
-                if (gameName == gameCollection[index].name){
-                    const Component = gameComponent;
-                    return (
-                        <div key={index}>
-                            <p>{gameName} + {gameStage}</p>
-                            <Component gameId={props.gameId} key={index}/>
-                        </div>
-                    );
-                }
-            })}
-
+                <GameStrategy gameId = {gameId}/>
             </div>
             {gameStage == 1 && <div className={"waitngList"}>
                 <svg aria-hidden="true"

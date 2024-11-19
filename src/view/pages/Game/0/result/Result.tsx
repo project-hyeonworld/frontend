@@ -1,11 +1,10 @@
 import React, {ChangeEvent, useContext, useEffect, useState} from "react";
-import {GameProps, GameStageProps} from "../../GameProps/GameProps";
 import {ResultAPI, SetScoreAxios} from "./ResultAPI";
 import {ShowAPI} from "../show/ShowAPI";
 import {Special} from "configuration/special/SpecialConfig";
 import {PartyContext} from "context/party/PartyContext";
 
-export default function  Result(props : GameStageProps) {
+export default function  Result() {
     const partyContext = useContext(PartyContext);
     if(!partyContext) {
         throw new Error()
