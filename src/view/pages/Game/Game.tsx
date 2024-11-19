@@ -11,21 +11,9 @@ import Game5 from "./5/Game5Main";
 import {EnterGameAxios, GetGameStageListenerAxios, WaitingAPI} from "./GameAPI";
 import {PartyContext} from "../../../context/party/PartyContext";
 import {GameContext} from "../../../context/game/GameContext";
+import {GameComponent} from "../../../model/Game";
 
-export const Games = {
-    "진실 혹은 거짓": Game0,
-    "무작위 세 단어": Game1,
-    "소수결 게임": Game2,
-    "퀴즈퀴즈": Game3,
-    "떡 먹은 현우 찾기": Game4,
-    "선택지 게임": Game5,
-}
 
-type stateData = {
-    id: number;
-    rootCall: (data : boolean, loginName :string)=>void;
-    name: string;
-}
 
 function Game(props : GameProps) {
     const partyContext = useContext(PartyContext);
@@ -40,7 +28,7 @@ function Game(props : GameProps) {
         throw new Error('Game must be used within an GameProvider');
     }
 
-    const {partyId, setPartyId, userId} = partyContext;
+    const {partyId, setPartyId, userId, gameCollection} = partyContext;
     const {gameStage, setGameStage} = gameContext;
 
     useEffect(()=>{
@@ -68,8 +56,8 @@ function Game(props : GameProps) {
             <ul className="p-2 space-y-1"/>
             <div className="flex mx-2 items-center justify-center rounded-xl group sm:flex space-x-2">
 
-                {Object.entries(Games).map(([gameName, gameComponent], index) =>{
-                if (game == index){
+                {Object.entries(GameComponent).map(([gameName, gameComponent], index) =>{
+                if (gameName == gameCollection[index].name){
                     const Component = gameComponent;
                     return (
                         <div key={index}>

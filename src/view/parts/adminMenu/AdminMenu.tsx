@@ -11,10 +11,6 @@ interface Game{
     name: string;
 }
 
-interface AdminMenuProps{
-    gameList: Game[];
-}
-
 export const AdminMenuList = {
     Init: 0,
     Open: 1,
@@ -31,11 +27,17 @@ export const AdminMenuList = {
 
 
 
-function AdminMenu (props: AdminMenuProps){
+function AdminMenu (){
     const partyContext = useContext(PartyContext);
     const [initModal, setInit] = useState<boolean>(false);
     const [openModal, setOpen] = useState<boolean>(false);
     const [memberModal, setMember] = useState<boolean>(false);
+
+    if (!partyContext) {
+        throw new Error('AdminMenu must be used within an PartyProvider');
+    }
+
+
 
     useEffect(()=>{
     },[])
@@ -44,7 +46,6 @@ function AdminMenu (props: AdminMenuProps){
         setInit(!initModal);
     }
     const onOpen = () => {
-        console.log("GAME LEngth : " + props.gameList.length);
         setOpen(!openModal);
     }
     const onDone = () => {
@@ -53,9 +54,7 @@ function AdminMenu (props: AdminMenuProps){
     const onMember = () => {
         setMember(!memberModal);
     }
-    if (!partyContext) {
-        throw new Error('AdminMenu must be used within an PartyProvider');
-    }
+
 
 
 
@@ -88,7 +87,7 @@ function AdminMenu (props: AdminMenuProps){
         <div className="AdminMenu">
             <div className={"grid grid-cols-5"}>
                 {initModal && <InitModal onInit={onInit}/>}
-                {openModal && <OpenModal onOpen={onOpen} gameList={props.gameList}/>}
+                {openModal && <OpenModal onOpen={onOpen}/>}
                 {memberModal && <MemberModal onMember={onMember}/>}
             {Object.entries(AdminMenuList).map(([menuName, index]) =>{
                 return <button

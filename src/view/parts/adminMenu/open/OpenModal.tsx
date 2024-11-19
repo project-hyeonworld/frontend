@@ -11,7 +11,6 @@ interface Game{
 
 interface OpenModalProps{
     onOpen : any;
-    gameList : Game[];
 }
 
 const OpenModal = ( props: OpenModalProps) => {
@@ -29,17 +28,17 @@ const OpenModal = ( props: OpenModalProps) => {
         throw new Error('OpenModal must be used within a PartyProvider');
     }
 
-    const {partyId, setPartyId} = partyContext;
+    const {partyId, setPartyId, gameCollection} = partyContext;
 
     const onOpenGame = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value =parseInt(event.target.value);
         setGame(value);
-        setName(props.gameList[value].name);
+        setName(gameCollection[value].name);
     }
 
     const commitOpen = () => {
         console.log(gameName);
-        OpenGameAxios(partyId, props.gameList[openGame].id);
+        OpenGameAxios(partyId, gameCollection[openGame].id);
         props.onOpen();
     }
 
@@ -55,7 +54,7 @@ const OpenModal = ( props: OpenModalProps) => {
                        className="block mb-2 text-sm font-medium text-gray-900">
                 </label>
                 <input className={"text-center"} type={"text"} value={gameName} onChange={onOpenGame}></input>
-                <input id="default-range" type="range" min={0} max={props.gameList.length-1}  onChange={onOpenGame} value={openGame}
+                <input id="default-range" type="range" min={0} max={gameCollection.length-1}  onChange={onOpenGame} value={openGame}
                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                 />
 

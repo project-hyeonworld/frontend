@@ -11,6 +11,7 @@ import {Special} from "configuration/special/SpecialConfig";
 import {PartyContext} from "context/party/PartyContext";
 import {ExitGameAxios} from "../Game/GameAPI";
 import GameProvider from "context/game/GameContext";
+import {GameModel, GameWithId, mapGameToGameWithId} from "model/Game";
 
 interface HomeProps{
     partyId: number | null;
@@ -18,14 +19,6 @@ interface HomeProps{
     userName: string;
 }
 
-interface Game {
-    name: string;
-    description: string;
-}
-
-interface GameWithId extends Game {
-    id : number;
-}
 
 
 function Home (props : HomeProps){
@@ -37,7 +30,7 @@ function Home (props : HomeProps){
     if (!partyContext) {
         throw new Error('Home must be used within a PartyProvider');
     }
-    const {partyId, setPartyId, userId, setUserId, userName, setUserName} = partyContext;
+    const {partyId, setPartyId, userId, setUserId, userName, setUserName, gameCollection, setGameCollection} = partyContext;
 
     useEffect(()=>{
         console.log('Home useEffect', new Date().getTime());
@@ -46,22 +39,19 @@ function Home (props : HomeProps){
         }
         setUserId(props.userId);
         setUserName(props.userName);
-        function getGameList (games : Game[]){
-            function mapGameToGameWithId(game: Game, id: number) {
-                return {
-                    id: id,
-                    name: game.name,
-                    description: game.description
-                }
-            }
+        function getGameList (games : GameModel[]){
 
-            setGameList(games.map((game, index) => mapGameToGameWithId(game, index)));
+            handleGameCollection(games);
         }
         DisplayGameAxios (getGameList);
     },[])
 
     useEffect(() => {
     }, [partyId]);
+
+    const handleGameCollection = (games: GameModel[]) => {
+        setGameCollection(games.map((game, index) => mapGameToGameWithId(game, index)));
+    };
 
     const openGame = (id : number) => {
         console.log('openGame called', new Date().getTime());
@@ -90,6 +80,8 @@ function Home (props : HomeProps){
         CurrentGameAxios(partyId, setCurrentGameId);
     }
 
+
+
     // @ts-ignore
     return (
         <div className="Home">
@@ -103,7 +95,7 @@ function Home (props : HomeProps){
                     </GameProvider>
                     )
                 : <ul className="cards">
-                    {gameList.map((game: GameWithId, i: number) => {
+                    {gameCollection.map((game: GameWithId, i: number) => {
                         return <li id={i.toString()} className={"card"+i%7} key={i} onClick={onClickGame}>
                             <h3 className="card-title">{game.name}</h3>
                             <ul className="p-2 space-y-1"/>
@@ -112,7 +104,7 @@ function Home (props : HomeProps){
                 </ul>}
 
             </div>
-            {special.adminId === userId && <AdminMenu gameList={gameList}/>}
+            {special.adminId === userId && <AdminMenu/>}
         </div>
     );
 }
