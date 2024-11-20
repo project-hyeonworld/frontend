@@ -11,11 +11,11 @@ export function GetWaitingListAxios(partyId: number, initNamesOnWaitingList : (w
     baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
     withCredentials: true,
   }).then(function (response) {
-    initNamesOnWaitingList(response.data);
+    initNamesOnWaitingList(response.data.names);
   });
 }
 
-export function GetWaitingListListenerAxios(partyId: number, userId: number, removeWaitingList: ( memberName: string) =>void, addWaitingList: ( memberName: string) =>void) {
+export function GetWaitingListListenerAxios(partyId: number, userId: number, addWaitingList: ( memberName: string) =>void, removeWaitingList: ( memberName: string) =>void) {
 
   let eventSource : EventSource;
   eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/api/v2/sse/${partyId}/waiting-list?userId=${userId}`);

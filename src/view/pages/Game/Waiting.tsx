@@ -31,14 +31,17 @@ const Waiting = () => {
   }, []);
 
   const initNamesOnWaitingList = useCallback((waitingList: string[]) => {
+    console.log("Init : "+waitingList);
     setList(waitingList);
   }, []);
 
   const addNameOnWaitingList = useCallback((userName: string) => {
+    console.log("POST : " + userName);
     setList((prev) => Array.isArray(prev) ? [...prev, userName] : [userName])
   }, []);
 
   const removeNameOnWaitingList = useCallback((userName: string) => {
+    console.log("DELETE : " + userName);
     setList((prev) => Array.isArray(prev) ? prev.filter(name => name !== userName) : []);
   }, []);
 
