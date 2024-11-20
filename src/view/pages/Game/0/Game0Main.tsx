@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import {GameContext} from "../../../../context/game/GameContext";
 import GameStageStrategy from "../interface/GameStageStrategy";
 
@@ -9,7 +9,11 @@ export default function Game0() {
     if (!gameContext) {
         throw new Error('Game must be used within an GameProvider');
     }
-    const {gameStage, setGameStage} = gameContext;
+    const {gameStage} = gameContext;
+
+    useEffect(() => {
+
+    }, [gameStage]);
 
     return (
         <>

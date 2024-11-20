@@ -1,3 +1,5 @@
+
+import Waiting from "view/pages/Game/Waiting";
 import Tutorial from "view/pages/Game/0/Tutorial";
 import Submit from "view/pages/Game/0/submit/Submit";
 import Check from "view/pages/Game/0/check/Check";
@@ -7,9 +9,10 @@ import Result from "view/pages/Game/0/result/Result";
 import Ranking from "view/pages/Game/0/ranking/Ranking";
 import Done from "view/pages/Game/0/Done";
 
+
 const Game0Stages = () => ({
   0: null,
-  1: null, //Waiting
+  1: {component : Waiting}, //Waiting
   2: {component : Tutorial},
   3: {component : Submit},
   4: {component : Check},
