@@ -28,7 +28,7 @@ function Home (props : HomeProps){
     if (!partyContext) {
         throw new Error('Home must be used within a PartyProvider');
     }
-    const {partyId, setPartyId, userId, setUserId, userName, setUserName, gameCollection, setGameCollection} = partyContext;
+    const {partyId, setPartyId, userId, setUserId, userName, setUserName, setGameCollection} = partyContext;
 
     useEffect(()=>{
         console.log('Home useEffect', new Date().getTime());
@@ -50,7 +50,7 @@ function Home (props : HomeProps){
         setGameCollection(games);
     };
 
-    const openGame = (id : number) => {
+    const setEnterGame = (id : number) => {
         console.log('openGame called', new Date().getTime());
         setEnterGameId(id);
     }
@@ -64,9 +64,7 @@ function Home (props : HomeProps){
         if (partyId) {
             CurrentGameAxios(partyId, setCurrentGameId);
         }
-        if (currentGameId == value) {
-            openGame(value);
-        }
+        setEnterGame(value);
     }
 
     const onClickBack = () => {
@@ -86,7 +84,7 @@ function Home (props : HomeProps){
             <MenuBar moveBack={onClickBack}/>
             <ul className="p-2 space-y-1"/>
             <div className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
-                {enterGameId !== null && currentGameId !== null ?(
+                {(enterGameId !== null) && (enterGameId == currentGameId) ?(
                     <GameProvider>
                         <Game gameId={currentGameId}/>
                     </GameProvider>
