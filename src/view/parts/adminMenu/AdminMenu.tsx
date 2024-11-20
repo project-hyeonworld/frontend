@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import InitModal from "./init/InitModal";
 import OpenModal from "./open/OpenModal";
 import MemberModal from "./member/MemberModal";
-import {AdminDoneAxios} from "../adminMenu/AdminMenuAPI";
+import {AdminDoneAxios, AdminMenuAxios, ChangeCurrentGameStageAxios} from "../adminMenu/AdminMenuAPI";
 import {usePartyContext} from "context/party/PartyContext";
 
 interface Game{
@@ -33,11 +33,10 @@ function AdminMenu (){
     const [openModal, setOpen] = useState<boolean>(false);
     const [memberModal, setMember] = useState<boolean>(false);
 
-    if (!partyContext) {
-        throw new Error('AdminMenu must be used within an PartyProvider');
-    }
+    const {partyId} = partyContext;
 
-
+    const MINIMUM_STAGE_VALUE = 1;
+    const MAXIMUM_STAGE_VALUE = 8;
 
     useEffect(()=>{
     },[])
@@ -63,6 +62,10 @@ function AdminMenu (){
         const target = event.target as HTMLLIElement;
         const value : any = target.getAttribute("id");
         const parsedValue : number = parseInt(value);
+
+        if (MINIMUM_STAGE_VALUE <= parsedValue && parsedValue <= MAXIMUM_STAGE_VALUE) {
+            ChangeCurrentGameStageAxios(partyId, parsedValue);
+        }
 
         switch (parsedValue) {
             case AdminMenuList["Init"]:
