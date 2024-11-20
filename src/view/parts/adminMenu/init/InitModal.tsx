@@ -1,7 +1,7 @@
-import React, {ChangeEvent, useContext, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 
 import {InitAxios} from "./InitAPI"
-import {PartyContext} from "context/party/PartyContext";
+import {usePartyContext} from "context/party/PartyContext";
 
 export const PartyList: {[key: number] : string} = {
     0:"외가",
@@ -9,7 +9,7 @@ export const PartyList: {[key: number] : string} = {
 }
 
 const InitModal = ({onInit}: any) => {
-    const partyContext = useContext(PartyContext);
+    const partyContext = usePartyContext("InitModal");
     const [persons, setPerson] = useState<number>(1);
     const [partyType, setPartyType] = useState<number> (0);
 

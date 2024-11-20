@@ -1,10 +1,10 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import InitModal from "./init/InitModal";
 import OpenModal from "./open/OpenModal";
 import MemberModal from "./member/MemberModal";
-import {AdminMenuAxios, AdminDoneAxios} from "../adminMenu/AdminMenuAPI";
-import {PartyContext} from "context/party/PartyContext";
+import {AdminDoneAxios} from "../adminMenu/AdminMenuAPI";
+import {usePartyContext} from "context/party/PartyContext";
 
 interface Game{
     id: number;
@@ -28,7 +28,7 @@ export const AdminMenuList = {
 
 
 function AdminMenu (){
-    const partyContext = useContext(PartyContext);
+    const partyContext = usePartyContext("AdminMenu");
     const [initModal, setInit] = useState<boolean>(false);
     const [openModal, setOpen] = useState<boolean>(false);
     const [memberModal, setMember] = useState<boolean>(false);

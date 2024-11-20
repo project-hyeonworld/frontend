@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {LogoutAxios} from "../../pages/Home/HomeAPI";
 import ScoreModal from "./scoreModal/ScoreModal";
 import {LoginContext} from "context/login/LoginContext";
-import {PartyContext} from "context/party/PartyContext";
+import {PartyContext, usePartyContext} from "context/party/PartyContext";
 
 interface MenuBarProps{
     moveBack: ()=> void;
@@ -10,7 +10,7 @@ interface MenuBarProps{
 
 function MenuBar (props : MenuBarProps){
     const loginContext = useContext(LoginContext);
-    const partyContext = useContext(PartyContext);
+    const partyContext = usePartyContext("MenuBar");
 
     if (!loginContext) {
         throw new Error('MenuBar must be used within a LoginProvider');

@@ -1,14 +1,10 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {ResultAPI, SetScoreAxios} from "./ResultAPI";
-import {ShowAPI} from "../show/ShowAPI";
 import {Special} from "configuration/special/SpecialConfig";
-import {PartyContext} from "context/party/PartyContext";
+import {usePartyContext} from "context/party/PartyContext";
 
 export default function  Result() {
-    const partyContext = useContext(PartyContext);
-    if(!partyContext) {
-        throw new Error()
-    }
+    const partyContext = usePartyContext("Result");
     const {userId} = partyContext;
     const [correct, setCorrect] = useState<number>(2);
     const [wrong, setWrong] = useState<number>(0);

@@ -1,7 +1,6 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from "react";
+import React, {useState} from "react";
 import {OpenGameAxios} from "../open/OpenAPI";
-import {type} from "@testing-library/user-event/dist/type";
-import {PartyContext} from "context/party/PartyContext";
+import {usePartyContext} from "context/party/PartyContext";
 
 
 interface Game{
@@ -14,7 +13,7 @@ interface OpenModalProps{
 }
 
 const OpenModal = ( props: OpenModalProps) => {
-    const partyContext = useContext(PartyContext);
+    const partyContext = usePartyContext("OpenModal");
     const [openGame, setGame] = useState<number>(0);
     const [gameName, setName] = useState<string>("선택해주세요");
 

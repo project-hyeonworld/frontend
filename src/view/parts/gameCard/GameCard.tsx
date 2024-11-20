@@ -1,13 +1,13 @@
 import {GameModel} from "../../../model/Game";
 import React, {useContext} from "react";
-import {PartyContext} from "../../../context/party/PartyContext";
+import {PartyContext, usePartyContext} from "../../../context/party/PartyContext";
 
 interface GameCardProps {
   onClickGame: React.MouseEventHandler<HTMLLIElement> | undefined;
 }
 
 const GameCard = (props : GameCardProps) => {
-  const partyContext = useContext(PartyContext);
+  const partyContext = usePartyContext("GameCard");
   if (!partyContext) {
     throw new Error('Home must be used within a PartyProvider');
   }

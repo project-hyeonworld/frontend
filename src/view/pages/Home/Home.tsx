@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {DisplayGameAxios, CurrentGameAxios} from "./HomeAPI";
 import './Home.css';
 
@@ -8,7 +8,7 @@ import MenuBar from "../../parts/menuBar/MenuBar";
 import Game from "../Game/Game";
 import AdminMenu from "../../parts/adminMenu/AdminMenu";
 import {Special} from "configuration/special/SpecialConfig";
-import {PartyContext} from "context/party/PartyContext";
+import {usePartyContext} from "context/party/PartyContext";
 import {ExitGameAxios} from "../Game/GameAPI";
 import GameProvider from "context/game/GameContext";
 import {GameModel} from "model/Game";
@@ -21,7 +21,7 @@ interface HomeProps{
 }
 
 function Home (props : HomeProps){
-    const partyContext = useContext(PartyContext);
+    const partyContext = usePartyContext("Home");
     const [enterGameId, setEnterGameId] = useState <number|null> (null);
     const [currentGameId, setCurrentGameId] = useState <number|null> (null);
     const special = new Special();

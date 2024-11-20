@@ -1,6 +1,4 @@
 import React, {ChangeEvent, useState} from 'react';
-import InitModal from "../init/InitModal";
-import {OpenGameAxios} from "../open/OpenAPI";
 import {MemberAxios} from "./MemberAPI";
 
 export const PartyList: {[key: number] : string} = {

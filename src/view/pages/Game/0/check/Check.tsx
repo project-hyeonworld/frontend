@@ -1,18 +1,13 @@
-import React, {useContext, useEffect, useState} from "react";
+import React from "react";
 import {Special} from "configuration/special/SpecialConfig";
 import Check_Admin from "./Check_Admin" ;
 
-import {CheckAPI} from "./CheckAPI";
-import partyContext, {PartyContext} from "../../../../../context/party/PartyContext";
+import {usePartyContext} from "context/party/PartyContext";
 
 
 export default function Check () {
-    const partyContext = useContext(PartyContext);
+    const partyContext = usePartyContext("Check");
     const special = new Special();
-
-    if (!partyContext) {
-      throw new Error("Game0Check has to be in PartyProvider")
-    }
 
     const {userId} = partyContext;
 

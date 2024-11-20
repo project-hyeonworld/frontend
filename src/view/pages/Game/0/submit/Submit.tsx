@@ -1,12 +1,12 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 
 import ConfirmModal from "./confirm/ConfirmModal";
 import {SubmitAPI} from "./SubmitAPI";
 import {GameStageProps} from "../../GameProps/GameProps";
-import {PartyContext} from "context/party/PartyContext";
+import {usePartyContext} from "context/party/PartyContext";
 
 export default function Submit(props : GameStageProps){
-    const partyContext = useContext(PartyContext);
+    const partyContext = usePartyContext("Submit");
     if(!partyContext) {
         throw new Error()
     }

@@ -1,7 +1,7 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 
-import {EnterGameAxios, GetGameStageListenerAxios, WaitingAPI} from "./GameAPI";
-import {PartyContext} from "../../../context/party/PartyContext";
+import {EnterGameAxios, GetGameStageListenerAxios} from "./GameAPI";
+import {usePartyContext} from "../../../context/party/PartyContext";
 import {GameContext} from "../../../context/game/GameContext";
 
 import GameStrategy from "./interface/GameStrategy";
@@ -11,14 +11,10 @@ interface GameProps {
 }
 
 function Game(props : GameProps) {
-    const partyContext = useContext(PartyContext);
+    const partyContext = usePartyContext("Game");
     const gameContext = useContext(GameContext);
     const gameId = props.gameId;
-    const [waitingList, setList] = useState <string[]> ([]);
 
-    if (!partyContext) {
-        throw new Error('Game must be used within an PartyProvider');
-    }
     if (!gameContext) {
         throw new Error('Game must be used within an GameProvider');
     }

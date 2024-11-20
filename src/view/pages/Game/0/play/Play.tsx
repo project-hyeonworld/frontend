@@ -1,13 +1,13 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import ConfirmModal from "./confirm/ConfirmModal";
 import {PlayAPI} from "./PlayAPI";
-import {PartyContext} from "context/party/PartyContext";
+import {usePartyContext} from "context/party/PartyContext";
 import {GameStageProps} from "view/pages/Game/GameProps/GameProps";
 
 
 export default function Play(props : GameStageProps) {
 
-    const partyContext = useContext(PartyContext);
+    const partyContext = usePartyContext("Play");
     if(!partyContext) {
         throw new Error()
     }

@@ -1,5 +1,5 @@
 import { GameModel} from "model/Game";
-import React, {createContext, ReactNode, useState,} from "react";
+import React, {createContext, ReactNode, useContext, useState,} from "react";
 
 interface PartyContextProps {
   partyId: number;
@@ -13,6 +13,14 @@ interface PartyContextProps {
 }
 
 export const PartyContext = createContext<PartyContextProps | undefined> (undefined);
+
+export const usePartyContext = (componentName : string) => {
+  const partyContext = useContext(PartyContext);
+  if (!partyContext) {
+    throw new Error(`${componentName} must be used within a PartyProvider`);
+  }
+  return partyContext;
+}
 
 const PartyProvider: React.FC<{children: ReactNode}> = ({children}) => {
 
