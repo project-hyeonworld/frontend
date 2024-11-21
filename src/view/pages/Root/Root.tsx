@@ -21,7 +21,9 @@ function Root(){
         setPartyId(partyId);
         setMemberName(loginName);
         setUserId(loginId);
-        setLogin(true);
+        if (partyId !== null) {
+            setLogin(true);
+        }
     },[]);
 
     return (
