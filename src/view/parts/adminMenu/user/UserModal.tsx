@@ -1,11 +1,11 @@
 import React, {ChangeEvent, useState} from 'react';
-import {MemberAxios} from "./MemberAPI";
+import {UserAxios} from "./UserAPI";
 
 export const PartyList: {[key: number] : string} = {
     0:"외가",
     1:"친가",
 }
-const MemberModal = ( {onMember}: any) => {
+const UserModal = ({onMember}: any) => {
     const [name, setName] = useState<string>("");
     const [partyType, setParty] = useState<number>(-1);
     const [relation, setRelation] = useState<number>(0);
@@ -23,8 +23,8 @@ const MemberModal = ( {onMember}: any) => {
         setParty(Number(event.target.value));
     };
 
-    const commitMember = (event : React.MouseEvent<HTMLButtonElement>) => {
-        MemberAxios(name, partyType, relation);
+    const commitUser = (event : React.MouseEvent<HTMLButtonElement>) => {
+        UserAxios(name, partyType, relation);
         onMember();
     }
 
@@ -32,7 +32,7 @@ const MemberModal = ( {onMember}: any) => {
         <div className={"h-screen w-full fixed left-0 top-0 flex justify-center bg-black bg-opacity-70"}>
             <div className={"bg-white fixed top-1/3 rounded-2xl w-10/12 h-2/7"}>
                 <div className={"border-b px-4 flex justify-between items-center"}>
-                    <h3 className={"font-extrabold"}>Member</h3>
+                    <h3 className={"font-extrabold"}>User</h3>
                 </div>
 
                 <label htmlFor="persons-slider"
@@ -52,7 +52,7 @@ const MemberModal = ( {onMember}: any) => {
 
                 <div className={"border-b px-4 py-2 flex items-center"}/>
                 <div className={"flex justify-center items-center w-100 py-2 text-gray-500"}>
-                    <button onClick={commitMember} className={"bg-red-600 hover:bg-red-700 rounded text-white mx-2"}>저장
+                    <button onClick={commitUser} className={"bg-red-600 hover:bg-red-700 rounded text-white mx-2"}>저장
                     </button>
                     <button onClick={onMember} className={"bg-gray-600 hover:bg-gray-700 rounded text-white"}>취소
                     </button>
@@ -62,4 +62,4 @@ const MemberModal = ( {onMember}: any) => {
     )
 }
 
-export default MemberModal;
+export default UserModal;

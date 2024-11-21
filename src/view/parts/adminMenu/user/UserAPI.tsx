@@ -4,16 +4,16 @@ import axios from "axios";
 
 
 
-export function MemberAxios(name : string, partyType : number, relation : number) {
+export function UserAxios(name : string, relationType: number, relation: number) {
     const my = new My();
     axios({
-        url: "member",
+        url: "/api/v2/users",
         method: 'post',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data: {
             name: name,
-            partyType : partyType,
+            relationType: relationType,
             relation : relation,
         }
     }).then(function (response) {

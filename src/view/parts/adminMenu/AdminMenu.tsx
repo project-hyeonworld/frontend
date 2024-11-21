@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 
 import InitModal from "./init/InitModal";
 import OpenModal from "./open/OpenModal";
-import MemberModal from "./member/MemberModal";
+import UserModal from "./user/UserModal";
 import {AdminDoneAxios, AdminMenuAxios, ChangeCurrentGameStageAxios} from "../adminMenu/AdminMenuAPI";
 import {usePartyContext} from "context/party/PartyContext";
 
@@ -22,7 +22,7 @@ export const AdminMenuList = {
     Result: 7,
     Ranking: 8,
     Done: 9,
-    Members: 10,
+    User: 10,
 };
 
 
@@ -77,7 +77,7 @@ function AdminMenu (){
             case AdminMenuList["Done"]:
                 onDone();
                 break;
-            case AdminMenuList["Members"]:
+            case AdminMenuList["User"]:
                 onMember();
                 break;
             default:
@@ -91,7 +91,7 @@ function AdminMenu (){
             <div className={"grid grid-cols-5"}>
                 {initModal && <InitModal onInit={onInit}/>}
                 {openModal && <OpenModal onOpen={onOpen}/>}
-                {memberModal && <MemberModal onMember={onMember}/>}
+                {memberModal && <UserModal onMember={onMember}/>}
             {Object.entries(AdminMenuList).map(([menuName, index]) =>{
                 return <button
                         type={"button"}
