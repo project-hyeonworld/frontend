@@ -1,8 +1,20 @@
 import {My} from "configuration/web/WebConfig";
 import axios from "axios";
 
+const my = new My();
+
+export function GetRelationTypeAxios(handleRelationList : (list : any) => void) {
+    axios({
+        url: "/api/v2/users/relation-types",
+        method: 'get',
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
+        withCredentials: true,
+    }).then(function (response) {
+        handleRelationList(response.data.relationTypes);
+    });
+}
+
 export function AdminMenuAxios(partyId : number, game : number, stage : number) {
-    const my = new My();
 
     const changeDashboardData = {
         gameId: game,
@@ -20,7 +32,6 @@ export function AdminMenuAxios(partyId : number, game : number, stage : number) 
 };
 
 export function ChangeCurrentGameStageAxios(partyId : number, gameStage : number) {
-    const my = new My();
 
     axios({
         url: "/api/v2/parties/" + partyId + "/dashboard/gameStage",
@@ -35,7 +46,6 @@ export function ChangeCurrentGameStageAxios(partyId : number, gameStage : number
 };
 
 export function AdminDoneAxios() {
-    const my = new My();
     axios({
         url: "/member/init",
         method: 'put',

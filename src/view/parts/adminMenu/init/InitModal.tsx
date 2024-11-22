@@ -1,29 +1,26 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useRef, useState} from 'react';
 
-import {InitAxios} from "./InitAPI"
+import {GetRelationTypeAxios, InitAxios} from "./InitAPI"
 import {usePartyContext} from "context/party/PartyContext";
 
-export const PartyList: {[key: number] : string} = {
-    0:"외가",
-    1:"친가",
+interface RelationTypes {
+    [key: number] : string;
 }
 
 const InitModal = ({onInit}: any) => {
     const partyContext = usePartyContext("InitModal");
     const [persons, setPerson] = useState<number>(1);
-    const [partyType, setPartyType] = useState<number> (0);
+    const [relationList, setRelationList] = useState<RelationTypes>({});
+    const [relationType, setRelationType] = useState<number> (0);
 
-    const familySlider = document.getElementById("family-slider");
+    const relationSlider = document.getElementById("relation-slider");
     const personsSlider = document.getElementById('persons-slider');
 
-    if (!partyContext) {
-        throw new Error('InitModal must be used within an PartyProvider');
-    }
+    const {partyId, setPartyId} = partyContext;
 
-    const {setPartyId} = partyContext;
-
-    if (familySlider){
-        familySlider.addEventListener('input', function(event) {
+    if (relationSlider){
+        relationSlider.addEventListener('input', function(event) {
+            const value = (event.target as HTMLInputElement).value;
         });
     }
     if (personsSlider){
@@ -32,20 +29,28 @@ const InitModal = ({onInit}: any) => {
         });
     }
 
-    const handlePersons = (event : ChangeEvent<HTMLInputElement>) => {
-        setPerson(Number(event.target.value));
-    };
+    useEffect(() => {
+        GetRelationTypeAxios(handleRelationList);
+    }, []);
 
-    const handleGroups = (event : ChangeEvent<HTMLInputElement>) => {
-        setPartyType(Number(event.target.value));
-    };
+    const handleRelationList = useCallback((list : RelationTypes) => {
+        setRelationList(list);
+    },[]);
+
+    const handlePersons = useCallback((event : ChangeEvent<HTMLInputElement>) => {
+        setPerson(Number(event.target.value));
+    },[]);
+
+    const handleRelationType = useCallback((event : ChangeEvent<HTMLInputElement>) => {
+        setRelationType(Number(event.target.value));
+    },[]);
 
     const commitInit = (event : React.MouseEvent<HTMLButtonElement>) => {
         function setPartyIdFunc(partyId : number) {
             console.log("qkRna" + partyId);
             setPartyId(partyId);
         }
-        InitAxios(partyType, persons, setPartyIdFunc);
+        InitAxios(partyId, relationType, persons, setPartyIdFunc);
         onInit();
     }
 
@@ -56,14 +61,10 @@ const InitModal = ({onInit}: any) => {
                     <h3 className={"font-extrabold"}>Init</h3>
                 </div>
 
-                <label htmlFor="family-slider"
-                       className="block mb-2 text-sm font-medium text-gray-900">
-                    {Object.values(PartyList).map((party) =>{
-                        return <p key={party}>{party}</p>
-                    })}
-                  </label>
-                <input className={"text-center"} type={"text"} value={PartyList[partyType]} onChange={handleGroups}></input>
-                <input id="default-range" type="range" min="0" max={Object.keys(PartyList).length -1} step={"1"} onChange={handleGroups} value={partyType}
+                <label htmlFor="relation-slider"
+                       className="block mb-2 text-sm font-medium text-gray-900"/>
+                <p>{relationList[relationType]}</p>
+                <input id="relation-range" type="range" min={Math.min(...Object.keys(relationList).map(Number))} max={Math.max(...Object.keys(relationList).map(Number))} step={"1"} onChange={handleRelationType} value={relationType}
                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                 />
 
