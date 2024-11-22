@@ -1,13 +1,15 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import {UserAxios} from "./UserAPI";
+import {GetRelationTypeAxios} from "../AdminMenuAPI";
 
-export const PartyList: {[key: number] : string} = {
-    0:"외가",
-    1:"친가",
+interface RelationTypes {
+    [key: number] : string;
 }
+
 const UserModal = ({onMember}: any) => {
     const [name, setName] = useState<string>("");
-    const [partyType, setParty] = useState<number>(-1);
+    const [relationList, setRelationList] = useState<RelationTypes>({});
+    const [relationType, setRelationType] = useState<number>(-1);
     const [relation, setRelation] = useState<number>(0);
     const onName = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = (event.target.value);
@@ -18,15 +20,26 @@ const UserModal = ({onMember}: any) => {
         setRelation(newValue);
     }
 
+    useEffect(() => {
+        GetRelationTypeAxios(handleRelationList);
+    }, []);
 
-    const handleParty = (event : ChangeEvent<HTMLInputElement>) => {
-        setParty(Number(event.target.value));
+    const handleRelationList = useCallback((list :RelationTypes) => {
+        console.log(list);
+        setRelationList(list);
+    },[]);
+
+
+    const handleRelationType = (event : ChangeEvent<HTMLInputElement>) => {
+        setRelationType(Number(event.target.value));
     };
 
     const commitUser = (event : React.MouseEvent<HTMLButtonElement>) => {
-        UserAxios(name, partyType, relation);
+        UserAxios(name, relationType, relation);
         onMember();
     }
+
+
 
     return (
         <div className={"h-screen w-full fixed left-0 top-0 flex justify-center bg-black bg-opacity-70"}>
@@ -40,9 +53,12 @@ const UserModal = ({onMember}: any) => {
                 <input className={"text-center"} type={"text"} value={name} onChange={onName}
                        style={{border: "1px solid #ccc"}}></input>
                 <label htmlFor="persons-slider"
-                       className="block mb-2 text-m font-medium text-gray-900">{partyType == -1 ? "소속" : PartyList[partyType]}</label>
-                <input id="default-range" type="range" min="0" max={Object.keys(PartyList).length - 1} step={"1"}
-                       onChange={handleParty} value={partyType}
+                       className="block mb-2 text-m font-medium text-gray-900">{relationType == -1 ? "소속" : relationList[relationType]}</label>
+
+
+                <input id="relation-range" type="range" min={Math.min(...Object.keys(relationList).map(Number))}
+                       max={Math.max(...Object.keys(relationList).map(Number))} step={"1"} onChange={handleRelationType}
+                       value={relationType}
                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                 />
                 <label htmlFor="persons-slider"

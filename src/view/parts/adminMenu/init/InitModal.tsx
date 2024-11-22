@@ -1,7 +1,8 @@
 import React, {ChangeEvent, useCallback, useEffect, useRef, useState} from 'react';
 
-import {GetRelationTypeAxios, InitAxios} from "./InitAPI"
+import {InitAxios} from "./InitAPI"
 import {usePartyContext} from "context/party/PartyContext";
+import {GetRelationTypeAxios} from "../AdminMenuAPI";
 
 interface RelationTypes {
     [key: number] : string;

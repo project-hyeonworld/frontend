@@ -3,13 +3,14 @@ import axios from "axios";
 
 const my = new My();
 
-export function GetRelationTypeAxios(handleRelationList : (list : any) => void) {
+export function GetRelationTypeAxios(handleRelationList : (list : string[]) => void) {
     axios({
         url: "/api/v2/users/relation-types",
         method: 'get',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
     }).then(function (response) {
+        console.log(typeof response.data)
         handleRelationList(response.data.relationTypes);
     });
 }
