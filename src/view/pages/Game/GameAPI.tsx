@@ -5,12 +5,13 @@ const my = new My();
 
 export function EnterGameAxios(partyId: number, userId: number) {
     console.log("SEND ENTER GAME AXIOS")
-    axios({
+    return axios({
         url: "/api/v2/auth/session" + "/game",
         method: 'post',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data : {
+            partyId: partyId,
             userId : userId,
         }
     });
@@ -33,6 +34,7 @@ export function ExitGameAxios(userId: number) {
 
 export function GetGameStageListenerAxios(partyId: number, userId: number, handleChangeCurrentStage : (gameStage : number) => void) {
 
+    console.log("STAGEEEE")
     let eventSource : EventSource;
     eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/api/v2/sse/${partyId}/game-stage?userId=${userId}`);
 
