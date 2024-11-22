@@ -17,24 +17,24 @@ export function GetWaitingListAxios(partyId: number, initNamesOnWaitingList : (w
 
 export function GetWaitingListListenerAxios(partyId: number, userId: number, addWaitingList: ( memberName: string) =>void, removeWaitingList: ( memberName: string) =>void) {
 
-  let eventSource : EventSource;
-  eventSource = new EventSource('http://'+my.backendIpAddress+":"+my.backEndPort+`/api/v2/sse/${partyId}/waiting-list?userId=${userId}`);
+  let eventSource: EventSource;
+  eventSource = new EventSource('http://' + my.backendIpAddress + ":" + my.backEndPort + `/api/v2/sse/${partyId}/waiting-list?userId=${userId}`);
 
-  eventSource.addEventListener('connect', (e)=>{
+  eventSource.addEventListener('connect', (e) => {
     const {data: receivedConnectData} = e;
-    console.log('connect event data101 : ',receivedConnectData);
+    console.log('connect event data101 : ', receivedConnectData);
   });
   eventSource.addEventListener('open', () => {
     console.log('Connection established.');
   });
 
-  eventSource.addEventListener('AddNameToWaitingList', async (e)=>{
+  eventSource.addEventListener('AddNameToWaitingList', async (e) => {
     console.log(e);
     const {data: receivedData} = e;
     addWaitingList(receivedData);
   });
 
-  eventSource.addEventListener('RemoveNameFromWaitingList', async (e)=>{
+  eventSource.addEventListener('RemoveNameFromWaitingList', async (e) => {
     console.log(e);
     const {data: receivedData} = e;
     removeWaitingList(receivedData);
@@ -51,4 +51,4 @@ export function GetWaitingListListenerAxios(partyId: number, userId: number, add
     }
   });
   return eventSource;
-};
+}

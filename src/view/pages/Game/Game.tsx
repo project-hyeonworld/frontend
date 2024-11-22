@@ -19,8 +19,8 @@ function Game(props : GameProps) {
         throw new Error('Game must be used within an GameProvider');
     }
 
-    const {partyId, setPartyId, userId, gameCollection} = partyContext;
-    const {gameStage, setGameStage} = gameContext;
+    const {partyId, userId} = partyContext;
+    const {setGameStage} = gameContext;
 
     useEffect(()=>{
         console.log("UPDATE")
@@ -30,6 +30,9 @@ function Game(props : GameProps) {
                 setTimeout (()=> {
                     gameStageListener = GetGameStageListenerAxios(partyId, userId, handleChangeCurrentStage)
                 }, 1000);
+                setTimeout(() => {
+                    setGameStage(1);
+                },1000);
         }
         fetchGameStageListener();
 

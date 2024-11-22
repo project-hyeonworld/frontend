@@ -12,7 +12,7 @@ export const GameContext = createContext<GameContextProps | undefined> (undefine
 const GameProvider: React.FC<{children: ReactNode}> = ({children}) => {
 
   const [eventSource, setEventSource] = useState<EventSource | null>(null);
-  const [gameStage, setGameStage] = useState<number>(1);
+  const [gameStage, setGameStage] = useState<number>(0);
 
   const closeDashboardListener = () => {
     if (eventSource) {
