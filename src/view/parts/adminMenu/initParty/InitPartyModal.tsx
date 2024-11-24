@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useCallback, useEffect, useRef, useState} from 'react';
 
-import {InitAxios} from "./InitAPI"
+import {InitAxios} from "./InitPartyAPI"
 import {usePartyContext} from "context/party/PartyContext";
 import {GetRelationTypeAxios} from "../AdminMenuAPI";
 
@@ -8,8 +8,8 @@ interface RelationTypes {
     [key: number] : string;
 }
 
-const InitModal = ({onInit}: any) => {
-    const partyContext = usePartyContext("InitModal");
+const InitPartyModal = ({onInit}: any) => {
+    const partyContext = usePartyContext("InitPartyModal");
     const [persons, setPerson] = useState<number>(1);
     const [relationList, setRelationList] = useState<RelationTypes>({});
     const [relationType, setRelationType] = useState<number> (0);
@@ -86,4 +86,4 @@ const InitModal = ({onInit}: any) => {
     )
 }
 
-export default InitModal;
+export default InitPartyModal;

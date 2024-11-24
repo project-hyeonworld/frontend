@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 
-import InitModal from "./init/InitModal";
+import InitPartyModal from "./initParty/InitPartyModal";
 import OpenModal from "./open/OpenModal";
 import UserModal from "./user/UserModal";
 import {AdminDoneAxios, AdminMenuAxios, ChangeCurrentGameStageAxios} from "../adminMenu/AdminMenuAPI";
 import {usePartyContext} from "context/party/PartyContext";
+import InitRoundModal from "./initRound/InitRoundModal";
 
 interface Game{
     id: number;
@@ -12,7 +13,7 @@ interface Game{
 }
 
 export const AdminMenuList = {
-    Init: 0,
+    InitParty: 0,
     Open: 1,
     Tutorial: 2,
     Submit: 3,
@@ -23,15 +24,17 @@ export const AdminMenuList = {
     Ranking: 8,
     Done: 9,
     User: 10,
+    InitRound: 11,
 };
 
 
 
 function AdminMenu (){
     const partyContext = usePartyContext("AdminMenu");
-    const [initModal, setInit] = useState<boolean>(false);
-    const [openModal, setOpen] = useState<boolean>(false);
-    const [memberModal, setMember] = useState<boolean>(false);
+    const [initPartyModal, setInitPartyModal] = useState<boolean>(false);
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [memberModal, setMemberModal] = useState<boolean>(false);
+    const [initRoundModal, setInitRoundModal] = useState<boolean>(false);
 
     const {partyId} = partyContext;
 
@@ -41,18 +44,22 @@ function AdminMenu (){
     useEffect(()=>{
     },[])
 
-    const onInit = () => {
-        setInit(!initModal);
+    const onInitParty = () => {
+        setInitPartyModal(!initPartyModal);
     }
     const onOpen = () => {
-        setOpen(!openModal);
+        setOpenModal(!openModal);
     }
     const onDone = () => {
         AdminDoneAxios();
     }
     const onMember = () => {
-        setMember(!memberModal);
+        setMemberModal(!memberModal);
     }
+    const onInitRound = () => {
+        setInitRoundModal(!initRoundModal);
+    }
+
 
 
 
@@ -68,8 +75,8 @@ function AdminMenu (){
         }
 
         switch (parsedValue) {
-            case AdminMenuList["Init"]:
-                onInit();
+            case AdminMenuList["InitParty"]:
+                onInitParty();
                 break;
             case AdminMenuList["Open"]:
                 onOpen();
@@ -80,6 +87,9 @@ function AdminMenu (){
             case AdminMenuList["User"]:
                 onMember();
                 break;
+            case AdminMenuList["InitRound"]:
+                onInitRound();
+                break;
             default:
                 console.log("ㅁㄹ");
         }
@@ -89,9 +99,10 @@ function AdminMenu (){
     return (
         <div className="AdminMenu">
             <div className={"grid grid-cols-5"}>
-                {initModal && <InitModal onInit={onInit}/>}
+                {initPartyModal && <InitPartyModal onInit={onInitParty}/>}
                 {openModal && <OpenModal onOpen={onOpen}/>}
                 {memberModal && <UserModal onMember={onMember}/>}
+                {initRoundModal && <InitRoundModal onRound={onInitRound}/>}
             {Object.entries(AdminMenuList).map(([menuName, index]) =>{
                 return <button
                         type={"button"}
