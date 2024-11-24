@@ -11,6 +11,7 @@ import {
 } from "../adminMenu/AdminMenuAPI";
 import {usePartyContext} from "context/party/PartyContext";
 import {useGameContext} from "../../../context/game/GameContext";
+import {useAdminContext} from "../../../context/admin/AdminContext";
 
 interface Game{
     id: number;
@@ -38,16 +39,20 @@ export const AdminMenuList = {
 
 
 function AdminMenu (){
+
+    const adminContext = useAdminContext("AdminMenu")
     const partyContext = usePartyContext("AdminMenu");
-    const gameContext = useGameContext("InitRoundModal");
-    const [roundId, setRoundId] = useState<number|null>(null);
+    const gameContext = useGameContext("AdminMenu");
+
     const [initPartyModal, setInitPartyModal] = useState<boolean>(false);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [memberModal, setMemberModal] = useState<boolean>(false);
     const [initRoundModal, setInitRoundModal] = useState<boolean>(false);
 
+    const {roundId, setRoundId} = adminContext;
     const {gameId, gameStage} = gameContext;
     const {partyId} = partyContext;
+
 
 
 

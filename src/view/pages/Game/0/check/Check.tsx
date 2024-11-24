@@ -3,6 +3,7 @@ import {Special} from "configuration/special/SpecialConfig";
 import Check_Admin from "./Check_Admin" ;
 
 import {usePartyContext} from "context/party/PartyContext";
+import AdminProvider from "../../../../../context/admin/AdminContext";
 
 
 export default function Check () {
@@ -33,7 +34,7 @@ export default function Check () {
     return (
         <div className="Game0">
 
-            {special.adminId === userId ? <Check_Admin/> : <Player/> }
+            {special.adminId === userId ? <AdminProvider><Check_Admin/></AdminProvider> : <Player/> }
 
         </div>
     );

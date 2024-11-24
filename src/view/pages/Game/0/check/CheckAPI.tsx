@@ -32,14 +32,14 @@ export function CheckTargetAPI(getResponse: ()=> void, memberName: string) {
 
 };
 
-export function CheckAPI(getPlayer: (submissions: SubmissionAdmin[]) => void) {
+export function CheckAPI(partyId: number, roundId: number | null, getPlayer: (submissions: SubmissionAdmin[]) => void) {
     const my = new My();
     const special = new Special();
 
     console.log("CHECKAPI");
 
     axios({
-        url: "submission/0",
+        url: "/api/v2/parties/{partyId}/rounds/" + roundId + "/checks",
         method: 'get',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,

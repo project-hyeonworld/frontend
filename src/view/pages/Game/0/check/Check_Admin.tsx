@@ -3,19 +3,25 @@ import {CheckAPI, CheckTargetAPI} from "./CheckAPI";
 import {SubmissionAdmin} from "../Submission";
 import './Check_Admin.css'
 import Accordion from "../../../../parts/accordion/Accordion";
+import {usePartyContext} from "../../../../../context/party/PartyContext";
+import {useAdminContext} from "../../../../../context/admin/AdminContext";
 
 export default function Check_Admin () {
 
+    const partyContext = usePartyContext("Check_Admin");
+    const adminContext = useAdminContext("Check_Admin");
     const [submissionList, setPlayer] = useState<SubmissionAdmin[]> ([]);
     const [target, setTarget] = useState <string> ("");
     const [buttonColor, setButtonColor] = useState('bg-red-500');
 
+    const {partyId} = partyContext;
+    const {roundId} = adminContext;
     const getPlayer = (submissions : SubmissionAdmin[])=>{
         setPlayer(submissions);
     }
 
     useEffect(()=>{
-        CheckAPI(getPlayer);
+        CheckAPI(partyId, roundId, getPlayer);
     },[])
 
     const onConfirm = ()=>{
