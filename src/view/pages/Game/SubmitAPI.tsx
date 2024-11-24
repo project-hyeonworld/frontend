@@ -5,12 +5,11 @@ export function SubmitAPI(partyId: number, userId : number, onSend: (val: boolea
     const my = new My();
 
     axios({
-        url: "/api/v2/rounds/" + "submits",
+        url: "/api/v2/parties/" + partyId + "/rounds/" + "submits",
         method: 'post',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
         data: {
-            partyId: partyId,
             userId: userId,
             text: input.join(","),
             number : inputFalse,
