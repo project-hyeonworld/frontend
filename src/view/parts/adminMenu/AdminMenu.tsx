@@ -3,14 +3,23 @@ import React, {useEffect, useState} from "react";
 import InitPartyModal from "./initParty/InitPartyModal";
 import OpenModal from "./open/OpenModal";
 import UserModal from "./user/UserModal";
-import {AdminDoneAxios, AdminMenuAxios, ChangeCurrentGameStageAxios} from "../adminMenu/AdminMenuAPI";
+import {
+    AdminDoneAxios,
+    ChangeCurrentGameStageAxios,
+    GetCurrentRoundAxios,
+    InitRoundAxios
+} from "../adminMenu/AdminMenuAPI";
 import {usePartyContext} from "context/party/PartyContext";
-import InitRoundModal from "./initRound/InitRoundModal";
+import {useGameContext} from "../../../context/game/GameContext";
 
 interface Game{
     id: number;
     name: string;
 }
+
+const MINIMUM_STAGE_VALUE = 1;
+const MAXIMUM_STAGE_VALUE = 8;
+const DONE_INDEX = 9;
 
 export const AdminMenuList = {
     InitParty: 0,
@@ -22,27 +31,38 @@ export const AdminMenuList = {
     Play: 6,
     Result: 7,
     Ranking: 8,
-    Done: 9,
+    Done: DONE_INDEX,
     User: 10,
-    InitRound: 11,
 };
 
 
 
 function AdminMenu (){
     const partyContext = usePartyContext("AdminMenu");
+    const gameContext = useGameContext("InitRoundModal");
+    const [roundId, setRoundId] = useState<number|null>(null);
     const [initPartyModal, setInitPartyModal] = useState<boolean>(false);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [memberModal, setMemberModal] = useState<boolean>(false);
     const [initRoundModal, setInitRoundModal] = useState<boolean>(false);
 
+    const {gameId, gameStage} = gameContext;
     const {partyId} = partyContext;
 
-    const MINIMUM_STAGE_VALUE = 1;
-    const MAXIMUM_STAGE_VALUE = 8;
 
-    useEffect(()=>{
-    },[])
+
+
+    useEffect(() => {
+        GetCurrentRoundAxios(partyId, handleRoundId);
+    }, [roundId]);
+
+    const handleRoundId = (roundId: number|null) => {
+        setRoundId(roundId);
+    }
+
+    const commitInitRound = () => {
+        InitRoundAxios(partyId, gameId, handleRoundId);
+    }
 
     const onInitParty = () => {
         setInitPartyModal(!initPartyModal);
@@ -62,17 +82,18 @@ function AdminMenu (){
 
 
 
-
-
-
     const onClickButton = (event : React.MouseEvent<HTMLButtonElement>) => {
         const target = event.target as HTMLLIElement;
         const value : any = target.getAttribute("id");
         const parsedValue : number = parseInt(value);
 
-        if (MINIMUM_STAGE_VALUE <= parsedValue && parsedValue <= MAXIMUM_STAGE_VALUE) {
-            ChangeCurrentGameStageAxios(partyId, parsedValue);
+        if (gameStage == DONE_INDEX && isWithinGameStage(parsedValue)) {
+            commitInitRound();
         }
+
+        changeGameStage(parsedValue);
+
+
 
         switch (parsedValue) {
             case AdminMenuList["InitParty"]:
@@ -87,13 +108,21 @@ function AdminMenu (){
             case AdminMenuList["User"]:
                 onMember();
                 break;
-            case AdminMenuList["InitRound"]:
-                onInitRound();
-                break;
             default:
                 console.log("ㅁㄹ");
         }
+    }
 
+
+
+    const changeGameStage = (parsedValue: number) => {
+        if (isWithinGameStage(parsedValue)) {
+            ChangeCurrentGameStageAxios(partyId, parsedValue);
+        }
+    }
+
+    const isWithinGameStage = (parsedValue: number) => {
+        return MINIMUM_STAGE_VALUE <= parsedValue && parsedValue <= MAXIMUM_STAGE_VALUE;
     }
 
     return (
@@ -102,7 +131,7 @@ function AdminMenu (){
                 {initPartyModal && <InitPartyModal onInit={onInitParty}/>}
                 {openModal && <OpenModal onOpen={onOpen}/>}
                 {memberModal && <UserModal onMember={onMember}/>}
-                {initRoundModal && <InitRoundModal onRound={onInitRound}/>}
+
             {Object.entries(AdminMenuList).map(([menuName, index]) =>{
                 return <button
                         type={"button"}

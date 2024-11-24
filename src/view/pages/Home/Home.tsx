@@ -92,7 +92,8 @@ function Home (props : HomeProps){
                 : <GameCard onClickGame={onClickGame}></GameCard>}
 
             </div>
-            {special.adminId === userId && <AdminMenu/>}
+
+            {special.adminId === userId && <GameProvider><AdminMenu/></GameProvider>}
         </div>
     );
 }
