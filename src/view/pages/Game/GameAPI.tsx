@@ -30,7 +30,18 @@ export function ExitGameAxios(userId: number) {
         console.log("결과");
         console.log("EXIt :"+response.data);
     });
-};
+}
+
+export function GetCurrentGameStage (partyId : number, handleChangeCurrentStage: (stage: number) => void) {
+    axios({
+        url: "/api/v2/parties/" + partyId + "/dashboard/stage",
+        method: 'get',
+        baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
+        withCredentials: true,
+    }).then(function (response) {
+        handleChangeCurrentStage(response.data);
+    });
+}
 
 export function GetGameStageListenerAxios(partyId: number, userId: number, handleChangeCurrentStage : (gameStage : number) => void) {
 

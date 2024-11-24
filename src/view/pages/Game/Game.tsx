@@ -1,8 +1,8 @@
 import React, {useContext, useEffect} from 'react';
 
-import {EnterGameAxios, GetGameStageListenerAxios} from "./GameAPI";
+import {EnterGameAxios, GetCurrentGameStage, GetGameStageListenerAxios} from "./GameAPI";
 import {usePartyContext} from "../../../context/party/PartyContext";
-import {GameContext} from "../../../context/game/GameContext";
+import {GameContext, useGameContext} from "../../../context/game/GameContext";
 
 import GameStrategy from "./interface/GameStrategy";
 
@@ -12,28 +12,27 @@ interface GameProps {
 
 function Game(props : GameProps) {
     const partyContext = usePartyContext("Game");
-    const gameContext = useContext(GameContext);
+    const gameContext = useGameContext("Game");
     const gameId = props.gameId;
-
-    if (!gameContext) {
-        throw new Error('Game must be used within an GameProvider');
-    }
 
     const {partyId, userId} = partyContext;
     const {setGameStage} = gameContext;
 
+
     useEffect(()=>{
         console.log("UPDATE")
         let gameStageListener : EventSource;
+
         const fetchGameStageListener = () => {
             EnterGameAxios(partyId, userId);
                 setTimeout (()=> {
                     gameStageListener = GetGameStageListenerAxios(partyId, userId, handleChangeCurrentStage)
                 }, 1000);
                 setTimeout(() => {
-                    setGameStage(1);
                 },1000);
         }
+
+        GetCurrentGameStage(partyId, handleChangeCurrentStage);
         fetchGameStageListener();
 
         return () => {
