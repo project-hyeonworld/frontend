@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from "react";
-import {GameContext, useGameContext} from "../../../../context/game/GameContext";
+import React, {useEffect} from "react";
+import {useGameContext} from "../../../../context/game/GameContext";
 import GameStageStrategy from "../interface/GameStageStrategy";
 
 

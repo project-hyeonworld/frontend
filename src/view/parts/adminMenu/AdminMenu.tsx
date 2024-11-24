@@ -19,7 +19,7 @@ interface Game{
 }
 
 const MINIMUM_STAGE_VALUE = 1;
-const MAXIMUM_STAGE_VALUE = 8;
+const MAXIMUM_STAGE_VALUE = 9;
 const DONE_INDEX = 9;
 
 export const AdminMenuList = {
@@ -47,10 +47,9 @@ function AdminMenu (){
     const [initPartyModal, setInitPartyModal] = useState<boolean>(false);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [memberModal, setMemberModal] = useState<boolean>(false);
-    const [initRoundModal, setInitRoundModal] = useState<boolean>(false);
 
     const {roundId, setRoundId} = adminContext;
-    const {gameId, gameStage} = gameContext;
+    const {gameId, gameStage, setGameStage} = gameContext;
     const {partyId} = partyContext;
 
 
@@ -81,24 +80,26 @@ function AdminMenu (){
     const onMember = () => {
         setMemberModal(!memberModal);
     }
-    const onInitRound = () => {
-        setInitRoundModal(!initRoundModal);
-    }
-
-
 
     const onClickButton = (event : React.MouseEvent<HTMLButtonElement>) => {
         const target = event.target as HTMLLIElement;
         const value : any = target.getAttribute("id");
         const parsedValue : number = parseInt(value);
-
-        if (gameStage == DONE_INDEX && isWithinGameStage(parsedValue)) {
+        console.log(partyId);
+        console.log(roundId);
+        if (partyId !== -1 && roundId === null && isWithinGameStage(parsedValue)) {
+            console.log("NULL GAMEID");
             commitInitRound();
         }
+        console.log("currentStage : "+gameStage);
+        if (partyId !== -1 && (gameStage == DONE_INDEX) && isWithinGameStage(parsedValue)) {
+            console.log("gameStage DONE");
+            commitInitRound();
+        }
+        console.log("Menu : "+parsedValue);
+        setGameStage(parsedValue);
 
         changeGameStage(parsedValue);
-
-
 
         switch (parsedValue) {
             case AdminMenuList["InitParty"]:

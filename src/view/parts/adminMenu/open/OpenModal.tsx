@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {OpenGameAxios} from "../open/OpenAPI";
 import {usePartyContext} from "context/party/PartyContext";
+import {useGameContext} from "../../../../context/game/GameContext";
 
 
 interface Game{
@@ -28,6 +29,7 @@ const OpenModal = ( props: OpenModalProps) => {
     }
 
     const {partyId, setPartyId, gameCollection} = partyContext;
+
 
     const onOpenGame = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value =parseInt(event.target.value);

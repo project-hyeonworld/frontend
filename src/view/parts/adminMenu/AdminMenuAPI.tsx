@@ -4,7 +4,6 @@ import axios from "axios";
 const my = new My();
 
 export function GetCurrentRoundAxios(partyId: number, handleRoundId: (roundId: number|null) => void) {
-    console.log("GETCOURRN "+partyId);
     axios({
         url: "/api/v2/parties/" + partyId + "/rounds",
         method: 'get',
