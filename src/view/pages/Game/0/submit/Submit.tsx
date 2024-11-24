@@ -1,23 +1,26 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import ConfirmModal from "./confirm/ConfirmModal";
-import {SubmitAPI} from "./SubmitAPI";
+import {SubmitAPI} from "../../SubmitAPI";
 import {GameStageProps} from "../../GameProps/GameProps";
 import {usePartyContext} from "context/party/PartyContext";
 
 export default function Submit(props : GameStageProps){
     const partyContext = usePartyContext("Submit");
-    if(!partyContext) {
-        throw new Error()
-    }
     const {userId} = partyContext;
     const [inputFalse, setFalse] = useState<number>(-1);
 
     const [input, setInput] = useState<string[]> (["", "", ""]);
 
-    const [buttonTitle, setButton] = useState ('거짓 명제 선택 후 제출');
+    const [buttonTitle, setButtonTitle] = useState ('거짓 명제 선택 후 제출');
     const [modalConfirm, setConfirm] = useState (false);
     const [completed, setCompleted] = useState (false);
+
+    const {partyId} = partyContext;
+
+    useEffect(() => {
+        console.log(input);
+    }, []);
 
     const inputInit = {
         0 : "첫번째 명제",
@@ -27,18 +30,16 @@ export default function Submit(props : GameStageProps){
 
     const onSend = (val : boolean) =>{
         if (val){
-            setButton("다시 제출하기");
+            setButtonTitle("다시 제출하기");
             setCompleted(!completed);
         }
-
     }
 
     const onConfirm = (val : boolean)=>{
         if (val) {
             console.log("FFF");
-            SubmitAPI(userId, onSend, input, inputFalse);
+            SubmitAPI(partyId, userId, onSend, input, inputFalse);
         }
-
         setConfirm(!modalConfirm);
     }
 
@@ -57,24 +58,22 @@ export default function Submit(props : GameStageProps){
         const value : any = target.getAttribute("id");
         const parseValue : number = parseInt(value);
         setFalse(parseValue);
-        setButton("제출하기");
+        setButtonTitle("제출하기");
+    }
+
+    function isAccpetable(value: string) {
+        return !(value.includes(';') || value.includes(',') || value.length > 80);
     }
 
     const handleInputChange = (index: number, event : React.ChangeEvent<HTMLInputElement>) => {
         let value : string = event.target.value;
-
-        if (value.includes(';') || value.includes(',') || value.length > 80){}
-
-        else {
+        if (isAccpetable(value)){
             setInput((prevInput)=> {
                 const updatedInput = [...prevInput];
                 updatedInput[index] = value;
                 return updatedInput;
             })
         }
-
-
-
     }
 
     return (
