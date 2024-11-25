@@ -1,8 +1,7 @@
-import {My} from "../../../../../configuration/web/WebConfig";
-import {Special} from "../../../../../configuration/special/SpecialConfig";
+import {My} from "../../../configuration/web/WebConfig";
+import {Special} from "../../../configuration/special/SpecialConfig";
 import axios from "axios"
-import React from "react";
-import {SubmissionAdmin} from "../Submission";
+import {SubmissionAdmin} from "./0/Submission";
 
 export function CheckTargetAPI(getResponse: ()=> void, memberName: string) {
     const my = new My();
@@ -32,22 +31,19 @@ export function CheckTargetAPI(getResponse: ()=> void, memberName: string) {
 
 };
 
-export function CheckAPI(partyId: number, roundId: number | null, getPlayer: (submissions: SubmissionAdmin[]) => void) {
+export function CheckAPI(partyId: number, getPlayer: (submissions: SubmissionAdmin[]) => void) {
     const my = new My();
     const special = new Special();
 
-    console.log("CHECKAPI");
 
     axios({
-        url: "/api/v2/parties/{partyId}/rounds/" + roundId + "/checks",
+        url: "/api/v2/parties/"+ partyId + "/rounds/checks",
         method: 'get',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
-        params : {
-            memberId: special.adminId
-        }
     }).then(function (response) {
         const dataList = response.data;
+        console.log(response.data);
         const submissionList: SubmissionAdmin[] = [];
         Object.entries(dataList).forEach(([name, player]) => {
             const map = new Map(Object.entries(player as Object[]));

@@ -60,8 +60,9 @@ function AdminMenu (){
         GetCurrentRoundAxios(partyId, handleRoundId);
     }, [roundId]);
 
-    const handleRoundId = (roundId: number|null) => {
-        setRoundId(roundId);
+    const handleRoundId = (incoming: number|null) => {
+        console.log("AdminMenu handleRoundID" + incoming);
+        setRoundId(incoming);
     }
 
     const commitInitRound = () => {

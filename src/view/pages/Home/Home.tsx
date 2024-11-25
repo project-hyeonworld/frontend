@@ -85,12 +85,14 @@ function Home(props: HomeProps) {
         <p>{userName}+{partyId}</p>
         <MenuBar moveBack={onClickBack}/>
         <ul className="p-2 space-y-1"/>
+
+          <GameProvider>
         <div
             className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
           {(enterGameId !== null) && (enterGameId == currentGameId) ? (
-                  <GameProvider>
+
                     <Game gameId={currentGameId}/>
-                  </GameProvider>
+
               )
               : <GameCard onClickGame={onClickGame}></GameCard>}
 
@@ -98,10 +100,11 @@ function Home(props: HomeProps) {
 
         {special.adminId === userId &&
             <AdminProvider>
-              <GameProvider>
                 <AdminMenu/>
-              </GameProvider>
-            </AdminProvider>}
+            </AdminProvider>
+            }
+          </GameProvider>
+
       </div>
   );
 }

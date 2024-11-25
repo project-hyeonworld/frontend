@@ -15,6 +15,7 @@ interface OpenModalProps{
 
 const OpenModal = ( props: OpenModalProps) => {
     const partyContext = usePartyContext("OpenModal");
+    const gameContext = useGameContext("OpenModal");
     const [openGame, setGame] = useState<number>(0);
     const [gameName, setName] = useState<string>("선택해주세요");
 
@@ -28,7 +29,8 @@ const OpenModal = ( props: OpenModalProps) => {
         throw new Error('OpenModal must be used within a PartyProvider');
     }
 
-    const {partyId, setPartyId, gameCollection} = partyContext;
+    const {partyId, gameCollection} = partyContext;
+    const {setGameId} = gameContext;
 
 
     const onOpenGame = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +42,7 @@ const OpenModal = ( props: OpenModalProps) => {
     const commitOpen = () => {
         console.log(gameName);
         OpenGameAxios(partyId, gameCollection[openGame].id);
+        setGameId(gameCollection[openGame].id);
         props.onOpen();
     }
 
