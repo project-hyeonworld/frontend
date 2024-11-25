@@ -72,7 +72,9 @@ function AdminMenu (){
         setInitPartyModal(!initPartyModal);
     }
     const onOpen = () => {
-        setOpenModal(!openModal);
+        if (partyId != -1) {
+            setOpenModal(!openModal);
+        }
     }
     const onDone = () => {
         AdminDoneAxios();
@@ -87,19 +89,24 @@ function AdminMenu (){
         const parsedValue : number = parseInt(value);
         console.log(partyId);
         console.log(roundId);
-        if (partyId !== -1 && roundId === null && isWithinGameStage(parsedValue)) {
+        if ((partyId !== -1) && (roundId === null) && isWithinGameStage(parsedValue)) {
             console.log("NULL GAMEID");
             commitInitRound();
         }
         console.log("currentStage : "+gameStage);
-        if (partyId !== -1 && (gameStage == DONE_INDEX) && isWithinGameStage(parsedValue)) {
+        if ((partyId !== -1) && (gameStage == DONE_INDEX) && isWithinGameStage(parsedValue)) {
             console.log("gameStage DONE");
             commitInitRound();
         }
+
+        if (partyId !== -1) {
+            changeGameStage(parsedValue);
+        }
+
         console.log("Menu : "+parsedValue);
         setGameStage(parsedValue);
 
-        changeGameStage(parsedValue);
+
 
         switch (parsedValue) {
             case AdminMenuList["InitParty"]:
@@ -118,8 +125,6 @@ function AdminMenu (){
                 console.log("ㅁㄹ");
         }
     }
-
-
 
     const changeGameStage = (parsedValue: number) => {
         if (isWithinGameStage(parsedValue)) {
