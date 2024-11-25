@@ -37,7 +37,10 @@ function Game(props : GameProps) {
 
         return () => {
             console.log("GAME Retunr");
-            gameStageListener.close();
+            if (gameStageListener !== null && gameStageListener !== undefined) {
+                gameStageListener.close();
+            }
+
         }
     },[])
 

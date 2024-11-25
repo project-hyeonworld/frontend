@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {usePartyContext} from "../../../context/party/PartyContext";
+import {usePartyContext} from "context/party/PartyContext";
 import {GetWaitingListAxios, GetWaitingListListenerAxios} from "./WaitingAPI";
 
 const Waiting = () => {
@@ -26,7 +26,10 @@ const Waiting = () => {
     fetchWaitingListListener();
     return () => {
       console.log("WAITING RETUrn");
-      waitingListListener.close();
+      if (waitingListListener !== null && waitingListListener !== undefined) {
+        waitingListListener.close();
+      }
+
     }
   }, []);
 
