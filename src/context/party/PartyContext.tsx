@@ -9,7 +9,11 @@ interface PartyContextProps {
   userName: string;
   setUserName: React.Dispatch<React.SetStateAction<string>>;
   gameCollection: GameModel[]
-  setGameCollection: React.Dispatch<React.SetStateAction<GameModel[]>>
+  setGameCollection: React.Dispatch<React.SetStateAction<GameModel[]>>;
+  content: string | undefined;
+  setContent: React.Dispatch<React.SetStateAction<string|undefined>>;
+  formatContent: React.JSX.Element[] | undefined;
+  setFormatContent: React.Dispatch<React.SetStateAction<React.JSX.Element[] | undefined>>;
 }
 
 export const PartyContext = createContext<PartyContextProps | undefined> (undefined);
@@ -28,8 +32,11 @@ const PartyProvider: React.FC<{children: ReactNode}> = ({children}) => {
   const [userId, setUserId] = useState<number>(-2);
   const [userName, setUserName] = useState<string>('');
   const [gameCollection, setGameCollection] = useState<GameModel[]>([]);
+  const [content, setContent] = useState<string>();
+  const [formatContent, setFormatContent] = useState<React.JSX.Element[]>();
+
   return (
-      <PartyContext.Provider value = {{partyId, setPartyId, userId, setUserId, userName, setUserName, gameCollection, setGameCollection}}>
+      <PartyContext.Provider value = {{partyId, setPartyId, userId, setUserId, userName, setUserName, gameCollection, setGameCollection, content, setContent, formatContent, setFormatContent}}>
         {children}
       </PartyContext.Provider>
   );
