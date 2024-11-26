@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import './Accordion.css';
 
-const AccordionItem: React.FC<{ title: string, children : any}> = ({ title, children }) => {
+const AccordionTitle: React.FC<{ title: string, children : any}> = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleAccordion = () => {
@@ -14,20 +15,25 @@ const AccordionItem: React.FC<{ title: string, children : any}> = ({ title, chil
                 onClick={toggleAccordion}>
                 <span>{title}</span>
             </button>
-            {isOpen && <div className="p-4">{children}</div>}
+            {isOpen && <div>{children}</div>}
         </div>
     );
 };
 
-const Accordion: React.FC<{title: string, content: any}> = ({title, content}) => {
+const Accordion: React.FC<{title: string, content: any, answer: number}> = ({title, content, answer}) => {
 
-    return (
+  const numericAnswer =  parseInt(String(answer), 10);
+  return (
         <div className="space-y-2">
-            <AccordionItem title={title}>
+            <AccordionTitle title={title}>
                 {content.map((text : string, index : number) => {
-                    return <p key={index}>{(index+1)+"."}{text}</p>;
+                  return (
+                      <p className={index == numericAnswer ? 'correct-answer' : ''} key={index} >
+                        {index + 1}. {text}
+                      </p>
+                  );
                 })}
-            </AccordionItem>
+            </AccordionTitle>
 
         </div>
     );

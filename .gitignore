@@ -13,6 +13,8 @@ node_modules/*
 # production
 /build
 
+/src/configuration/*
+
 # misc
 .DS_Store
 .env.local
