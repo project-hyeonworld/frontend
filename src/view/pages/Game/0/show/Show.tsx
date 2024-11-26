@@ -1,39 +1,35 @@
 import React, {useEffect, useState} from "react";
 import {GameStageProps} from "../../GameProps/GameProps";
-import {Submission} from "../Submission";
 import {ShowAPI} from "./ShowAPI";
+import {usePartyContext} from "../../../../../context/party/PartyContext";
+
 
 export default function Show(props : GameStageProps) {
 
-    const [displaySubmission, setSubmission] = useState<Submission>();
+    const partyContext = usePartyContext("Show");
+    const [content, setContent] = useState<string>();
 
-    const getSubmission = (submission : Submission)=>{
+    const handleContent = (submission : string)=>{
         console.log("ff");
-        setSubmission(submission);
-        props.callback(submission);
+        console.log(submission);
+        setContent(submission);
     }
 
-
+    const {partyId} = partyContext;
 
     useEffect(()=>{
-        ShowAPI(getSubmission);
+        ShowAPI(partyId, handleContent);
     },[])
+
+    const formatContent = (content: string | undefined) => {
+        return content?.split("<br />").map((line, index) => (
+            <div key={index}>{line}</div>
+        ));
+    };
 
     return (
         <div className="Game0">
-
-            <h3>{displaySubmission?.name}님의 명제</h3>
-            {
-                displaySubmission?.textList?.map ((text, index)=>{
-                    return (
-                            <div key={index}>
-                                <p >{text}</p>
-                                <ul className={"p-4"}></ul>
-                            </div>
-                            )
-                })
-            }
-
+            {formatContent(content)}
         </div>
     );
 }

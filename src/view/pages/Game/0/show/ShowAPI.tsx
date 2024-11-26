@@ -2,20 +2,15 @@ import {Submission} from "../Submission";
 import {My} from "configuration/web/WebConfig";
 import axios from "axios";
 
-export function ShowAPI(getSubmission: (submission: Submission) => void) {
+export function ShowAPI(partyId: number, getContent: (content: string) => void) {
     const my = new My();
-
+    console.log("SHOWAPI"+partyId);
     axios({
-        url: "party/target",
+        url: "/api/v2/parties/"+ partyId + "/rounds/shows",
         method: 'get',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
     }).then(function (response) {
-        const dataList = response.data;
-        console.log("DATAS"+dataList);
-        const submission: Submission = dataList;
-        console.log("NAME : "+submission.name);
-        console.log("TEXT : "+submission.textList);
-        getSubmission(submission);
+        getContent(response.data.content);
     });
 };
