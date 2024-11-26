@@ -10,7 +10,8 @@ interface Game{
 }
 
 interface OpenModalProps{
-    onOpen : any;
+    onOpen : () => void;
+    initRound: (gameIdParameter: number) => void;
 }
 
 const OpenModal = ( props: OpenModalProps) => {
@@ -43,6 +44,7 @@ const OpenModal = ( props: OpenModalProps) => {
         console.log(gameName);
         OpenGameAxios(partyId, gameCollection[openGame].id);
         setGameId(gameCollection[openGame].id);
+        props.initRound(gameCollection[openGame].id);
         props.onOpen();
     }
 

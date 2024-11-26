@@ -34,7 +34,7 @@ export default function Check () {
     return (
         <div className="Game0">
 
-            {special.adminId === userId ? <AdminProvider><Check_Admin/></AdminProvider> : <Player/> }
+            {special.adminId === userId ? <Check_Admin/> : <Player/> }
 
         </div>
     );

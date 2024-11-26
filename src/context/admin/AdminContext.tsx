@@ -11,7 +11,7 @@ export const AdminContext = createContext<AdminContextProps | undefined>(undefin
 export const useAdminContext = (componentName: string) => {
   const adminContext = useContext(AdminContext);
   if (!adminContext) {
-    throw new Error(`${componentName} must be used within a GameProvider`);
+    throw new Error(`${componentName} must be used within a AdminProvider`);
   }
   return adminContext;
 }
@@ -26,5 +26,4 @@ const AdminProvider: React.FC<{ children: ReactNode }> = ({children}) => {
       </AdminContext.Provider>
   );
 };
-
 export default AdminProvider;

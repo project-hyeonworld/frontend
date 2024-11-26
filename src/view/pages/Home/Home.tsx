@@ -87,6 +87,7 @@ function Home(props: HomeProps) {
         <ul className="p-2 space-y-1"/>
 
           <GameProvider>
+            <AdminProvider>
         <div
             className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
           {(enterGameId !== null) && (enterGameId == currentGameId) ? (
@@ -99,10 +100,11 @@ function Home(props: HomeProps) {
         </div>
 
         {special.adminId === userId &&
-            <AdminProvider>
+
                 <AdminMenu/>
-            </AdminProvider>
+
             }
+            </AdminProvider>
           </GameProvider>
 
       </div>

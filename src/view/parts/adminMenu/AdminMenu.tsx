@@ -52,10 +52,6 @@ function AdminMenu (){
     const {gameId, gameStage, setGameStage} = gameContext;
     const {partyId} = partyContext;
 
-
-
-
-
     useEffect(() => {
         GetCurrentRoundAxios(partyId, handleRoundId);
     }, [roundId]);
@@ -63,6 +59,10 @@ function AdminMenu (){
     const handleRoundId = (incoming: number|null) => {
         console.log("AdminMenu handleRoundID" + incoming);
         setRoundId(incoming);
+    }
+
+    const handleOpenModalToInitRound = (gameIdParameter: number) => {
+        InitRoundAxios(partyId, gameIdParameter, handleRoundId);
     }
 
     const commitInitRound = () => {
@@ -90,10 +90,7 @@ function AdminMenu (){
         const parsedValue : number = parseInt(value);
         console.log(partyId);
         console.log(roundId);
-        if ((partyId !== -1) && (roundId === null) && isWithinGameStage(parsedValue)) {
-            console.log("NULL GAMEID");
-            commitInitRound();
-        }
+
         console.log("currentStage : "+gameStage);
         if ((partyId !== -1) && (gameStage == DONE_INDEX) && isWithinGameStage(parsedValue)) {
             console.log("gameStage DONE");
@@ -106,8 +103,6 @@ function AdminMenu (){
 
         console.log("Menu : "+parsedValue);
         setGameStage(parsedValue);
-
-
 
         switch (parsedValue) {
             case AdminMenuList["InitParty"]:
@@ -141,7 +136,7 @@ function AdminMenu (){
         <div className="AdminMenu">
             <div className={"grid grid-cols-5"}>
                 {initPartyModal && <InitPartyModal onInit={onInitParty}/>}
-                {openModal && <OpenModal onOpen={onOpen}/>}
+                {openModal && <OpenModal onOpen={onOpen} initRound={handleOpenModalToInitRound}/>}
                 {memberModal && <UserModal onMember={onMember}/>}
 
             {Object.entries(AdminMenuList).map(([menuName, index]) =>{
