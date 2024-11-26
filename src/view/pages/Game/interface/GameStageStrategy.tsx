@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Game0Stages, Game1Stages} from "../../../../model/GameStage";
+import {useAdminContext} from "../../../../context/admin/AdminContext";
 
 interface GameStageStrategyProps {
   gameId: number
@@ -15,8 +16,11 @@ const GameStrategy = ( props : GameStageStrategyProps) => {
     0: Game0Stages(),
     1: Game1Stages()
   }
-
   const stage = gameStages[props.gameId][props.gameStage];
+  useEffect(() => {
+
+  }, [props.gameStage]);
+
 
   return (
 

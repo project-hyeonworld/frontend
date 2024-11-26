@@ -40,7 +40,6 @@ function Game(props : GameProps) {
             if (gameStageListener !== null && gameStageListener !== undefined) {
                 gameStageListener.close();
             }
-
         }
     },[])
 
