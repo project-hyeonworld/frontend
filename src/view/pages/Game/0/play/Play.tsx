@@ -1,27 +1,30 @@
 import React, {useEffect, useState} from "react";
-import ConfirmModal from "./confirm/ConfirmModal";
 import {PlayAPI} from "./PlayAPI";
 import {usePartyContext} from "context/party/PartyContext";
-import {GameStageProps} from "view/pages/Game/GameProps/GameProps";
-import {CheckTargetAPIAxios} from "../../CheckAPI";
+import {ShowAPI} from "../show/ShowAPI";
 
 
-export default function Play(props : GameStageProps) {
+const Play = () => {
 
     const partyContext = usePartyContext("Play");
-    if(!partyContext) {
-        throw new Error()
-    }
-    const {partyId, userId, content} = partyContext;
+    const {partyId, userId, content, setContent} = partyContext;
 
     const [playConfirm, setConfirm] = useState (false);
     const [completed, setCompleted] = useState<string>("거짓을 선택해 주세요.");
     const [answer, setAnswer] = useState<number>();
-
-    const tmpContent = content?.split("<br />").slice(1, -1);
+    const [tmpContent, setTmpCotent] = useState<string[]>();
 
     useEffect(()=>{
-    },[])
+        if (!content) {
+            ShowAPI(partyId, handleContent);
+        }
+        setTmpCotent(content?.split("<br />").slice(1, -1));
+    },[content])
+
+    const handleContent = (submission: string) => {
+        setContent(submission);
+    }
+
 
     const onCommit = (index: number)=>{
         setAnswer(index);
@@ -48,3 +51,5 @@ export default function Play(props : GameStageProps) {
         </div>
     );
 }
+
+export default Play;

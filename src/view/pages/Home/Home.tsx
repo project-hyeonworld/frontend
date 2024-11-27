@@ -16,26 +16,22 @@ import {GameModel} from "model/Game";
 import GameCard from 'view/parts/gameCard/GameCard';
 
 interface HomeProps {
-  partyId: number | null;
+  partyId: number;
   userId: number;
   userName: string;
 }
 
 function Home(props: HomeProps) {
   const partyContext = usePartyContext("Home");
-  const [enterGameId, setEnterGameId] = useState<number | null>(null);
-  const [currentGameId, setCurrentGameId] = useState<number | null>(null);
+  const [enterGameId, setEnterGameId] = useState<number>();
+  const [currentGameId, setCurrentGameId] = useState<number>();
   const special = new Special();
-  if (!partyContext) {
-    throw new Error('Home must be used within a PartyProvider');
-  }
+
   const {partyId, setPartyId, userId, setUserId, userName, setUserName, setGameCollection} = partyContext;
 
   useEffect(() => {
     console.log('Home useEffect', new Date().getTime());
-    if (props.partyId) {
-      setPartyId(props.partyId);
-    }
+    setPartyId(props.partyId);
     setUserId(props.userId);
     setUserName(props.userName);
 
@@ -64,17 +60,19 @@ function Home(props: HomeProps) {
     console.log('onClickGame called', new Date().getTime());
     const target = event.target as HTMLLIElement;
     const value: any = target.getAttribute("id");
-    if (partyId) {
+    if (partyId != -1) {
+      console.log("SETT");
       CurrentGameAxios(partyId, setCurrentGameId);
+      setEnterGame(value);
     }
-    setEnterGame(value);
+
   }
 
   const onClickBack = () => {
-    if (enterGameId != null) {
+    if (enterGameId) {
       ExitGameAxios(userId);
     }
-    setEnterGameId(null);
+    setEnterGameId(undefined);
     CurrentGameAxios(partyId, setCurrentGameId);
   }
 
@@ -90,7 +88,7 @@ function Home(props: HomeProps) {
             <AdminProvider>
         <div
             className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
-          {(enterGameId !== null) && (enterGameId == currentGameId) ? (
+          {(enterGameId) && (enterGameId == currentGameId) ? (
 
                     <Game gameId={currentGameId}/>
 

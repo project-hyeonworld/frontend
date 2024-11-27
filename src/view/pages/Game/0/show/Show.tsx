@@ -9,8 +9,6 @@ export default function Show(props : GameStageProps) {
     const partyContext = usePartyContext("Show");
 
     const handleContent = (submission : string)=>{
-        console.log("ff");
-        console.log(submission);
         setContent(submission);
     }
 
