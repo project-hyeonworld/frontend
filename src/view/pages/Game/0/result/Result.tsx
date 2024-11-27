@@ -2,46 +2,102 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import {ResultAPI, SetScoreAxios} from "./ResultAPI";
 import {Special} from "configuration/special/SpecialConfig";
 import {usePartyContext} from "context/party/PartyContext";
+import {useAdminContext} from "context/admin/AdminContext";
+
+export interface ParticipantBasic {
+    id: number;
+    score: number;
+}
+
+export interface ParticipantWithName extends ParticipantBasic{
+    name: string;
+}
 
 export default function  Result() {
     const partyContext = usePartyContext("Result");
-    const {userId} = partyContext;
+    const {partyId, userId, content} = partyContext;
+    const adminContext = useAdminContext("Result");
+    const {roundId} = adminContext;
     const [correct, setCorrect] = useState<number>(2);
     const [wrong, setWrong] = useState<number>(0);
-    const [correctName, setCorrectName] = useState<string[]>();
+    const [display, setDisplay] = useState<string[]>();
+    const [answer, setAnswer] = useState<number>();
+    const [participants, setParticipants] = useState<ParticipantWithName[]>();
 
-    const getNameList = ((nameList : string[])=>{
-        console.log("NAMELIST : "+nameList);
-        setCorrectName(nameList);
-    })
     const special = new Special();
 
     useEffect(()=>{
-        ResultAPI(getNameList);
+        ResultAPI(partyId, handleResult);
     },[])
+
+    const handleResult = ((answer:string, participants : ParticipantWithName[])=>{
+        console.log("RESULT");
+        console.log(participants);
+        handleDisplay(answer);
+        setParticipants(participants);
+    })
+
+    const handleDisplay = (answer: string) => {
+        console.log("DISPLAY"+answer);
+        const numericAnswer =  parseInt(String(answer), 10);
+        setAnswer(numericAnswer);
+        console.log("DISPLAY"+numericAnswer);
+        setDisplay(content?.split("<br />").slice(1, -1));
+    }
+
 
     const handleCorrect = (event : ChangeEvent<HTMLInputElement>) => {
         setCorrect(Number(event.target.value));
-    }
-
-    const oninit = () => {
-        setCorrect (2);
-        setWrong (0);
-    }
-
-    const onSetCorrect = () =>{
-        SetScoreAxios(userId, correct, wrong);
-        oninit();
     }
 
     const handleWrong = (event : ChangeEvent<HTMLInputElement>) => {
         setWrong(Number(event.target.value));
     }
 
-    const onSetWrong = () =>{
-        SetScoreAxios(userId, correct, wrong);
+    const handleScore = (participants: ParticipantWithName[] | undefined, numericScore: number) => {
+        if (!participants) return;
+        const updatedParticipants = participants.map(participant => ({
+            ...participant,
+            score: participant.score + numericScore
+        }));
+        setParticipants(updatedParticipants);
+    };
+
+    const oninit = () => {
+        setCorrect (2);
+        setWrong (0);
+    }
+
+
+    const onSetCorrect = () =>{
+        handleScore(participants, correct);
+        const basicParticipants = convertToParticipantBasic(participants);
+        if (roundId) {
+            SetScoreAxios(partyId, roundId, basicParticipants, correct);
+        }
+
         oninit();
     }
+
+    const onSetWrong = () =>{
+        const basicParticipants = convertToParticipantBasic(participants);
+        if (roundId) {
+            SetScoreAxios(partyId, roundId, basicParticipants, wrong);
+        }
+        oninit();
+    }
+
+    const convertToParticipantBasic = (participants: ParticipantWithName[] | undefined): ParticipantBasic[] => {
+        if (!participants) return []; // Return an empty array if participants is undefined
+        return participants.map(participant => ({
+            id: participant.id,
+            score: participant.score
+        }));
+    };
+
+
+
+
 
     return (
         <div className="Game0">
@@ -58,16 +114,27 @@ export default function  Result() {
 
                     {/* Add any other input fields or buttons as needed */}
                 </div>
-                <div className={"form"}>
-                    <p>맞추신 분 :</p>
-                    {correctName?.map ((name, index)=>{
-                        return (
+                <div className={"grid grid-rows-2"}>
+                    <div>
+                        {display && display.map((text, index) => (
                             <div key={index}>
-                                <p>{name}</p>
-                                <ul className={"p-4"}></ul>
+                                <button
+                                    className={`mb-2 justify-between items-center p-2 rounded-2xl + ${answer === index ? 'bg-red-500' : 'bg-sky-500'}`}>{text}</button>
                             </div>
+                        ))}
+                    </div>
+                    <div>
+                        <p>맞추신 분 :</p>
+                        {participants?.map((participant, index) => {
+                            return (
+                                <div key={index} className="grid grid-cols-2">
+                                    <p>{participant.name}</p>
+                                    <input value={participant.score} className="border rounded p-0.5 w-16"></input>
+                            <ul className={"p-4"}></ul>
+                        </div>
                         )
-                    })}
+                        })}
+                    </div>
                 </div>
                 <div className={"Wrong"}>
                     {userId == special.adminId && <div>
