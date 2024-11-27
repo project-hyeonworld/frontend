@@ -12,5 +12,9 @@ export function ShowAPI(partyId: number, getContent: (content: string) => void) 
         withCredentials: true,
     }).then(function (response) {
         getContent(response.data.content);
-    });
+    }).catch(function (error) {
+        if (error.response.status == 500) {
+
+        }
+    })
 };

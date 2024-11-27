@@ -3,6 +3,7 @@ import {ResultAPI, SetScoreAxios} from "./ResultAPI";
 import {Special} from "configuration/special/SpecialConfig";
 import {usePartyContext} from "context/party/PartyContext";
 import {useAdminContext} from "context/admin/AdminContext";
+import {ShowAPI} from "../show/ShowAPI";
 
 export interface ParticipantBasic {
     id: number;
@@ -15,7 +16,7 @@ export interface ParticipantWithName extends ParticipantBasic{
 
 export default function  Result() {
     const partyContext = usePartyContext("Result");
-    const {partyId, userId, content} = partyContext;
+    const {partyId, userId, content, setContent} = partyContext;
     const adminContext = useAdminContext("Result");
     const {roundId} = adminContext;
     const [correct, setCorrect] = useState<number>(2);
@@ -27,8 +28,15 @@ export default function  Result() {
     const special = new Special();
 
     useEffect(()=>{
+        if (!content) {
+            ShowAPI(partyId, handleContent);
+        }
         ResultAPI(partyId, handleResult);
     },[])
+
+    const handleContent = (submission: string) => {
+        setContent(submission);
+    }
 
     const handleResult = ((answer:string, participants : ParticipantWithName[])=>{
         console.log("RESULT");
