@@ -1,36 +1,24 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {LogoutAxios} from "../../pages/Home/HomeAPI";
 import ScoreModal from "./scoreModal/ScoreModal";
-import {LoginContext} from "context/login/LoginContext";
-import {PartyContext, usePartyContext} from "context/party/PartyContext";
+import {useLoginContext} from "context/login/LoginContext";
+import {usePartyContext} from "context/party/PartyContext";
 
 interface MenuBarProps{
     moveBack: ()=> void;
 }
 
 function MenuBar (props : MenuBarProps){
-    const loginContext = useContext(LoginContext);
+    const loginContext = useLoginContext("MenuBar");
     const partyContext = usePartyContext("MenuBar");
+    const [showScore, setScore] = useState(false);
 
-    if (!loginContext) {
-        throw new Error('MenuBar must be used within a LoginProvider');
-    }
-    if (!partyContext) {
-        throw new Error('MenuBar must be used within a PartyProvider');
-    }
     const { setLogin } = loginContext;
     const { userId } = partyContext;
-
-
-
-    const [year, setYear] = useState(new Date().getFullYear());
-    const [showScore, setScore] = useState(false);
 
     const onClickLogout = (event : React.MouseEvent<HTMLButtonElement>) => {
         function checkName(name: string) {
 
-            // document.location.href = '/';
-            //props.logOut();
             setLogin(false);
         }
 

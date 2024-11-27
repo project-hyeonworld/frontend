@@ -1,21 +1,18 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Home from '../Home/Home';
 import Login from '../Login/Login';
 import PartyProvider from "context/party/PartyContext";
-import {LoginContext} from "context/login/LoginContext";
+import {useLoginContext} from "context/login/LoginContext";
 
 
 
 function Root(){
-    const loginContext = useContext(LoginContext);
-
-    if (!loginContext) {
-        throw new Error ("Root has to be in LoginContext");
-    }
-    const {login, setLogin} = loginContext;
+    const loginContext = useLoginContext("Root");
     const [partyId, setPartyId] = useState<number>();
     const [memberName, setMemberName] = useState("");
     const [userId, setUserId] = useState(-1);
+
+    const {login, setLogin} = loginContext;
 
     const handleLogin = useCallback ((loginName :string, partyId: number|null, loginId: number, )=> {
         if (partyId !== null) {

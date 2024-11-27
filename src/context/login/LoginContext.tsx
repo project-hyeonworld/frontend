@@ -1,4 +1,4 @@
-import React, {createContext, ReactNode, useState,} from "react";
+import React, {createContext, ReactNode, useContext, useState,} from "react";
 
 interface LoginContextProps {
   login: boolean
@@ -6,6 +6,14 @@ interface LoginContextProps {
 }
 
 export const LoginContext = createContext<LoginContextProps | undefined> (undefined);
+
+export const useLoginContext = (componentName: string) => {
+  const loginContext = useContext(LoginContext);
+  if (!loginContext) {
+    throw new Error(`${componentName} must be used within a LoginProvider`);
+  }
+  return loginContext;
+}
 
 const LoginProvider: React.FC<{children: ReactNode}> = ({children}) => {
   const [login, setLogin] = useState<boolean>(false);
