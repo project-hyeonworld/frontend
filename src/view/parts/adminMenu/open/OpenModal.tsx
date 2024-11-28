@@ -42,7 +42,9 @@ const OpenModal = ( props: OpenModalProps) => {
 
     const commitOpen = () => {
         console.log(gameName);
-        OpenGameAxios(partyId, gameCollection[openGame].id);
+        if (partyId !== -1) {
+            OpenGameAxios(partyId, gameCollection[openGame].id);
+        }
         setGameId(gameCollection[openGame].id);
         props.initRound(gameCollection[openGame].id);
         props.onOpen();

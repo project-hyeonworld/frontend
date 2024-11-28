@@ -73,7 +73,9 @@ function Home(props: HomeProps) {
       ExitGameAxios(userId);
     }
     setEnterGameId(undefined);
-    CurrentGameAxios(partyId, setCurrentGameId);
+    if (partyId !== -1) {
+      CurrentGameAxios(partyId, setCurrentGameId);
+    }
   }
 
 
