@@ -8,7 +8,7 @@ import Show from "view/pages/Game/0/show/Show";
 import Play from "view/pages/Game/0/play/Play";
 import Result from "view/pages/Game/0/result/Result";
 import Ranking from "view/pages/Game/0/ranking/Ranking";
-import Done from "view/pages/Game/0/Done";
+import Done from "view/pages/Game/Done";
 
 
 const Game0Stages = () => ({

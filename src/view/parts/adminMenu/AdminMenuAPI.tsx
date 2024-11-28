@@ -80,10 +80,10 @@ export function ChangeCurrentGameStageAxios(partyId : number, gameStage : number
     });
 };
 
-export function AdminDoneAxios() {
+export function AdminDoneAxios(partyId: number, roundId: number) {
     axios({
-        url: "/member/init",
-        method: 'put',
+        url: "/api/v2/parties/"+ partyId + "/rounds/" + roundId,
+        method: 'delete',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
     });

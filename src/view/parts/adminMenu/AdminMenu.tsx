@@ -13,10 +13,6 @@ import {usePartyContext} from "context/party/PartyContext";
 import {useGameContext} from "../../../context/game/GameContext";
 import {useAdminContext} from "../../../context/admin/AdminContext";
 
-interface Game{
-    id: number;
-    name: string;
-}
 
 const MINIMUM_STAGE_VALUE = 1;
 const MAXIMUM_STAGE_VALUE = 9;
@@ -53,7 +49,9 @@ function AdminMenu (){
     const {partyId} = partyContext;
 
     useEffect(() => {
-        GetCurrentRoundAxios(partyId, handleRoundId);
+        if (partyId != -1) {
+            GetCurrentRoundAxios(partyId, handleRoundId);
+        }
     }, [roundId]);
 
     const handleRoundId = (incoming: number|null) => {
@@ -78,7 +76,9 @@ function AdminMenu (){
         }
     }
     const onDone = () => {
-        AdminDoneAxios();
+        if (roundId) {
+            AdminDoneAxios(partyId, roundId);
+        }
     }
     const onMember = () => {
         setMemberModal(!memberModal);
