@@ -1,7 +1,7 @@
 import {My} from "configuration/web/WebConfig";
 import axios from "axios";
 import {Special} from "configuration/special/SpecialConfig";
-import {ParticipantBasic, ParticipantWithName} from "./Result";
+import {Participant, ParticipantWithName} from "model/Participant";
 
 interface rawParticipant {
     id: number,
@@ -39,7 +39,7 @@ export function ResultAPI(partyId: number, handleResult: (answer:string, nameLis
     })
 };
 
-export function SetScoreAxios(partyId: number, roundId: number, participants : ParticipantBasic[], score : number) {
+export function SetScoreAxios(partyId: number, roundId: number, participants : Participant[], score : number) {
 
 
     axios({

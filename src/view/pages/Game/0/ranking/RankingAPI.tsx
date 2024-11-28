@@ -1,13 +1,18 @@
 import {My} from "configuration/web/WebConfig";
 import {Special} from "configuration/special/SpecialConfig";
 import axios from "axios";
-import {MemberScore} from "model/MemberScore";
+import {ParticipantWithName} from "model/Participant";
 
-export function RankingAPI(getList : any) {
+interface rawParticipant {
+    name: string,
+    score: number
+}
+
+export function RankingAPI(partyId: number, getList : any) {
     const my = new My();
     const special = new Special();
     axios({
-        url: "member/ranking",
+        url: "/api/v2/parties/" + partyId + "/rankings",
         method: 'get',
         baseURL: `http://${my.backendIpAddress}:${my.backEndPort}`,
         withCredentials: true,
@@ -15,11 +20,18 @@ export function RankingAPI(getList : any) {
         console.log(response);
         console.log(response.headers);
         console.log(response.data); //
-        const memberList = response.data.memberList;
-        const objectArray : MemberScore[] = Array.from(memberList);
-
-        let list : MemberScore[];
-        getList(objectArray);
+        const dataList = response.data.rank;
+        const participants : ParticipantWithName[] = Array.from(dataList).length === 0 ?
+        [] :
+            Object.entries(dataList).map(([_, participant], index) => {
+                const {name, score} = participant as rawParticipant;
+                return {
+                    id : index,
+                    name,
+                    score
+                }
+            });
+        getList(participants);
     });
 
 

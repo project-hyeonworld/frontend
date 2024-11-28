@@ -1,22 +1,28 @@
 import React, {useEffect, useState} from "react";
 import {RankingAPI} from "view/pages/Game/0/ranking/RankingAPI";
-
-import {MemberScore} from "model/MemberScore";
+import {usePartyContext} from "../../../../context/party/PartyContext";
 
 interface ScoreModalProps{
     onClose : any;
 }
 
-const ScoreModal = ( props: ScoreModalProps) => {
+interface Participant {
+    name: string,
+    score: number,
+}
 
-    const [list, setList] = useState<MemberScore[]>();
+const ScoreModal = (props: ScoreModalProps) => {
+    const partyContext = usePartyContext("Scoremodal");
+    const [participants, setParticipants] = useState<Participant[]>();
 
-    const getList = ((memberList : MemberScore[])=>{
-        setList(memberList);
+    const {partyId} = partyContext;
+
+    const handleParticipants = ((memberList : Participant[])=>{
+        setParticipants(memberList);
     })
 
     useEffect(()=>{
-        RankingAPI(getList);
+        RankingAPI(partyId, handleParticipants);
     },[])
 
     let rank : number = 0;
@@ -26,12 +32,12 @@ const ScoreModal = ( props: ScoreModalProps) => {
         <div className={"h-screen w-full fixed left-0 top-0 flex justify-center bg-black bg-opacity-70"}>
             <div className={"py-2 px-4 bg-white fixed bottom-1/3 rounded-2xl w-10/12 h-1000"} key={12}>
 
-                {list?.map((memberScore : MemberScore)=>{
+                {participants?.map((participant : Participant)=>{
                 return (
-                <div key={memberScore.memberName} className={"grid grid-cols-3"}>
-                <p>{prevScore == memberScore.totalScore ? (rank)  : (++rank)}위</p>
-                <p>{memberScore.memberName}</p>
-                <p>{memberScore.totalScore}</p>
+                <div key={participant.name} className={"grid grid-cols-3"}>
+                <p>{prevScore == participant.score ? (rank)  : (++rank)}위</p>
+                <p>{participant.name}</p>
+                <p>{participant.name}</p>
             </div>
             )
             })}

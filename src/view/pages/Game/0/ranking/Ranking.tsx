@@ -1,17 +1,21 @@
 import React, {useEffect, useState} from "react";
-import {GameStageProps} from "../../GameProps/GameProps";
 import {RankingAPI} from "./RankingAPI";
-import {MemberScore} from "model/MemberScore";
+import {usePartyContext} from "../../../../../context/party/PartyContext";
+import {ParticipantWithName} from "../../../../../model/Participant";
 
-export default function Ranking (props : GameStageProps){
-    const [list, setList] = useState<MemberScore[]>();
-    const getList = ((memberList : MemberScore[])=>{
-        setList(memberList);
-    })
+export default function Ranking (){
+    const partyContext = usePartyContext("Ranking");
+    const [participants, setParticipants] = useState<ParticipantWithName[]>();
+
+    const {partyId} = partyContext;
 
     useEffect(()=>{
-        RankingAPI(getList);
+        RankingAPI(partyId, handleRanking);
     },[])
+
+    const handleRanking = ((participants : ParticipantWithName[])=>{
+        setParticipants(participants);
+    })
 
     const Chart = ()=>{
 
@@ -27,12 +31,12 @@ export default function Ranking (props : GameStageProps){
             <p>랭킹</p>
             {
 
-                list?.map((memberScore : MemberScore)=>{
+                participants?.map((participant : ParticipantWithName)=>{
                     return (
-                        <div key={memberScore.memberName} className={"grid grid-cols-3"}>
-                            <p>{prevScore == memberScore.totalScore ? (rank)  : (++rank)}위</p>
-                            <p>{memberScore.memberName}</p>
-                            <p>{memberScore.totalScore}</p>
+                        <div key={participant.name} className={"grid grid-cols-3"}>
+                            <p>{prevScore == participant.score ? (rank)  : (++rank)}위</p>
+                            <p>{participant.name}</p>
+                            <p>{participant.score}</p>
                         </div>
                     )
                 })

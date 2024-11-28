@@ -16,7 +16,7 @@ export default function Show(props : GameStageProps) {
 
     useEffect(()=>{
         ShowAPI(partyId, handleContent);
-    },[content])
+    },[])
 
     const formatContent = (inputContent: string | undefined): React.JSX.Element[] | undefined => {
         return inputContent?.split("<br />").map((line, index) => (
