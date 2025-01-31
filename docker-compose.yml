@@ -8,5 +8,5 @@ services:
       - "17002:17002"
     volumes:
       - .:/app
-  environment:
-    - NODE_ENV=development
+    environment:
+      - NODE_ENV=development
