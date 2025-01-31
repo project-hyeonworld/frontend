@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --save-dev @types/react@latest @types/react-dom@latest
 
 # Copy the rest of your application files
 COPY . .
