@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install --legacy-peer-deps
+RUN npm install -g react-scripts
 
 # Copy the rest of your application files
 COPY . .
