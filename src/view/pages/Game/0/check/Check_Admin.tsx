@@ -30,7 +30,7 @@ export default function Check_Admin () {
 
     const onCommit = ()=>{
         const getResponse = () => {
-            if (buttonColor == 'bg-red-500'){
+            if (buttonColor === 'bg-red-500'){
                 setButtonColor('bg-green-500');
                 return;
             }

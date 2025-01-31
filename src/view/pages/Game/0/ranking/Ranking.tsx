@@ -34,7 +34,7 @@ export default function Ranking (){
                 participants?.map((participant : ParticipantWithName)=>{
                     return (
                         <div key={participant.name} className={"grid grid-cols-3"}>
-                            <p>{prevScore == participant.score ? (rank)  : (++rank)}위</p>
+                            <p>{prevScore === participant.score ? (rank)  : (++rank)}위</p>
                             <p>{participant.name}</p>
                             <p>{participant.score}</p>
                         </div>

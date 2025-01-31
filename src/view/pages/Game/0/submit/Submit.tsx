@@ -49,7 +49,7 @@ export default function Submit(props : GameStageProps){
 
     const handleSubmit = (event : React.MouseEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (buttonTitle == '제출하기' || buttonTitle == '다시 제출하기')
+        if (buttonTitle === '제출하기' || buttonTitle === '다시 제출하기')
             onModal();
     };
 

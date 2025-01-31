@@ -13,7 +13,7 @@ export function ShowAPI(partyId: number, getContent: (content: string) => void) 
     }).then(function (response) {
         getContent(response.data.content);
     }).catch(function (error) {
-        if (error.response.status == 500) {
+        if (error.response.status === 500) {
 
         }
     })

@@ -60,7 +60,7 @@ function Home(props: HomeProps) {
     console.log('onClickGame called', new Date().getTime());
     const target = event.target as HTMLLIElement;
     const value: any = target.getAttribute("id");
-    if (partyId != -1) {
+    if (partyId !== -1) {
       console.log("SETT");
       CurrentGameAxios(partyId, setCurrentGameId);
       setEnterGame(value);
@@ -90,7 +90,7 @@ function Home(props: HomeProps) {
             <AdminProvider>
         <div
             className="flex mx-2 items-center justify-center rounded-xl party sm:flex space-x-2 space-y-0.1 bg-white bg-opacity-20 shadow-xl hover:rounded-2xl">
-          {(enterGameId) && (enterGameId == currentGameId) ? (
+          {(enterGameId) && (enterGameId === currentGameId) ? (
 
                     <Game gameId={currentGameId}/>
 

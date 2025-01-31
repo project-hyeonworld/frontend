@@ -35,7 +35,7 @@ const ScoreModal = (props: ScoreModalProps) => {
                 {participants?.map((participant : Participant)=>{
                 return (
                 <div key={participant.name} className={"grid grid-cols-3"}>
-                <p>{prevScore == participant.score ? (rank)  : (++rank)}위</p>
+                <p>{prevScore === participant.score ? (rank)  : (++rank)}위</p>
                 <p>{participant.name}</p>
                 <p>{participant.name}</p>
             </div>

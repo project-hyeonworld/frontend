@@ -28,7 +28,7 @@ const Accordion: React.FC<{title: string, content: any, answer: number}> = ({tit
             <AccordionTitle title={title}>
                 {content.map((text : string, index : number) => {
                   return (
-                      <p className={index == numericAnswer ? 'correct-answer' : ''} key={index} >
+                      <p className={index === numericAnswer ? 'correct-answer' : ''} key={index} >
                         {index + 1}. {text}
                       </p>
                   );

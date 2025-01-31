@@ -3,7 +3,7 @@
     "target": "es5",
     "downlevelIteration": true,
     "module": "commonjs",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
     "baseUrl": "src"

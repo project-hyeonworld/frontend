@@ -33,7 +33,7 @@ export function ResultAPI(partyId: number, handleResult: (answer:string, nameLis
         });
         handleResult(response.data.answer, participants);
     }).catch(function (error) {
-        if (error.response.status == 500) {
+        if (error.response.status === 500) {
 
         }
     })

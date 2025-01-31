@@ -53,7 +53,7 @@ const UserModal = ({onMember}: any) => {
                 <input className={"text-center"} type={"text"} value={name} onChange={onName}
                        style={{border: "1px solid #ccc"}}></input>
                 <label htmlFor="persons-slider"
-                       className="block mb-2 text-m font-medium text-gray-900">{relationType == -1 ? "소속" : relationList[relationType]}</label>
+                       className="block mb-2 text-m font-medium text-gray-900">{relationType === -1 ? "소속" : relationList[relationType]}</label>
 
 
                 <input id="relation-range" type="range" min={Math.min(...Object.keys(relationList).map(Number))}

@@ -49,7 +49,7 @@ function AdminMenu (){
     const {partyId} = partyContext;
 
     useEffect(() => {
-        if (partyId != -1) {
+        if (partyId !== -1) {
             GetCurrentRoundAxios(partyId, handleRoundId);
         }
     }, [roundId]);
@@ -71,7 +71,7 @@ function AdminMenu (){
         setInitPartyModal(!initPartyModal);
     }
     const onOpen = () => {
-        if (partyId != -1) {
+        if (partyId !== -1) {
             setOpenModal(!openModal);
         }
     }
@@ -92,7 +92,7 @@ function AdminMenu (){
         console.log(roundId);
 
         console.log("currentStage : "+gameStage);
-        if ((partyId !== -1) && (gameStage == DONE_INDEX) && isWithinGameStage(parsedValue)) {
+        if ((partyId !== -1) && (gameStage === DONE_INDEX) && isWithinGameStage(parsedValue)) {
             console.log("gameStage DONE");
             commitInitRound();
         }
