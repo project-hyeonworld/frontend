@@ -13,7 +13,7 @@ node_modules/*
 # production
 /build
 
-/src/configuration/*
+src/configuration/*
 
 # misc
 .DS_Store
