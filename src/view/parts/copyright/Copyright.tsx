@@ -12,7 +12,7 @@ function Copyright (){
 
     return (
         <div className="Copyright">
-                <p  className="text" style={{'color' : "#a5a9aa" }}>© HyseonwoORld v0.8 {year}</p>
+                <p  className="text" style={{'color' : "#a5a9aa" }}>© HyeonwoORld v0.8 {year}</p>
 
         </div>
     );
